@@ -1,9 +1,7 @@
 # http://www.gnu.org/software/automake
-
 Makefile.in
 
 # http://www.gnu.org/software/autoconf
-
 /autom4te.cache
 /aclocal.m4
 /compile
@@ -12,3 +10,26 @@ Makefile.in
 /install-sh
 /missing
 /stamp-h1
+
+# my stuff
+*~
+.*~
+*.o
+*.la
+.deps/
+.libs/
+/config.*
+/configure
+/libtool
+
+# my build-aux stuff
+/build-aux/autoconf/
+/build-aux/m4/libtool.m4
+/build-aux/m4/ltoptions.m4
+/build-aux/m4/ltsugar.m4
+/build-aux/m4/ltversion.m4
+/build-aux/m4/lt~obsolete.m4
+
+
+
+

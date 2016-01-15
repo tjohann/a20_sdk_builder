@@ -1,0 +1,5 @@
+# List of source files which contain translatable strings.
+
+src/a20_sdk_builder.c
+lib/network.c
+lib/libservice.h
