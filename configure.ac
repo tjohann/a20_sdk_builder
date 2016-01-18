@@ -29,7 +29,7 @@ PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 # TODO: check whar PKG_CHECK_MODULES exactly do and need
-PKG_CHECK_MODULES([A20_SDK_BUILDER], [glib-2.0 gtk+-3.0 libconfig])
+PKG_CHECK_MODULES([A20_SDK_BUILDER], [gtk+-2.0 libconfig])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h])
