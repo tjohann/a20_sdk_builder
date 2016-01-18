@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Thorsten Johannvorderbrueggen
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the a20-sdk-builder package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-01-15 15:20+0100\n"
+"POT-Creation-Date: 2016-01-18 16:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/a20_sdk_builder.c:14
+#: src/a20_sdk_builder.c:31 src/a20_sdk_builder.c:39 src/a20_sdk_builder.c:47
 #, c-format
-msgid "your're in %s of %s\n"
+msgid "Your're in %s of %s\n"
+msgstr ""
+
+#: src/a20_sdk_builder.c:76 src/a20_sdk_builder.c:85
+msgid "Clone A20_SDK"
+msgstr ""
+
+#: src/a20_sdk_builder.c:94
+msgid "Leave (only for testing)"
+msgstr ""
+
+#: src/a20_sdk_builder.c:116
+#, c-format
+msgid "Package name is %s\n"
+msgstr ""
+
+#: src/a20_sdk_builder.c:119
+msgid "Init network code: done\n"
+msgstr ""
+
+#: lib/network.c:29
+#, c-format
+msgid "In function %s@%d \n"
 msgstr ""

@@ -1,19 +1,16 @@
 #!/bin/bash
 
-set -e
-
-if [ -f .git/hooks/pre-commit.sample -a ! -f .git/hooks/pre-commit ] ; then
-        cp -p .git/hooks/pre-commit.sample .git/hooks/pre-commit && \
-        chmod +x .git/hooks/pre-commit && \
-        echo "Activated pre-commit hook."
-fi
+make uninstall
+make distclean
 
 autoreconf --install
-
 ./configure --prefix=$HOME
 
-make
+cd po
+make update-po
 
+cd ..
+make
 make install
 
 a20_sdk_builder &

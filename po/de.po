@@ -1,0 +1,56 @@
+# German translations for a20-sdk-builder package.
+# Copyright (C) 2016 Thorsten Johannvorderbrueggen
+# This file is distributed under the same license as the a20-sdk-builder package.
+# tjohann <thorsten.johannvorderbrueggen@t-online.de>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: a20-sdk-builder trunk\n"
+"Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
+"POT-Creation-Date: 2016-01-18 16:50+0100\n"
+"PO-Revision-Date: 2016-01-18 16:46+0100\n"
+"Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
+"johannvorderbrueggen@t-online.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.6\n"
+
+#: src/a20_sdk_builder.c:31 src/a20_sdk_builder.c:39 src/a20_sdk_builder.c:47
+#, fuzzy, c-format
+msgid "Your're in %s of %s\n"
+msgstr "Du bist in %s von %s\n"
+
+#: src/a20_sdk_builder.c:76 src/a20_sdk_builder.c:85
+msgid "Clone A20_SDK"
+msgstr ""
+
+#: src/a20_sdk_builder.c:94
+msgid "Leave (only for testing)"
+msgstr "Ende (nur zum testen)"
+
+#: src/a20_sdk_builder.c:116
+#, fuzzy, c-format
+msgid "Package name is %s\n"
+msgstr "Packet name ist %s\n"
+
+#: src/a20_sdk_builder.c:119
+msgid "Init network code: done\n"
+msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: lib/network.c:29
+#, c-format
+msgid "In function %s@%d \n"
+msgstr "In Funktion %s@%d \n"
+
+#~ msgid "in init_netork \n"
+#~ msgstr "Innerhalb von init_network\n"
+
+#~ msgid "For testing"
+#~ msgstr "Zum testen"
+
+#~ msgid "successefully init the network\n"
+#~ msgstr "einstellung von network war erfolgreich\n"
