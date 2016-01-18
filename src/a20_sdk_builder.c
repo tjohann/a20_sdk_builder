@@ -18,7 +18,6 @@
 
 */
 
-
 #include <gtk/gtk.h>
 
 #include "libservice.h"
@@ -82,7 +81,7 @@ activate(GtkApplication *app, gpointer user_data)
 	/*
 	 * download toolchain button
 	 */
-	download_button = gtk_button_new_with_label(_("Clone A20_SDK"));
+	download_button = gtk_button_new_with_label(_("Download A20_SDK"));
 	g_signal_connect(download_button, "clicked", G_CALLBACK(download_button_clicked), NULL);
 	// function pointer to func in libservice.a
 	//g_signal_connect_swapped(download_button, "clicked", G_CALLBACK(gtk_widget_destroy), window);
@@ -91,7 +90,7 @@ activate(GtkApplication *app, gpointer user_data)
 	/*
 	 * exit button
 	 */
-	exit_button = gtk_button_new_with_label(_("Leave (only for testing)"));
+	exit_button = gtk_button_new_with_label(_("Leave/Exit"));
 	g_signal_connect(exit_button, "clicked", G_CALLBACK(exit_button_clicked), NULL);
 	g_signal_connect_swapped(exit_button, "clicked", G_CALLBACK(gtk_widget_destroy), window);
 	gtk_container_add(GTK_CONTAINER(button_box), exit_button);

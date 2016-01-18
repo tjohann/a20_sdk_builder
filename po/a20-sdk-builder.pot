@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-01-18 16:50+0100\n"
+"POT-Creation-Date: 2016-01-18 17:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,25 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/a20_sdk_builder.c:31 src/a20_sdk_builder.c:39 src/a20_sdk_builder.c:47
+#: src/a20_sdk_builder.c:30 src/a20_sdk_builder.c:38 src/a20_sdk_builder.c:46
 #, c-format
 msgid "Your're in %s of %s\n"
 msgstr ""
 
-#: src/a20_sdk_builder.c:76 src/a20_sdk_builder.c:85
+#: src/a20_sdk_builder.c:75
 msgid "Clone A20_SDK"
 msgstr ""
 
-#: src/a20_sdk_builder.c:94
-msgid "Leave (only for testing)"
+#: src/a20_sdk_builder.c:84
+msgid "Download A20_SDK"
 msgstr ""
 
-#: src/a20_sdk_builder.c:116
+#: src/a20_sdk_builder.c:93
+msgid "Leave/Exit"
+msgstr ""
+
+#: src/a20_sdk_builder.c:115
 #, c-format
 msgid "Package name is %s\n"
 msgstr ""
 
-#: src/a20_sdk_builder.c:119
+#: src/a20_sdk_builder.c:118
 msgid "Init network code: done\n"
 msgstr ""
 
