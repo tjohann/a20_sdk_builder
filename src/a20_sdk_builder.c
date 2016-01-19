@@ -18,87 +18,102 @@
 
 */
 
-#include <gtk/gtk.h>
-
-#include "libservice.h"
-
-
-// all used widgets
-GtkWidget *window;
-GtkWidget *vbox;
-GtkWidget *statusbar;
-GtkWidget *textfield;
+#include "a20_sdk_builder.h"
 
 
 
 static void
-clone_button_clicked(GtkWidget *widget, gpointer data)
+show_gtk_version_info()
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
-
+	g_print("Glib version: %d.%d.%d\n",
+		glib_major_version,
+		glib_minor_version,
+		glib_micro_version);
+	
+	g_print("GTK+ version: %d.%d.%d\n",
+		gtk_major_version, 
+		gtk_minor_version,
+		gtk_micro_version);
 }
 
-static void
-download_button_clicked(GtkWidget *widget, gpointer data)
-{
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
 
-}
-
-static void
-exit_button_clicked(GtkWidget *widget, gpointer data)
+void
+clone_button(GtkWidget *widget, gpointer data)
 {
 	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
 
 }
 
 
-/*
- * build the gui ...
- */
-static void
-build_main_window()
+void
+download_button(GtkWidget *widget, gpointer data)
 {
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	
-	gtk_window_set_title(GTK_WINDOW(window), "A20-SDK-Builder");
-	gtk_window_set_default_size(GTK_WINDOW(window), 600, 300);
-	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-	//gtk_window_set_icon(GTK_WINDOW(window),create_pixbuf("a20_sdk_icon.png"));
-	GTK_WINDOW(window)->allow_shrink = TRUE;
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
 
-        // create vbox and add it to main window
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(window), vbox);
-
-
-	// ------------------ hbox ------------------------
-	
-
-	// ------------------ textfield -------------------
-	textfield = gtk_text_view_new();
-	gtk_text_view_set_editable(GTK_TEXT_VIEW(textfield), FALSE);
-	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textfield), FALSE);
-
-	gtk_box_pack_start(GTK_BOX(vbox), textfield, TRUE, TRUE, 3);
-	
-	
-	// ------------------ statusbar -------------------
-	statusbar = gtk_statusbar_new();
-	gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-
-	
-	// -------------- connect signals -----------------
-	g_signal_connect_swapped(G_OBJECT(window), "destroy",
-				 G_CALLBACK(gtk_main_quit),
-				 G_OBJECT(window));
 }
+
+
+void
+init_button(GtkWidget *widget, gpointer data)
+{
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+
+}
+
+
+void
+test_button(GtkWidget *widget, gpointer data)
+{
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+
+}
+
+
+void
+exit_button(GtkWidget *widget, gpointer data)
+{
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+
+}
+
+
+void
+new_menu(GtkWidget *widget, gpointer data)
+{
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+
+}
+
+
+void
+open_menu(GtkWidget *widget, gpointer data)
+{
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+
+}
+
+
+void
+save_menu(GtkWidget *widget, gpointer data)
+{
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+
+}
+
+
+void
+save_as_menu(GtkWidget *widget, gpointer data)
+{
+	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+
+}
+
 
 
 int
 main(int argc, char **argv)
 {
-	int status;
+	int status = EXIT_SUCCESS;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
@@ -108,6 +123,7 @@ main(int argc, char **argv)
 	 * init non-gtk stuff
 	 */
 	g_print(_("Package name is %s\n"), PACKAGE_STRING);
+	show_version_info();
 	
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
@@ -116,6 +132,8 @@ main(int argc, char **argv)
 	/*
 	 * init gtk stuff
 	 */
+	show_gtk_version_info();
+	
 	if (!g_thread_supported())
 		g_thread_init(NULL);
 
@@ -123,8 +141,12 @@ main(int argc, char **argv)
 	gdk_threads_enter();
 
 	gtk_init(&argc, &argv);
-	
+
+	// gui.c
 	build_main_window();
+
+
+
 	
 	gtk_widget_show_all(window);  
 	

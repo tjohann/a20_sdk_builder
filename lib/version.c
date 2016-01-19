@@ -21,10 +21,9 @@
 #include "libservice.h"
 
 
-int
-init_network(void)
+void
+show_version_info()
 {
-	fprintf(stdout, _("In function %s@%d \n"), __FUNCTION__, __LINE__);
+	fprintf(stdout, "Package version: %s", PACKAGE_VERSION);
 
-	return 12345;
 }

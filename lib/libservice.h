@@ -28,16 +28,29 @@
 
 #include <config.h>
 #include <locale.h>
+#include "config.h"
 #include "gettext.h"
 
 #define _(string) gettext(string)
 
 
+/*
+ * version.c
+ * =========
+ */
+
+void
+show_version_info();
+
 
 /*
- * init network related topics
+ * network.c
+ * =========
  */
-int init_network(void);
+
+int
+init_network(void);
+
 
 
 #endif

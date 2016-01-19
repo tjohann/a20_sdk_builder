@@ -18,13 +18,60 @@
 
 */
 
+#ifndef _A20SDKBUILDER_H_
+#define _A20SDKBUILDER_H_
+
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+
+#include "config.h"
 #include "libservice.h"
 
 
-int
-init_network(void)
-{
-	fprintf(stdout, _("In function %s@%d \n"), __FUNCTION__, __LINE__);
 
-	return 12345;
-}
+// all widgets
+GtkWidget *window;
+GtkWidget *statusbar;
+GtkWidget *textfield;
+
+
+/*
+ * gui.c
+ * =========
+ */
+
+void
+build_main_window();
+
+GdkPixbuf *
+create_pixbuf(const gchar *filename);
+
+void
+exit_button(GtkWidget *widget, gpointer data);
+
+void
+test_button(GtkWidget *widget, gpointer data);
+
+void
+init_button(GtkWidget *widget, gpointer data);
+
+void
+download_button(GtkWidget *widget, gpointer data);
+
+void
+clone_button(GtkWidget *widget, gpointer data);
+
+void
+new_menu(GtkWidget *widget, gpointer data);
+
+void
+open_menu(GtkWidget *widget, gpointer data);
+
+void
+save_menu(GtkWidget *widget, gpointer data);
+
+void
+save_as_menu(GtkWidget *widget, gpointer data);
+
+
+#endif

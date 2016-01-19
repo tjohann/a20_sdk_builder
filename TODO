@@ -1,0 +1,9 @@
+#
+# TODO with date and progress
+#
+
+
+#
+# -------------- 2016-01-19 ----------------------------------------------------
+#
+gui.c/on_delete_event -> implement 'are you sure you want to quit?' dialog
