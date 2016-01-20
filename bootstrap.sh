@@ -8,4 +8,5 @@ if [ -f .git/hooks/pre-commit.sample -a ! -f .git/hooks/pre-commit ] ; then
         echo "Activated pre-commit hook."
 fi
 
-autoreconf --install 
+echo "Setting up autotools"
+autoreconf --install || exit 1

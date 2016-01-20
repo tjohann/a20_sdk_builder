@@ -1,4 +1,4 @@
-# configure.ac
+lf# configure.ac
 
 AC_INIT([A20 SDK builder], [trunk], [thorsten.johannvorderbrueggen@t-online.de])
 AC_COPYRIGHT([Copyright 2016, Thorsten Johannvorderbrueggen])
@@ -23,13 +23,15 @@ AC_PROG_RANLIB
 # -> ./configure --enable-silent-rules to get quite build behaviour
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
 
+# ------
 
 # Checks for programs.
 PKG_PROG_PKG_CONFIG 
 
 # Checks for libraries.
-# TODO: check whar PKG_CHECK_MODULES exactly do and need
-PKG_CHECK_MODULES([A20_SDK_BUILDER], [gtk+-2.0 libconfig])
+PKG_CHECK_MODULES([LIBGTK], [gtk+-2.0])
+PKG_CHECK_MODULES([LIBCONFIG], [libconfig])
+PKG_CHECK_MODULES([LIBGIT2], [libgit2])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h])

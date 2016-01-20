@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-01-19 21:58+0100\n"
+"POT-Creation-Date: 2016-01-20 16:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/a20_sdk_builder.c:43 src/a20_sdk_builder.c:51 src/a20_sdk_builder.c:59
-#: src/a20_sdk_builder.c:67 src/a20_sdk_builder.c:75 src/a20_sdk_builder.c:83
-#: src/a20_sdk_builder.c:91 src/a20_sdk_builder.c:99 src/a20_sdk_builder.c:107
-#, c-format
-msgid "Your're in %s of %s\n"
-msgstr ""
-
-#: src/a20_sdk_builder.c:125
+#: src/a20_sdk_builder.c:195
 #, c-format
 msgid "Package name is %s\n"
 msgstr ""
 
-#: src/a20_sdk_builder.c:129
+#: src/a20_sdk_builder.c:202
 msgid "Init network code: done\n"
 msgstr ""
 

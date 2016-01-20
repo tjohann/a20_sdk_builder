@@ -24,15 +24,42 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <git2.h>
+#include <git2/clone.h>
+
 #include "config.h"
 #include "libservice.h"
 
 
-
-// all widgets
+// all global widgets
 GtkWidget *window;
 GtkWidget *statusbar;
 GtkWidget *textfield;
+
+GtkWidget *clone_b;
+GtkWidget *download_b;
+
+GtkWidget *save_m;
+GtkWidget *save_as_m;
+
+
+/*
+ * common types
+ * -------------
+ */
+typedef struct progress_data {
+	git_transfer_progress fetch_progress;
+	size_t completed_steps;
+	size_t total_steps;
+	const char *path;
+} progress_data;
+
+
+/*
+ * common macros
+ * -------------
+ */
+#define PRINT_LOCATION() { g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);  }
 
 
 /*
@@ -46,23 +73,27 @@ build_main_window();
 GdkPixbuf *
 create_pixbuf(const gchar *filename);
 
-void
-exit_button(GtkWidget *widget, gpointer data);
 
-void
-test_button(GtkWidget *widget, gpointer data);
+/*
+ * a20_sdk_builder.c
+ * =========
+ */
 
-void
-init_button(GtkWidget *widget, gpointer data);
-
-void
-download_button(GtkWidget *widget, gpointer data);
 
 void
 clone_button(GtkWidget *widget, gpointer data);
 
 void
-new_menu(GtkWidget *widget, gpointer data);
+download_button(GtkWidget *widget, gpointer data);
+
+void
+test_button(GtkWidget *widget, gpointer data);
+
+void
+new_config(GtkWidget *widget, gpointer data);
+
+void
+exit_function(GtkWidget *widget, gpointer data);
 
 void
 open_menu(GtkWidget *widget, gpointer data);
@@ -72,6 +103,7 @@ save_menu(GtkWidget *widget, gpointer data);
 
 void
 save_as_menu(GtkWidget *widget, gpointer data);
+
 
 
 #endif

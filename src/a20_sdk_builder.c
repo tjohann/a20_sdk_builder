@@ -37,58 +37,128 @@ show_gtk_version_info()
 }
 
 
+static int fetch_progress(const git_transfer_progress *stats, void *payload)
+{
+	int fetch_percent = (100 * stats->received_objects) / stats->total_objects;
+	int index_percent = (100 * stats->indexed_objects) / stats->total_objects;
+	int kbytes = stats->received_bytes / 1024;
+
+	printf("network %3d%% (%4d kb, %5d/%5d) index %3d%% (%5d/%5d)\n",
+	       fetch_percent,
+	       kbytes,
+	       stats->received_objects,
+	       stats->total_objects,
+	       index_percent,
+	       stats->indexed_objects,
+	       stats->total_objects);
+
+	return 0;
+}
+
+static void checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
+{
+	int checkout_percent = (100 * cur) / tot;
+
+	printf("chk %3d%% (%4/%4) %s\n", tot, cur, path);
+}
+
+
 void
 clone_button(GtkWidget *widget, gpointer data)
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+	PRINT_LOCATION();
 
+	progress_data pd = {{0}};
+
+	git_repository *repo = NULL;
+	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
+	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
+
+	const char *url = "https://github.com/tjohann/a20_sdk.git";
+	const char *path = "/tmp/a20_sdk";
+
+
+	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+	checkout_opts.progress_cb = checkout_progress;
+	//checkout_opts.progress_payload = &pd;
+	clone_opts.checkout_opts = checkout_opts;
+	//clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
+	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
+
+	int error = git_clone(&repo, url, path, &clone_opts);
+
+	printf("\n");
+	if (error != 0) {
+		const git_error *err = giterr_last();
+
+		if (err)
+			printf("ERROR %d: %s\n", err->klass, err->message);
+		else
+			printf("ERROR %d: no detailed info\n", error);
+
+		git_repository_free(repo);
+	} else 	if (repo)
+		git_repository_free(repo);
+	printf("\n");
 }
 
 
 void
 download_button(GtkWidget *widget, gpointer data)
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
-
-}
-
-
-void
-init_button(GtkWidget *widget, gpointer data)
-{
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
-
+	PRINT_LOCATION();
 }
 
 
 void
 test_button(GtkWidget *widget, gpointer data)
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+	PRINT_LOCATION();
+}
 
+void
+new_config(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+        /*
+	 * activate the other button/menu-entry
+	 */
+	gtk_widget_set_sensitive(download_b, TRUE);
+	gtk_widget_set_sensitive(clone_b, TRUE);
+	gtk_widget_set_sensitive(save_m, TRUE);
+	gtk_widget_set_sensitive(save_as_m, TRUE);
 }
 
 
-void
-exit_button(GtkWidget *widget, gpointer data)
-{
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
-
-}
-
 
 void
-new_menu(GtkWidget *widget, gpointer data)
+exit_function(GtkWidget *widget, gpointer data)
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+	/*
+	  For autosave ...
 
+	  Quit-Button and Quit-Function do autosave
+	  "X" of the wm-window will send "delete-event" which will be handeld via
+	  dialog box (see on_delete_event@gui.c)
+	 */
+
+	PRINT_LOCATION();
 }
 
 
 void
 open_menu(GtkWidget *widget, gpointer data)
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
+	PRINT_LOCATION();
+
+	/*
+	 * activate the other button/menu-entry
+	 */
+	gtk_widget_set_sensitive(download_b, TRUE);
+	gtk_widget_set_sensitive(clone_b, TRUE);
+	gtk_widget_set_sensitive(save_m, TRUE);
+	gtk_widget_set_sensitive(save_as_m, TRUE);
 
 }
 
@@ -96,16 +166,14 @@ open_menu(GtkWidget *widget, gpointer data)
 void
 save_menu(GtkWidget *widget, gpointer data)
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
-
+	PRINT_LOCATION();
 }
 
 
 void
 save_as_menu(GtkWidget *widget, gpointer data)
 {
-	g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);
-
+	PRINT_LOCATION();
 }
 
 
@@ -124,9 +192,13 @@ main(int argc, char **argv)
 	 */
 	g_print(_("Package name is %s\n"), PACKAGE_STRING);
 	show_version_info();
+
+	// for all git handling
+	git_libgit2_init();
 	
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
+
 
 
 	/*
@@ -152,6 +224,8 @@ main(int argc, char **argv)
 	
 	gtk_main();
 	gdk_threads_leave();
-	
+
+	git_libgit2_shutdown();
+
 	return status;
 }

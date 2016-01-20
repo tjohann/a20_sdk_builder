@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-01-19 21:58+0100\n"
+"POT-Creation-Date: 2016-01-20 16:28+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -19,19 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: src/a20_sdk_builder.c:43 src/a20_sdk_builder.c:51 src/a20_sdk_builder.c:59
-#: src/a20_sdk_builder.c:67 src/a20_sdk_builder.c:75 src/a20_sdk_builder.c:83
-#: src/a20_sdk_builder.c:91 src/a20_sdk_builder.c:99 src/a20_sdk_builder.c:107
-#, fuzzy, c-format
-msgid "Your're in %s of %s\n"
-msgstr "Du bist in %s von %s\n"
-
-#: src/a20_sdk_builder.c:125
+#: src/a20_sdk_builder.c:195
 #, fuzzy, c-format
 msgid "Package name is %s\n"
 msgstr "Packet name ist %s\n"
 
-#: src/a20_sdk_builder.c:129
+#: src/a20_sdk_builder.c:202
 msgid "Init network code: done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
@@ -39,6 +32,10 @@ msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 #, c-format
 msgid "In function %s@%d \n"
 msgstr "In Funktion %s@%d \n"
+
+#, fuzzy
+#~ msgid "Your're in %s of %s\n"
+#~ msgstr "Du bist in %s von %s\n"
 
 #~ msgid "Leave (only for testing)"
 #~ msgstr "Ende (nur zum testen)"

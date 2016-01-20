@@ -3,7 +3,7 @@
 make uninstall
 make distclean
 
-autoreconf --install
+autoreconf --install || exit 1
 ./configure --prefix=$HOME
 
 cd po
