@@ -25,6 +25,7 @@ GtkWidget *vbox;
 GtkWidget *hbox;
 GtkWidget *buttonbox;
 GtkWidget *open_b;
+GtkWidget *update_b;
 GtkWidget *test_b;
 GtkWidget *exit_b;
 
@@ -38,6 +39,7 @@ GtkWidget *quit_m;
 GtkWidget *sep_m;
 GtkWidget *new_m;
 GtkWidget *open_m;
+
 
 GtkAccelGroup *accel_group = NULL;
 
@@ -65,6 +67,85 @@ create_pixbuf(const gchar *filename)
 	}
 	
 	return pixbuf;
+}
+
+
+static void
+destroy_progressbar_window()
+{
+	gtk_widget_destroy(GTK_WIDGET(progessbar_window));
+}
+
+static int
+create_progress_bar_window(unsigned char progressbar_type)
+{
+	PRINT_LOCATION();
+
+	if (progessbar != NULL) {
+		fprintf(stderr, _("ERROR: Progressbar != NULL\n"));
+		destroy_progressbar_window();
+	}
+
+	progessbar_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	g_signal_connect(progessbar_window,
+			 "destroy",
+			 G_CALLBACK(destroy_progressbar_window),
+			 NULL);
+
+	switch (progressbar_type) {
+	case CLONE_BAR:
+		gtk_window_set_title(GTK_WINDOW(progessbar_window), _("Clone progress"));
+		g_print(_("Progressbar_type == CLONE_BAR\n"));
+		break;
+	case DOWNLOAD_BAR:
+		gtk_window_set_title(GTK_WINDOW(progessbar_window), _("Download progress"));
+		g_print(_("Progressbar_type == DOWNLOAD_BAR\n"));
+		break;
+	default:
+		return -1;
+	}
+
+	gtk_window_set_default_size(GTK_WINDOW(progessbar_window), 500, 1);
+
+	// looks nicer with 2 frames
+	progessbar_frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(progessbar_frame), GTK_SHADOW_OUT);
+	gtk_container_add(GTK_CONTAINER(progessbar_window), progessbar_frame);
+	progressbar_frame2 = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(progressbar_frame2), GTK_SHADOW_IN);
+	gtk_container_add(GTK_CONTAINER(progessbar_frame), progressbar_frame2);
+	gtk_container_set_border_width(GTK_CONTAINER(progressbar_frame2), 4);
+
+	progressbar_adj = (GtkAdjustment*)gtk_adjustment_new(0, 0, 100, 0, 0, 0);
+	progessbar = gtk_progress_bar_new_with_adjustment(progressbar_adj);
+
+	gtk_container_add(GTK_CONTAINER(progressbar_frame2), progessbar);
+	gtk_widget_show_all(progessbar_window);
+
+	gtk_progress_set_value(GTK_PROGRESS(progessbar), 0);
+
+	return 0;
+}
+
+static void
+clone_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	if (create_progress_bar_window(CLONE_BAR) != 0)
+		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
+
+	if (!g_thread_create(&clone_sdk_repo, NULL, FALSE, NULL) != 0)
+		g_warning("Can't create the thread");
+
+}
+
+static void
+update_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	update_sdk_repo();
 }
 
 
@@ -115,6 +196,15 @@ build_button_box()
 			     NULL);
 	gtk_widget_set_sensitive(clone_b, FALSE);
 	gtk_container_add(GTK_CONTAINER(buttonbox), clone_b);
+
+	update_b = gtk_button_new_with_label(_("Update Repo"));
+	g_signal_connect(update_b, "clicked", G_CALLBACK(update_button), NULL);
+	gtk_tooltips_set_tip(tooltips,
+			     update_b,
+			     _("Update a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
+			     NULL);
+	gtk_widget_set_sensitive(update_b, FALSE);
+	gtk_container_add(GTK_CONTAINER(buttonbox), update_b);
 	
 	download_b = gtk_button_new_with_label(_("Download SDK"));
 	g_signal_connect(download_b, "clicked", G_CALLBACK(download_button), NULL);
@@ -239,7 +329,7 @@ build_main_window()
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	
 	gtk_window_set_title(GTK_WINDOW(window), "A20-SDK-Builder");
-	gtk_window_set_default_size(GTK_WINDOW(window), 500, 1);
+	gtk_window_set_default_size(GTK_WINDOW(window), 700, 1);
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_icon_name(GTK_WINDOW (window), "a20_sdk_builder");
 	//GTK_WINDOW(window)->allow_shrink = TRUE;
@@ -296,6 +386,7 @@ build_main_window()
 	textfield = gtk_text_view_new();
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(textfield), FALSE);
 	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textfield), FALSE);
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textfield), GTK_WRAP_WORD);
 	gtk_box_pack_end(GTK_BOX(hbox), textfield, TRUE, TRUE, 1);
 
 	

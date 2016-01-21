@@ -9,3 +9,11 @@ http://zetcode.com/gui/gtk2/
 
 
 http://ptomato.name/advanced-gtk-techniques/html/gettext-project.html
+
+
+libcurl:
+http://curl.haxx.se/libcurl/c/curlgtk.html
+
+
+extra window:
+http://stackoverflow.com/questions/12612613/gtk-close-window-form-with-button-in-c

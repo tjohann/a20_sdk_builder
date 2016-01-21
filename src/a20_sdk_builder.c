@@ -37,69 +37,88 @@ show_gtk_version_info()
 }
 
 
-static int fetch_progress(const git_transfer_progress *stats, void *payload)
+static int
+fetch_progress(const git_transfer_progress *stats, void *payload)
 {
-	int fetch_percent = (100 * stats->received_objects) / stats->total_objects;
-	int index_percent = (100 * stats->indexed_objects) / stats->total_objects;
-	int kbytes = stats->received_bytes / 1024;
+	int fetch_percent = (100 * stats->received_objects)/stats->total_objects;
+	int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
+	int receive_kbyte = stats->received_bytes / 1024;
 
-	printf("network %3d%% (%4d kb, %5d/%5d) index %3d%% (%5d/%5d)\n",
-	       fetch_percent,
-	       kbytes,
-	       stats->received_objects,
-	       stats->total_objects,
-	       index_percent,
-	       stats->indexed_objects,
-	       stats->total_objects);
+	(void) payload; // not used
+
+	fprintf(stdout,	"Fetched: %3d%% (%d/%d) %d kB \n",
+		fetch_percent,
+		stats->received_objects, stats->total_objects,
+		receive_kbyte);
+
+	gdk_threads_enter();
+	gtk_progress_set_value(GTK_PROGRESS(progessbar), fetch_percent);
+	gdk_threads_leave();
 
 	return 0;
 }
 
-static void checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
+
+static void
+checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 {
 	int checkout_percent = (100 * cur) / tot;
 
-	printf("chk %3d%% (%4/%4) %s\n", tot, cur, path);
+	(void) payload; // not used
+
+	fprintf(stdout, "Checkout: %3d%% (%d/%d) %s \n",
+		checkout_percent,
+		(int) tot, (int) cur,
+		path);
 }
 
 
-void
-clone_button(GtkWidget *widget, gpointer data)
+void *
+clone_sdk_repo(void)
 {
-	PRINT_LOCATION();
-
-	progress_data pd = {{0}};
-
 	git_repository *repo = NULL;
 	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
 	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
 
+	// TODO: make it configurable
 	const char *url = "https://github.com/tjohann/a20_sdk.git";
 	const char *path = "/tmp/a20_sdk";
 
-
 	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 	checkout_opts.progress_cb = checkout_progress;
-	//checkout_opts.progress_payload = &pd;
 	clone_opts.checkout_opts = checkout_opts;
-	//clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
 	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
 
 	int error = git_clone(&repo, url, path, &clone_opts);
-
-	printf("\n");
 	if (error != 0) {
 		const git_error *err = giterr_last();
 
 		if (err)
-			printf("ERROR %d: %s\n", err->klass, err->message);
+			fprintf(stderr,
+				"ERROR %d: %s\n",
+				err->klass,
+				err->message);
 		else
-			printf("ERROR %d: no detailed info\n", error);
+			fprintf(stderr,
+				"ERROR %d: no detailed info\n",
+				error);
 
+		LOCK_BUTTONS();
+		goto out;
+	}
+
+out:
+	if (repo)
 		git_repository_free(repo);
-	} else 	if (repo)
-		git_repository_free(repo);
-	printf("\n");
+
+	return NULL;
+}
+
+
+void
+update_sdk_repo()
+{
+	PRINT_LOCATION();
 }
 
 
@@ -116,6 +135,7 @@ test_button(GtkWidget *widget, gpointer data)
 	PRINT_LOCATION();
 }
 
+
 void
 new_config(GtkWidget *widget, gpointer data)
 {
@@ -124,12 +144,8 @@ new_config(GtkWidget *widget, gpointer data)
         /*
 	 * activate the other button/menu-entry
 	 */
-	gtk_widget_set_sensitive(download_b, TRUE);
-	gtk_widget_set_sensitive(clone_b, TRUE);
-	gtk_widget_set_sensitive(save_m, TRUE);
-	gtk_widget_set_sensitive(save_as_m, TRUE);
+	UNLOCK_BUTTONS();
 }
-
 
 
 void
@@ -155,10 +171,7 @@ open_menu(GtkWidget *widget, gpointer data)
 	/*
 	 * activate the other button/menu-entry
 	 */
-	gtk_widget_set_sensitive(download_b, TRUE);
-	gtk_widget_set_sensitive(clone_b, TRUE);
-	gtk_widget_set_sensitive(save_m, TRUE);
-	gtk_widget_set_sensitive(save_as_m, TRUE);
+	UNLOCK_BUTTONS();
 
 }
 
@@ -210,18 +223,12 @@ main(int argc, char **argv)
 		g_thread_init(NULL);
 
 	gdk_threads_init();
-	gdk_threads_enter();
-
 	gtk_init(&argc, &argv);
 
-	// gui.c
 	build_main_window();
-
-
-
-	
 	gtk_widget_show_all(window);  
-	
+
+	gdk_threads_enter();
 	gtk_main();
 	gdk_threads_leave();
 

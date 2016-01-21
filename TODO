@@ -4,6 +4,16 @@
 
 
 #
+# -------------- 2016-01-21 ----------------------------------------------------
+#
+all -> implement config handling:
+    2016-01-21:
+    const char *url = "https://github.com/tjohann/a20_sdk.git";
+    const char *path = "/tmp/a20_sdk";
+
+a20_sdk_builder.c/clone_sdk_repo -> make aync thread of it (gui must be responsive)
+
+#
 # -------------- 2016-01-19 ----------------------------------------------------
 #
-gui.c/on_delete_event -> implement 'are you sure you want to quit?' dialog
+gui.c/on_delete_event -> implement 'are you sure you want to quit?' dialog  [done, 2016-01-20]

@@ -36,7 +36,12 @@ GtkWidget *window;
 GtkWidget *statusbar;
 GtkWidget *textfield;
 
+GtkWidget *progessbar;
+GtkWidget *progessbar_window, *progessbar_frame, *progressbar_frame2;
+GtkAdjustment *progressbar_adj;
+
 GtkWidget *clone_b;
+GtkWidget *update_b;
 GtkWidget *download_b;
 
 GtkWidget *save_m;
@@ -44,22 +49,54 @@ GtkWidget *save_as_m;
 
 
 /*
+ * common defines
+ * -------------
+ */
+#define CLONE_BAR 1
+#define DOWNLOAD_BAR 2
+
+
+/*
  * common types
  * -------------
  */
-typedef struct progress_data {
-	git_transfer_progress fetch_progress;
-	size_t completed_steps;
-	size_t total_steps;
-	const char *path;
-} progress_data;
+
 
 
 /*
  * common macros
  * -------------
  */
-#define PRINT_LOCATION() { g_print(_("Your're in %s of %s\n"), __FUNCTION__, __FILE__);  }
+#define PRINT_LOCATION() {						\
+		g_print(_("Your're in %s of %s\n"),			\
+			__FUNCTION__,					\
+			__FILE__);					\
+	}
+
+#define UNLOCK_UPDATE_BUTTON() { gtk_widget_set_sensitive(update_b, TRUE); }
+#define LOCK_UPDATE_BUTTON() { gtk_widget_set_sensitive(update_b, FALSE); }
+
+/*
+ * not only for buttons, also for menu entrys
+ */
+#define UNLOCK_BUTTONS() {						\
+		gtk_widget_set_sensitive(update_b, TRUE);		\
+		gtk_widget_set_sensitive(download_b, TRUE);		\
+		gtk_widget_set_sensitive(clone_b, TRUE);		\
+		gtk_widget_set_sensitive(save_m, TRUE);			\
+		gtk_widget_set_sensitive(save_as_m, TRUE);		\
+	}
+
+/*
+ * not only for buttons, also for menu entrys
+ */
+#define LOCK_BUTTONS() {						\
+		gtk_widget_set_sensitive(download_b, FALSE);		\
+		gtk_widget_set_sensitive(clone_b, FALSE);		\
+		gtk_widget_set_sensitive(save_m, FALSE);		\
+		gtk_widget_set_sensitive(save_as_m, FALSE);		\
+	}
+
 
 
 /*
@@ -79,9 +116,12 @@ create_pixbuf(const gchar *filename);
  * =========
  */
 
+// clone a20_sdk.git
+void *
+clone_sdk_repo(void);
 
 void
-clone_button(GtkWidget *widget, gpointer data);
+update_sdk_repo(void);
 
 void
 download_button(GtkWidget *widget, gpointer data);
