@@ -30,6 +30,7 @@ Makefile.in
 /libtool
 /Makefile
 /lib/Makefile
+/pixmaps/Makefile
 /lib/libservice.a
 /po/Makefile
 /po/POTFILES
