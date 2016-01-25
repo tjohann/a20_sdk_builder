@@ -4,10 +4,12 @@ appicondir = $(datadir)/icons/hicolor/scalable/apps
 appicon_DATA = a20_sdk_builder.svg
 
 
+#
+# specials to handle the update of the icon cache
+#
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(appicondir)
 
 install-data-hook: update-icon-cache
-
 uninstall-hook: update-icon-cache
 
 update-icon-cache:

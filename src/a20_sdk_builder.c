@@ -21,6 +21,12 @@
 #include "a20_sdk_builder.h"
 
 
+/*
+ * fix paths -> see a20_sdk.git
+ */
+const char *url = "https://github.com/tjohann/a20_sdk.git";
+const char *path = "/tmp/a20_sdk";
+
 
 static void
 show_gtk_version_info()
@@ -76,13 +82,15 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 void *
 clone_sdk_repo(void)
 {
+	/*
+	 * fix paths -> see a20_sdk.git
+	 */
+	const char *url = "https://github.com/tjohann/a20_sdk.git";
+	const char *path = "/var/lib/a20_sdk";
+
 	git_repository *repo = NULL;
 	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
 	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-
-	// TODO: make it configurable
-	const char *url = "https://github.com/tjohann/a20_sdk.git";
-	const char *path = "/tmp/a20_sdk";
 
 	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 	checkout_opts.progress_cb = checkout_progress;

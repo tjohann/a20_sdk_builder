@@ -1,6 +1,6 @@
 #!/bin/bash
 
-make uninstall
+sudo make uninstall
 make distclean
 
 autoreconf --install || exit 1
@@ -11,6 +11,6 @@ make update-po
 
 cd ..
 make
-make install
+sudo make install
 
 a20_sdk_builder &
