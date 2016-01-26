@@ -25,7 +25,7 @@
  * fix paths -> see a20_sdk.git
  */
 const char *url = "https://github.com/tjohann/a20_sdk.git";
-const char *path = "/tmp/a20_sdk";
+const char *path = "/var/lib/a20_sdk";
 
 
 static void
@@ -42,13 +42,27 @@ show_gtk_version_info()
 		gtk_micro_version);
 }
 
+static int
+sideband_progress(const char *str, int len, void *payload)
+{
+	(void) payload; // // not used
+
+	fprintf(stdout, "Remote: %s  len: %d\n", str, len);
+	return 0;
+}
 
 static int
 fetch_progress(const git_transfer_progress *stats, void *payload)
 {
 	int fetch_percent = (100 * stats->received_objects)/stats->total_objects;
-	int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
+	//int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
 	int receive_kbyte = stats->received_bytes / 1024;
+
+	int statusbar_percent = (fetch_percent * 2) / 3;
+	char statusbar_percent_string[5];
+
+	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
+	snprintf(statusbar_percent_string, 5, "%3d%%", statusbar_percent);
 
 	(void) payload; // not used
 
@@ -57,9 +71,15 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 		stats->received_objects, stats->total_objects,
 		receive_kbyte);
 
-	gdk_threads_enter();
-	gtk_progress_set_value(GTK_PROGRESS(progessbar), fetch_percent);
-	gdk_threads_leave();
+	/*
+	 * I suppose that if the window is destroyed for whatever reason,
+	 * the clone proccess should continue. Otherwise we leave a broken
+	 * git repo.
+	 */
+	if (progressbar != NULL) {
+		SET_PROGRESSBAR_VALUE();
+	} else
+		fprintf(stderr, _("progressbar == NULL -> progressbar_window destroyed?\n"));
 
 	return 0;
 }
@@ -70,33 +90,50 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 {
 	int checkout_percent = (100 * cur) / tot;
 
+	int statusbar_percent = (checkout_percent / 3 ) + 67;
+	char statusbar_percent_string[5];
+
+	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
+	snprintf(statusbar_percent_string, 5, "%3d%%", statusbar_percent);
+
 	(void) payload; // not used
 
 	fprintf(stdout, "Checkout: %3d%% (%d/%d) %s \n",
 		checkout_percent,
 		(int) tot, (int) cur,
 		path);
+
+	/*
+	 * I suppose that if the window is destroyed for whatever reason,
+	 * the clone proccess should continue. Otherwise we leave a broken
+	 * git repo.
+	 */
+	if (progressbar != NULL) {
+		SET_PROGRESSBAR_VALUE();
+	} else
+		fprintf(stderr, _("progressbar == NULL -> progressbar_window destroyed?\n"));
 }
 
 
 void *
-clone_sdk_repo(void)
+clone_sdk_repo(void *args)
 {
-	/*
-	 * fix paths -> see a20_sdk.git
-	 */
-	const char *url = "https://github.com/tjohann/a20_sdk.git";
-	const char *path = "/var/lib/a20_sdk";
-
 	git_repository *repo = NULL;
 	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
 	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
 
+	(void) args; // not used
+
 	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 	checkout_opts.progress_cb = checkout_progress;
 	clone_opts.checkout_opts = checkout_opts;
+	clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
 	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
 
+	/*
+	 * I suppose that the clone proccess should finish; so i wont kill
+	 * the thread if the progessbar_window is destroyed.
+	 */
 	int error = git_clone(&repo, url, path, &clone_opts);
 	if (error != 0) {
 		const git_error *err = giterr_last();
@@ -111,10 +148,11 @@ clone_sdk_repo(void)
 				"ERROR %d: no detailed info\n",
 				error);
 
-		LOCK_BUTTONS();
+		SET_PROGRESSBAR_0();
 		goto out;
 	}
 
+	UNLOCK_PROGRESS_CLONE_BUTTON();
 out:
 	if (repo)
 		git_repository_free(repo);
@@ -131,28 +169,9 @@ update_sdk_repo()
 
 
 void
-download_button(GtkWidget *widget, gpointer data)
+download_toolchain()
 {
 	PRINT_LOCATION();
-}
-
-
-void
-test_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-}
-
-
-void
-new_config(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-        /*
-	 * activate the other button/menu-entry
-	 */
-	UNLOCK_BUTTONS();
 }
 
 
@@ -169,34 +188,6 @@ exit_function(GtkWidget *widget, gpointer data)
 
 	PRINT_LOCATION();
 }
-
-
-void
-open_menu(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	/*
-	 * activate the other button/menu-entry
-	 */
-	UNLOCK_BUTTONS();
-
-}
-
-
-void
-save_menu(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-}
-
-
-void
-save_as_menu(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-}
-
 
 
 int

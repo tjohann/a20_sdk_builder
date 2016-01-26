@@ -36,16 +36,16 @@ GtkWidget *window;
 GtkWidget *statusbar;
 GtkWidget *textfield;
 
-GtkWidget *progessbar;
-GtkWidget *progessbar_window, *progessbar_frame, *progressbar_frame2;
-GtkAdjustment *progressbar_adj;
-
 GtkWidget *clone_b;
 GtkWidget *update_b;
 GtkWidget *download_b;
 
 GtkWidget *save_m;
 GtkWidget *save_as_m;
+
+GtkWidget *progressbar;
+GtkWidget *progressbar_button;
+
 
 
 /*
@@ -76,6 +76,13 @@ GtkWidget *save_as_m;
 #define UNLOCK_UPDATE_BUTTON() { gtk_widget_set_sensitive(update_b, TRUE); }
 #define LOCK_UPDATE_BUTTON() { gtk_widget_set_sensitive(update_b, FALSE); }
 
+#define UNLOCK_CLONE_BUTTON() { gtk_widget_set_sensitive(clone_b, TRUE); }
+#define LOCK_CLONE_BUTTON() { gtk_widget_set_sensitive(clone_b, FALSE); }
+
+#define UNLOCK_DOWNLOAD_BUTTON() { gtk_widget_set_sensitive(download_b, TRUE); }
+#define LOCK_DOWNLOAD_BUTTON() { gtk_widget_set_sensitive(download_b, FALSE); }
+
+
 /*
  * not only for buttons, also for menu entrys
  */
@@ -87,6 +94,7 @@ GtkWidget *save_as_m;
 		gtk_widget_set_sensitive(save_as_m, TRUE);		\
 	}
 
+
 /*
  * not only for buttons, also for menu entrys
  */
@@ -95,6 +103,48 @@ GtkWidget *save_as_m;
 		gtk_widget_set_sensitive(clone_b, FALSE);		\
 		gtk_widget_set_sensitive(save_m, FALSE);		\
 		gtk_widget_set_sensitive(save_as_m, FALSE);		\
+	}
+
+
+#define UNLOCK_PROGRESS_CLONE_BUTTON() {				\
+		gtk_widget_set_sensitive(progressbar_button, TRUE);	\
+	}
+
+
+#define LOCK_PROGRESS_CLONE_BUTTON() {					\
+		gtk_widget_set_sensitive(progressbar_button, FALSE);	\
+	}
+
+
+/*
+ * add for pulsing changes instead of continous growing
+ * -> 	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
+ */
+#define SET_PROGRESSBAR_VALUE() {					\
+		gdk_threads_enter();					\
+		gtk_progress_set_value(GTK_PROGRESS(progressbar),	\
+				       statusbar_percent);		\
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
+					  statusbar_percent_string);	\
+		gdk_threads_leave();					\
+	}
+
+
+#define SET_PROGRESSBAR_0() {						\
+		gdk_threads_enter();					\
+		gtk_progress_set_value(GTK_PROGRESS(progressbar), 0);	\
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
+					  "0%");			\
+		gdk_threads_leave();					\
+	}
+
+
+#define SET_PROGRESSBAR_100() {						\
+		gdk_threads_enter();					\
+		gtk_progress_set_value(GTK_PROGRESS(progressbar), 100);	\
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
+					  "100%");			\
+		gdk_threads_leave();					\
 	}
 
 
@@ -110,30 +160,17 @@ build_main_window();
 GdkPixbuf *
 create_pixbuf(const gchar *filename);
 
-
-/*
- * a20_sdk_builder.c
- * =========
- */
-
-// clone a20_sdk.git
-void *
-clone_sdk_repo(void);
-
-void
-update_sdk_repo(void);
-
 void
 download_button(GtkWidget *widget, gpointer data);
 
 void
 test_button(GtkWidget *widget, gpointer data);
 
+/*
+ * For button and menu entry
+ */
 void
 new_config(GtkWidget *widget, gpointer data);
-
-void
-exit_function(GtkWidget *widget, gpointer data);
 
 void
 open_menu(GtkWidget *widget, gpointer data);
@@ -144,6 +181,25 @@ save_menu(GtkWidget *widget, gpointer data);
 void
 save_as_menu(GtkWidget *widget, gpointer data);
 
+
+/*
+ * a20_sdk_builder.c
+ * =========
+ */
+
+// clone a20_sdk.git
+void *
+clone_sdk_repo(void *args);
+
+// update (git pull) a20_sdk.git
+void
+update_sdk_repo(void);
+
+void
+download_toolchain();
+
+void
+exit_function(GtkWidget *widget, gpointer data);
 
 
 #endif

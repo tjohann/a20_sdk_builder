@@ -24,6 +24,6 @@
 void
 show_version_info()
 {
-	fprintf(stdout, "Package version: %s", PACKAGE_VERSION);
+	fprintf(stdout, "Package version: %s\n", PACKAGE_VERSION);
 
 }

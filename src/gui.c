@@ -40,6 +40,12 @@ GtkWidget *sep_m;
 GtkWidget *new_m;
 GtkWidget *open_m;
 
+GtkWidget *progressbar_window;
+GtkWidget *progressbar_vbox;
+GtkWidget *progressbar_sep;
+GtkWidget *progressbar_frame;
+GtkWidget *progressbar_frame2;
+GtkAdjustment *progressbar_adj;
 
 GtkAccelGroup *accel_group = NULL;
 
@@ -73,71 +79,86 @@ create_pixbuf(const gchar *filename)
 static void
 destroy_progressbar_window()
 {
-	gtk_widget_destroy(GTK_WIDGET(progessbar_window));
+	gtk_widget_destroy(GTK_WIDGET(progressbar_window));
+	progressbar = NULL;
 }
+
 
 static int
 create_progress_bar_window(unsigned char progressbar_type)
 {
 	PRINT_LOCATION();
 
-	if (progessbar != NULL) {
+	if (progressbar != NULL) {
 		fprintf(stderr, _("ERROR: Progressbar != NULL\n"));
 		destroy_progressbar_window();
 	}
 
-	progessbar_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	g_signal_connect(progessbar_window,
+	progressbar_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_default_size(GTK_WINDOW(progressbar_window), 500, 1);
+	g_signal_connect(progressbar_window,
 			 "destroy",
 			 G_CALLBACK(destroy_progressbar_window),
 			 NULL);
 
 	switch (progressbar_type) {
 	case CLONE_BAR:
-		gtk_window_set_title(GTK_WINDOW(progessbar_window), _("Clone progress"));
+		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Clone progress"));
 		g_print(_("Progressbar_type == CLONE_BAR\n"));
 		break;
 	case DOWNLOAD_BAR:
-		gtk_window_set_title(GTK_WINDOW(progessbar_window), _("Download progress"));
+		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Download progress"));
 		g_print(_("Progressbar_type == DOWNLOAD_BAR\n"));
 		break;
 	default:
 		return -1;
 	}
 
-	gtk_window_set_default_size(GTK_WINDOW(progessbar_window), 500, 1);
-
-	// looks nicer with 2 frames
-	progessbar_frame = gtk_frame_new(NULL);
-	gtk_frame_set_shadow_type(GTK_FRAME(progessbar_frame), GTK_SHADOW_OUT);
-	gtk_container_add(GTK_CONTAINER(progessbar_window), progessbar_frame);
-	progressbar_frame2 = gtk_frame_new(NULL);
-	gtk_frame_set_shadow_type(GTK_FRAME(progressbar_frame2), GTK_SHADOW_IN);
-	gtk_container_add(GTK_CONTAINER(progessbar_frame), progressbar_frame2);
-	gtk_container_set_border_width(GTK_CONTAINER(progressbar_frame2), 4);
+	progressbar_vbox = gtk_vbox_new(FALSE, 5);
+	gtk_container_set_border_width(GTK_CONTAINER(progressbar_vbox), 5);
+	gtk_container_add(GTK_CONTAINER(progressbar_window), progressbar_vbox);
 
 	progressbar_adj = (GtkAdjustment*)gtk_adjustment_new(0, 0, 100, 0, 0, 0);
-	progessbar = gtk_progress_bar_new_with_adjustment(progressbar_adj);
+	progressbar = gtk_progress_bar_new_with_adjustment(progressbar_adj);
+	gtk_box_pack_start(GTK_BOX(progressbar_vbox), progressbar, FALSE, FALSE, 0);
 
-	gtk_container_add(GTK_CONTAINER(progressbar_frame2), progessbar);
-	gtk_widget_show_all(progessbar_window);
+	progressbar_sep = gtk_hseparator_new ();
+	gtk_box_pack_start(GTK_BOX(progressbar_vbox), progressbar_sep, FALSE, FALSE, 0);
 
-	gtk_progress_set_value(GTK_PROGRESS(progessbar), 0);
+	progressbar_button = gtk_button_new_with_label(_("Close"));
+	g_signal_connect(progressbar_button,
+			 "clicked",
+			 G_CALLBACK(destroy_progressbar_window),
+			 NULL);
+	gtk_tooltips_set_tip(tooltips,
+			     progressbar_button,
+			     _("Close window -> thread still active!"),
+			     NULL);
+	LOCK_PROGRESS_CLONE_BUTTON();
+	gtk_box_pack_start(GTK_BOX(progressbar_vbox), progressbar_button, FALSE, FALSE, 0);
+
+	gtk_widget_show_all(progressbar_window);
+
+	gtk_progress_set_value(GTK_PROGRESS(progressbar), 0);
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), "0%");
 
 	return 0;
 }
+
 
 static void
 clone_button(GtkWidget *widget, gpointer data)
 {
 	PRINT_LOCATION();
 
+	(void) widget;
+	(void) data;
+
 	if (create_progress_bar_window(CLONE_BAR) != 0)
 		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
 	if (!g_thread_create(&clone_sdk_repo, NULL, FALSE, NULL) != 0)
-		g_warning("Can't create the thread");
-
+		fprintf(stderr, _("Can't create the thread"));
 }
 
 static void
@@ -145,7 +166,75 @@ update_button(GtkWidget *widget, gpointer data)
 {
 	PRINT_LOCATION();
 
+	(void) widget;
+	(void) data;
+
 	update_sdk_repo();
+}
+
+
+void
+download_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+
+	download_toolchain();
+}
+
+
+void
+test_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+/*
+ * button and menu
+ */
+void
+new_config(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+void
+open_menu(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+void
+save_menu(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+void
+save_as_menu(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
 }
 
 
@@ -194,7 +283,6 @@ build_button_box()
 			     clone_b,
 			     _("Clone a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
 			     NULL);
-	gtk_widget_set_sensitive(clone_b, FALSE);
 	gtk_container_add(GTK_CONTAINER(buttonbox), clone_b);
 
 	update_b = gtk_button_new_with_label(_("Update Repo"));
@@ -203,7 +291,6 @@ build_button_box()
 			     update_b,
 			     _("Update a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
 			     NULL);
-	gtk_widget_set_sensitive(update_b, FALSE);
 	gtk_container_add(GTK_CONTAINER(buttonbox), update_b);
 	
 	download_b = gtk_button_new_with_label(_("Download SDK"));
@@ -212,7 +299,6 @@ build_button_box()
 			     download_b,
 			     _("Download toolchain binarys (http://sourceforge.net/projects/baalue-sdk/)"),
 			     NULL);
-	gtk_widget_set_sensitive(download_b, FALSE);
 	gtk_container_add(GTK_CONTAINER(buttonbox), download_b);
 	
 	test_b = gtk_button_new_with_label(_("Test SDK"));
@@ -221,7 +307,6 @@ build_button_box()
 			     test_b,
 			     _("Run basic test/check on the sdk/toolchain"),
 			     NULL);
-	gtk_widget_set_sensitive(test_b, FALSE);
 	gtk_container_add(GTK_CONTAINER(buttonbox), test_b);
 	
 	exit_b = gtk_button_new_with_label(_("Quit"));
@@ -277,7 +362,6 @@ build_menu_bar()
 			     _("Save toolconfig (a20_sdk_build.conf)"),
 			     NULL);
 	g_signal_connect(save_m, "activate", G_CALLBACK(save_menu), NULL);
-	gtk_widget_set_sensitive(save_m, FALSE);
 	gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), save_m);
 
 	// SAVE_AS menuentry
@@ -287,7 +371,6 @@ build_menu_bar()
 			     _("Save toolconfig under a new name (a20_sdk_build.conf)"),
 			     NULL);
 	g_signal_connect(save_as_m, "activate", G_CALLBACK(save_as_menu), NULL);
-	gtk_widget_set_sensitive(save_as_m, FALSE);
 	gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), save_as_m);
 
 	// SEPERATOR
@@ -317,10 +400,8 @@ build_menu_bar()
 	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
 
 	// ---------------------------------------------------------------------
-
 	
 }
-
 
 
 void

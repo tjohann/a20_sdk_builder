@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-01-25 17:12+0100\n"
+"POT-Creation-Date: 2016-01-26 20:04+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -19,12 +19,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: src/a20_sdk_builder.c:214
+#: src/a20_sdk_builder.c:82 src/a20_sdk_builder.c:114
+#, c-format
+msgid "progressbar == NULL -> progressbar_window destroyed?\n"
+msgstr ""
+
+#: src/a20_sdk_builder.c:205
 #, fuzzy, c-format
 msgid "Package name is %s\n"
 msgstr "Packet name ist %s\n"
 
-#: src/a20_sdk_builder.c:221
+#: src/a20_sdk_builder.c:212
 msgid "Init network code: done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
