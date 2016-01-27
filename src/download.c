@@ -21,9 +21,12 @@
 #include "common.h"
 
 
-
-void
-download_toolchain()
+void *
+download_toolchain(void *args)
 {
 	PRINT_LOCATION();
+
+	write_to_textfield(_("--INFO_MSG--: in download_toolchain\n"), INFO_MSG);
+
+	return NULL;
 }

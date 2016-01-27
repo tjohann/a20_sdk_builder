@@ -62,6 +62,11 @@ typedef enum message_types {
 } message_types_t;
 
 
+typedef enum progressbar_types {
+		CLONE_BAR    = 0x00,
+		DOWNLOAD_BAR = 0x01
+} progressbar_types_t;
+
 
 /*
  * common macros
@@ -73,81 +78,6 @@ typedef enum message_types {
 			__FILE__);					\
 	}
 
-#define UNLOCK_UPDATE_BUTTON() { gtk_widget_set_sensitive(update_b, TRUE); }
-#define LOCK_UPDATE_BUTTON() { gtk_widget_set_sensitive(update_b, FALSE); }
-
-#define UNLOCK_CLONE_BUTTON() { gtk_widget_set_sensitive(clone_b, TRUE); }
-#define LOCK_CLONE_BUTTON() { gtk_widget_set_sensitive(clone_b, FALSE); }
-
-#define UNLOCK_DOWNLOAD_BUTTON() { gtk_widget_set_sensitive(download_b, TRUE); }
-#define LOCK_DOWNLOAD_BUTTON() { gtk_widget_set_sensitive(download_b, FALSE); }
-
-
-/*
- * not only for buttons, also for menu entrys
- */
-#define UNLOCK_BUTTONS() {						\
-		gtk_widget_set_sensitive(update_b, TRUE);		\
-		gtk_widget_set_sensitive(download_b, TRUE);		\
-		gtk_widget_set_sensitive(clone_b, TRUE);		\
-		gtk_widget_set_sensitive(save_m, TRUE);			\
-		gtk_widget_set_sensitive(save_as_m, TRUE);		\
-	}
-
-
-/*
- * not only for buttons, also for menu entrys
- */
-#define LOCK_BUTTONS() {						\
-		gtk_widget_set_sensitive(download_b, FALSE);		\
-		gtk_widget_set_sensitive(clone_b, FALSE);		\
-		gtk_widget_set_sensitive(save_m, FALSE);		\
-		gtk_widget_set_sensitive(save_as_m, FALSE);		\
-	}
-
-
-#define UNLOCK_PROGRESS_CLONE_BUTTON() {				\
-		gtk_widget_set_sensitive(progressbar_button, TRUE);	\
-	}
-
-
-#define LOCK_PROGRESS_CLONE_BUTTON() {					\
-		gtk_widget_set_sensitive(progressbar_button, FALSE);	\
-	}
-
-
-/*
- * add for pulsing changes instead of continous growing
- * -> 	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
- */
-#define SET_PROGRESSBAR_VALUE() {					\
-		gtk_progress_set_value(GTK_PROGRESS(progressbar),	\
-				       statusbar_percent);		\
-		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
-					  statusbar_percent_string);	\
-	}
-
-
-#define SET_PROGRESSBAR_0() {						\
-		gtk_progress_set_value(GTK_PROGRESS(progressbar), 0);	\
-		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
-					  "0%");			\
-	}
-
-
-#define SET_PROGRESSBAR_100() {						\
-		gtk_progress_set_value(GTK_PROGRESS(progressbar), 100);	\
-		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
-					  "100%");			\
-	}
-
-
-/*
-  gdk_threads_enter();
-  gdk_threads_leave();
- */
-
-
 /*
  * gui.c
  * =====
@@ -158,6 +88,9 @@ build_main_window();
 
 void
 write_to_textfield(char *message, message_types_t type);
+
+void
+set_progressbar_value(int statusbar_percent, char *statusbar_percent_string);
 
 GdkPixbuf *
 create_pixbuf(const gchar *filename);
@@ -189,8 +122,8 @@ clone_sdk_repo(void *args);
  */
 
 // update (git pull) a20_sdk.git
-void
-update_sdk_repo(void);
+void *
+update_sdk_repo(void *args);
 
 
 /*
@@ -198,8 +131,8 @@ update_sdk_repo(void);
  * ==========
  */
 
-void
-download_toolchain();
+void *
+download_toolchain(void *args);
 
 
 #endif

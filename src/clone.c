@@ -24,16 +24,9 @@
 static int
 sideband_progress(const char *str, int len, void *payload)
 {
-	char sideband_info[255];
-
-	memset(sideband_info, 0, sizeof(sideband_info));
-	snprintf(sideband_info, 255, "Remote: %s len: %d\n", str, len);
-
 	(void) payload; // not used
 
-	fprintf(stdout, sideband_info);
 	fprintf(stdout, "Remote: %s len: %d\n", str, len);
-	write_to_textfield(sideband_info, NORMAL_MSG);
 
 	return 0;
 }
@@ -46,7 +39,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	//int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
 	int receive_kbyte = stats->received_bytes / 1024;
 
-	int statusbar_percent = (fetch_percent * 2) / 3;
+	int statusbar_percent = (fetch_percent * 5) / 6;
 	char statusbar_percent_string[5];
 
 	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
@@ -64,10 +57,11 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	 * the clone proccess should continue. Otherwise we leave a broken
 	 * git repo.
 	 */
-	if (progressbar != NULL) {
-		SET_PROGRESSBAR_VALUE();
-	} else
-		fprintf(stderr, _("progressbar == NULL -> progressbar_window destroyed?\n"));
+	if (progressbar != NULL)
+		set_progressbar_value(statusbar_percent, statusbar_percent_string);
+	else
+		fprintf(stderr,
+			_("progressbar == NULL -> progressbar_window destroyed?\n"));
 
 	return 0;
 }
@@ -78,7 +72,7 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 {
 	int checkout_percent = (100 * cur) / tot;
 
-	int statusbar_percent = (checkout_percent / 3 ) + 67;
+	int statusbar_percent = (checkout_percent / 6 ) + 84;
 	char statusbar_percent_string[5];
 
 	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
@@ -96,20 +90,17 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 	 * the clone proccess should continue. Otherwise we leave a broken
 	 * git repo.
 	 */
-	if (progressbar != NULL) {
-		SET_PROGRESSBAR_VALUE();
-	} else
-		fprintf(stderr, _("progressbar == NULL -> progressbar_window destroyed?\n"));
+	if (progressbar != NULL)
+		set_progressbar_value(statusbar_percent, statusbar_percent_string);
+	else
+		fprintf(stderr,
+			_("progressbar == NULL -> progressbar_window destroyed?\n"));
 }
 
 
 void *
 clone_sdk_repo(void *args)
 {
-	gdk_threads_enter();
-	PRINT_LOCATION();
-	gdk_threads_leave();
-
 	git_repository *repo = NULL;
 	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
 	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
@@ -118,6 +109,9 @@ clone_sdk_repo(void *args)
 	const char *path = SDK_GIT_PATH;
 
 	(void) args; // not used
+
+	if (create_progress_bar_window(CLONE_BAR) != 0)
+		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
 	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 	checkout_opts.progress_cb = checkout_progress;
@@ -133,17 +127,22 @@ clone_sdk_repo(void *args)
 	if (error != 0) {
 		const git_error *err = giterr_last();
 
-		if (err)
+		if (err) {
 			fprintf(stderr,
 				"ERROR %d: %s\n",
 				err->klass,
 				err->message);
-		else
+			write_to_textfield("\n", NORMAL_MSG);
+			write_to_textfield(err->message, ERROR_MSG);
+		} else {
 			fprintf(stderr,
 				"ERROR %d: no detailed info\n",
 				error);
+			write_to_textfield("Unclassified error occured\n",
+					   ERROR_MSG);
+		}
 
-		SET_PROGRESSBAR_0();
+		set_progressbar_value(0, "0%");
 		goto out;
 	}
 
@@ -151,7 +150,7 @@ out:
 	if (repo)
 		git_repository_free(repo);
 
-	UNLOCK_PROGRESS_CLONE_BUTTON();
+	gtk_widget_set_sensitive(progressbar_button, TRUE);
 
 	return NULL;
 }

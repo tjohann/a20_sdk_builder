@@ -84,25 +84,6 @@ GdkPixbuf *icon;
 GtkTooltips *tooltips;
 
 
-/*
- * gui specific types
- * ------------------
- */
-typedef enum progressbar_types {
-		CLONE_BAR    = 0x00,
-		DOWNLOAD_BAR = 0x01
-} progressbar_types_t;
-
-#define CLONE_BAR 1
-#define DOWNLOAD_BAR 2
-
-
-/*
- * gui specifi macros
- * ------------------
- */
-#define NEW_LINE() {gtk_text_buffer_insert(textfield_buffer, &iter, "\n", -1);}
-
 
 /*
   usage:
@@ -138,11 +119,26 @@ destroy_progressbar_window()
 }
 
 
-static int
+void
+set_progressbar_value(int statusbar_percent, char *statusbar_percent_string)
+{
+	/*
+	 * add for pulsing changes instead of continous growing
+	 * -> 	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
+	 */
+
+	gdk_threads_enter();
+
+	gtk_progress_set_value(GTK_PROGRESS(progressbar), statusbar_percent);
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar),
+				  statusbar_percent_string);
+	gdk_threads_leave();
+}
+
+int
 create_progress_bar_window(unsigned char progressbar_type)
 {
 	PRINT_LOCATION();
-
 
 	/*
 	   Layout:
@@ -196,7 +192,7 @@ create_progress_bar_window(unsigned char progressbar_type)
 			 "clicked",
 			 G_CALLBACK(destroy_progressbar_window),
 			 NULL);
-	LOCK_PROGRESS_CLONE_BUTTON();
+	gtk_widget_set_sensitive(progressbar_button, FALSE);
 	gtk_box_pack_start(GTK_BOX(progressbar_vbox), progressbar_button, FALSE, FALSE, 0);
 
 	gtk_widget_show_all(progressbar_window);
@@ -216,9 +212,6 @@ clone_button(GtkWidget *widget, gpointer data)
 	(void) widget;
 	(void) data;
 
-	if (create_progress_bar_window(CLONE_BAR) != 0)
-		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
-
 	if (!g_thread_create(&clone_sdk_repo, NULL, FALSE, NULL) != 0)
 		fprintf(stderr, _("Can't create the thread"));
 }
@@ -232,7 +225,8 @@ update_button(GtkWidget *widget, gpointer data)
 	(void) widget;
 	(void) data;
 
-	update_sdk_repo();
+	if (!g_thread_create(&update_sdk_repo, NULL, FALSE, NULL) != 0)
+		fprintf(stderr, _("Can't create the thread"));
 }
 
 
@@ -244,7 +238,8 @@ download_button(GtkWidget *widget, gpointer data)
 	(void) widget;
 	(void) data;
 
-	download_toolchain();
+	if (!g_thread_create(&download_toolchain, NULL, FALSE, NULL) != 0)
+		fprintf(stderr, _("Can't create the thread"));
 }
 
 
@@ -571,6 +566,7 @@ write_to_textfield(char *message, message_types_t type)
 						   "bold", "italic" ,"red", NULL);
 	*/
 
+	gdk_threads_enter();
 	switch(type) {
 	case NORMAL_MSG:
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
@@ -600,6 +596,7 @@ write_to_textfield(char *message, message_types_t type)
 		fprintf(stderr,_("ERROR: Message type not supported\n"));
 	}
 
+	gdk_threads_leave();
 }
 
 void

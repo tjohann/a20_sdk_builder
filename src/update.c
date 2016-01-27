@@ -22,13 +22,12 @@
 
 
 
-void
-update_sdk_repo()
+void *
+update_sdk_repo(void *args)
 {
 	PRINT_LOCATION();
 
-	write_to_textfield(_("--NORMAL_MSG--: in update_sdk_repo\n"), NORMAL_MSG);
-	write_to_textfield(_("--WARNING_MSG--: in update_sdk_repo\n"), WARNING_MSG);
-	write_to_textfield(_("--ERROR_MSG--: in update_sdk_repo\n"), ERROR_MSG);
 	write_to_textfield(_("--INFO_MSG--: in update_sdk_repo\n"), INFO_MSG);
+
+	return NULL;
 }
