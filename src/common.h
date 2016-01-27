@@ -1,17 +1,17 @@
 /*
-  GPL                                                                        
+  GPL
   (c) 2016, thorsten.johannvorderbrueggen@t-online.de
-  
-  This program is free software; you can redistribute it and/or modify       
-  it under the terms of the GNU General Public License as published by       
-  the Free Software Foundation; either version 2 of the License, or          
-  (at your option) any later version.                                        
-  
-  This program is distributed in the hope that it will be useful,            
-  but WITHOUT ANY WARRANTY; without even the implied warranty of             
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -32,34 +32,34 @@
 
 
 // all global widgets
-GtkWidget *window;
-GtkWidget *statusbar;
-GtkWidget *textfield;
-
-GtkWidget *clone_b;
-GtkWidget *update_b;
-GtkWidget *download_b;
-
-GtkWidget *save_m;
-GtkWidget *save_as_m;
-
 GtkWidget *progressbar;
 GtkWidget *progressbar_button;
 
+
+/*
+ * common locations
+ * ----------------
+ */
+#define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
+#define SDK_GIT_PATH "/var/lib/a20_sdk"
 
 
 /*
  * common defines
  * -------------
  */
-#define CLONE_BAR 1
-#define DOWNLOAD_BAR 2
 
 
 /*
  * common types
  * -------------
  */
+typedef enum message_types {
+		NORMAL_MSG  = 0x00,
+		WARNING_MSG = 0x01,
+		ERROR_MSG   = 0x02,
+		INFO_MSG    = 0x03
+} message_types_t;
 
 
 
@@ -121,85 +121,85 @@ GtkWidget *progressbar_button;
  * -> 	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
  */
 #define SET_PROGRESSBAR_VALUE() {					\
-		gdk_threads_enter();					\
 		gtk_progress_set_value(GTK_PROGRESS(progressbar),	\
 				       statusbar_percent);		\
 		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
 					  statusbar_percent_string);	\
-		gdk_threads_leave();					\
 	}
 
 
 #define SET_PROGRESSBAR_0() {						\
-		gdk_threads_enter();					\
 		gtk_progress_set_value(GTK_PROGRESS(progressbar), 0);	\
 		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
 					  "0%");			\
-		gdk_threads_leave();					\
 	}
 
 
 #define SET_PROGRESSBAR_100() {						\
-		gdk_threads_enter();					\
 		gtk_progress_set_value(GTK_PROGRESS(progressbar), 100);	\
 		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), \
 					  "100%");			\
-		gdk_threads_leave();					\
 	}
 
+
+/*
+  gdk_threads_enter();
+  gdk_threads_leave();
+ */
 
 
 /*
  * gui.c
- * =========
+ * =====
  */
 
 void
 build_main_window();
 
+void
+write_to_textfield(char *message, message_types_t type);
+
 GdkPixbuf *
 create_pixbuf(const gchar *filename);
 
-void
-download_button(GtkWidget *widget, gpointer data);
 
-void
-test_button(GtkWidget *widget, gpointer data);
 
 /*
- * For button and menu entry
+ * main.c
+ * ======
  */
-void
-new_config(GtkWidget *widget, gpointer data);
 
 void
-open_menu(GtkWidget *widget, gpointer data);
-
-void
-save_menu(GtkWidget *widget, gpointer data);
-
-void
-save_as_menu(GtkWidget *widget, gpointer data);
+exit_function(GtkWidget *widget, gpointer data);
 
 
 /*
- * a20_sdk_builder.c
- * =========
+ * clone.c
+ * =======
  */
 
 // clone a20_sdk.git
 void *
 clone_sdk_repo(void *args);
 
+
+/*
+ * update.c
+ * ========
+ */
+
 // update (git pull) a20_sdk.git
 void
 update_sdk_repo(void);
 
-void
-download_toolchain();
+
+/*
+ * download.c
+ * ==========
+ */
 
 void
-exit_function(GtkWidget *widget, gpointer data);
+download_toolchain();
 
 
 #endif

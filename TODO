@@ -4,16 +4,30 @@
 
 
 #
+# -------------- 2016-01-27 ----------------------------------------------------
+#
+Add doxygen support -> i want a functioncall chart
+
+Add DEBUG tag -> PRINT_LOCATION should only be used if(DEBUG)
+
+Read value of textfield_entry which should represent some command
+to control the sdk and more
+
+
+#
 # -------------- 2016-01-21 ----------------------------------------------------
 #
-all -> implement config handling:
+All -> implement config handling:
     2016-01-21:
-    const char *url = "https://github.com/tjohann/a20_sdk.git";
-    const char *path = "/tmp/a20_sdk";
+    const char *url = "https://github.com/tjohann/a20_sdk.git";[done, 2016-01-26]
+    const char *path = "/tmp/a20_sdk";                         [done, 2016-01-26]
 
-a20_sdk_builder.c/clone_sdk_repo -> make aync thread of it (gui must be responsive)
+a20_sdk_builder.c/clone_sdk_repo
+        -> make aync thread of it (gui must be responsive)     [done, 2016-01-24]
+
 
 #
 # -------------- 2016-01-19 ----------------------------------------------------
 #
-gui.c/on_delete_event -> implement 'are you sure you want to quit?' dialog  [done, 2016-01-20]
+gui.c/on_delete_event -> implement 'are you sure you
+                                    want to quit?' dialog       [done, 2016-01-20]

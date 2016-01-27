@@ -26,7 +26,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
 # ------
 
 # Checks for programs.
-PKG_PROG_PKG_CONFIG 
+PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 PKG_CHECK_MODULES([LIBGTK], [gtk+-2.0])

@@ -18,13 +18,12 @@
 
 */
 
-#include "libservice.h"
+#include "common.h"
 
 
-int
-init_network(void)
+
+void
+download_toolchain()
 {
-	fprintf(stdout, _("In function %s@%d \n"), __FUNCTION__, __LINE__);
-
-	return 12345;
+	PRINT_LOCATION();
 }

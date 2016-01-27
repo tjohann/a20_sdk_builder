@@ -1,4 +1,4 @@
-# Makefile.am 
+# Makefile.am
 
 SUBDIRS = po lib pixmaps src
 
