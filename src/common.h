@@ -78,6 +78,28 @@ typedef enum progressbar_types {
 			__FILE__);					\
 	}
 
+
+#define GIT_ERROR_HANDLING() {					\
+		const git_error *err = giterr_last();		\
+								\
+		if (err) {						\
+			fprintf(stderr,					\
+				"ERROR %d: %s\n",			\
+				err->klass,				\
+				err->message);				\
+			write_to_textfield(err->message, ERROR_MSG);	\
+			write_to_textfield("\n", NORMAL_MSG);		\
+		} else {						\
+			fprintf(stderr,					\
+				"ERROR %d: no detailed info\n",		\
+				error);					\
+			write_to_textfield("Unclassified error occured\n", \
+					   ERROR_MSG);			\
+		}							\
+		goto out;						\
+	}
+
+
 /*
  * gui.c
  * =====
@@ -134,5 +156,31 @@ update_sdk_repo(void *args);
 void *
 download_toolchain(void *args);
 
+
+/*
+ * test.c
+ * ==========
+ */
+
+void *
+test_sdk(void *args);
+
+
+/*
+ * config.c
+ * ==========
+ */
+
+void *
+config_sdk(void *args);
+
+
+/*
+ * help.c
+ * ==========
+ */
+
+void *
+help(void *args);
 
 #endif

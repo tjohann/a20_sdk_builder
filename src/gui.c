@@ -132,6 +132,17 @@ set_progressbar_value(int statusbar_percent, char *statusbar_percent_string)
 	gtk_progress_set_value(GTK_PROGRESS(progressbar), statusbar_percent);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar),
 				  statusbar_percent_string);
+
+	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
+
+	if (statusbar_percent == 100)
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar),
+					       1.0);
+
+	if (statusbar_percent == 0)
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar),
+					       0.0);
+
 	gdk_threads_leave();
 }
 
@@ -250,6 +261,9 @@ test_button(GtkWidget *widget, gpointer data)
 
 	(void) widget;
 	(void) data;
+
+	if (!g_thread_create(&test_sdk, NULL, FALSE, NULL) != 0)
+		fprintf(stderr, _("Can't create the thread"));
 }
 
 
@@ -263,6 +277,9 @@ show_help(GtkWidget *widget, gpointer data)
 
 	(void) widget;
 	(void) data;
+
+	if (!g_thread_create(&help, NULL, FALSE, NULL) != 0)
+		fprintf(stderr, _("Can't create the thread"));
 }
 
 
@@ -276,6 +293,9 @@ new_config(GtkWidget *widget, gpointer data)
 
 	(void) widget;
 	(void) data;
+
+	if (!g_thread_create(&config_sdk, NULL, FALSE, NULL) != 0)
+		fprintf(stderr, _("Can't create the thread"));
 }
 
 
@@ -548,8 +568,6 @@ write_to_textfield(char *message, message_types_t type)
 
 	GtkTextIter iter;
 
-	gtk_text_buffer_get_iter_at_offset(textfield_buffer, &iter, 0);
-
 	/*
 	  Some example on howto use the textfield:
 
@@ -566,37 +584,46 @@ write_to_textfield(char *message, message_types_t type)
 						   "bold", "italic" ,"red", NULL);
 	*/
 
-	gdk_threads_enter();
 	switch(type) {
 	case NORMAL_MSG:
+		gdk_threads_enter();
+		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+		gdk_threads_leave();
 		break;
 	case WARNING_MSG:
+		gdk_threads_enter();
+		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
 							 &iter,
 							 "WARNING: ", -1,
 							 "bold", NULL);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+		gdk_threads_leave();
 		break;
 	case ERROR_MSG:
+		gdk_threads_enter();
+		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
 							 &iter,
 							 "ERROR: ", -1,
 							 "red", "bold", NULL);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+		gdk_threads_leave();
 		break;
 	case INFO_MSG:
+		gdk_threads_enter();
+		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
 							 &iter,
 							 "INFO: ", -1,
 							 "italic", NULL);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+		gdk_threads_leave();
 		break;
 	default:
 		fprintf(stderr,_("ERROR: Message type not supported\n"));
 	}
-
-	gdk_threads_leave();
 }
 
 void

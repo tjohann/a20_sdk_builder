@@ -30,3 +30,7 @@ libgit2
 -------
 https://libgit2.github.com/libgit2/#HEAD
 https://github.com/libgit2/libgit2/tree/development/examples/network
+https://libgit2.github.com/docs/
+https://libgit2.github.com/docs/guides/101-samples/
+https://libgit2.github.com/docs/guides/authentication/
+https://libgit2.github.com/libgit2/ex/HEAD/network/fetch.html#git_remote_create_anonymous-4

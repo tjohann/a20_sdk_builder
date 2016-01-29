@@ -2,7 +2,7 @@
 
 bin_PROGRAMS = a20_sdk_builder
 
-a20_sdk_builder_SOURCES = main.c gui.c clone.c update.c download.c common.h gettext.h
+a20_sdk_builder_SOURCES = main.c gui.c config.c clone.c update.c download.c test.c common.h help.c gettext.h
 
 a20_sdk_builder_CFLAGS = $(LIBGTK_CFLAGS) $(LIBCONFIG_CFLAGS) $(LIBGIT2_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../lib
 a20_sdk_builder_LDADD = $(LIBGTK_LIBS) $(LIBCONFIG_LIBS) $(LIBGIT2_LIBS) $(LIBINTL) ../lib/libservice.a

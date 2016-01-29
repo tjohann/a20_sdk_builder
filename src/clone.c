@@ -26,7 +26,7 @@ sideband_progress(const char *str, int len, void *payload)
 {
 	(void) payload; // not used
 
-	fprintf(stdout, "Remote: %s len: %d\n", str, len);
+	fprintf(stdout, "Remote: %.*s \n", len, str);
 
 	return 0;
 }
@@ -125,25 +125,7 @@ clone_sdk_repo(void *args)
 	 */
 	int error = git_clone(&repo, url, path, &clone_opts);
 	if (error != 0) {
-		const git_error *err = giterr_last();
-
-		if (err) {
-			fprintf(stderr,
-				"ERROR %d: %s\n",
-				err->klass,
-				err->message);
-			write_to_textfield("\n", NORMAL_MSG);
-			write_to_textfield(err->message, ERROR_MSG);
-		} else {
-			fprintf(stderr,
-				"ERROR %d: no detailed info\n",
-				error);
-			write_to_textfield("Unclassified error occured\n",
-					   ERROR_MSG);
-		}
-
-		set_progressbar_value(0, "0%");
-		goto out;
+		GIT_ERROR_HANDLING();
 	}
 
 out:
