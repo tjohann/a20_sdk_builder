@@ -181,6 +181,10 @@ create_progress_bar_window(unsigned char progressbar_type)
 		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Download progress"));
 		g_print(_("Progressbar_type == DOWNLOAD_BAR\n"));
 		break;
+	case UPDATE_BAR:
+		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Download progress"));
+		g_print(_("Progressbar_type == DOWNLOAD_BAR\n"));
+		break;
 	default:
 		return -1;
 	}

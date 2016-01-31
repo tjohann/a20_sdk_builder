@@ -64,7 +64,8 @@ typedef enum message_types {
 
 typedef enum progressbar_types {
 		CLONE_BAR    = 0x00,
-		DOWNLOAD_BAR = 0x01
+		DOWNLOAD_BAR = 0x01,
+		UPDATE_BAR   = 0x02
 } progressbar_types_t;
 
 
@@ -147,10 +148,8 @@ int
 fetch_progress(const git_transfer_progress *stats, void *payload);
 
 int
-transfer_progress(const git_transfer_progress *stats, void *payload);
-
-int
 sideband_progress(const char *str, int len, void *payload);
+
 
 /*
  * update.c

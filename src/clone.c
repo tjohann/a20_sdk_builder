@@ -64,14 +64,14 @@ clone_sdk_repo(void *args)
 
 	(void) args; // not used
 
-	if (create_progress_bar_window(CLONE_BAR) != 0)
-		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
-
 	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 	checkout_opts.progress_cb = checkout_progress;
 	clone_opts.checkout_opts = checkout_opts;
 	clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
 	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
+
+	if (create_progress_bar_window(CLONE_BAR) != 0)
+		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
 	/*
 	 * I suppose that the clone proccess should finish; so i wont kill

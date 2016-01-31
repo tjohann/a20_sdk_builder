@@ -88,7 +88,10 @@ update_sdk_repo(void *args)
 
 	fetch_opts.callbacks.update_tips = &update_tips;
 	fetch_opts.callbacks.sideband_progress = sideband_progress;
-	fetch_opts.callbacks.transfer_progress = transfer_progress;
+	fetch_opts.callbacks.transfer_progress = fetch_progress;
+
+	if (create_progress_bar_window(UPDATE_BAR) != 0)
+		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
 	error = git_remote_fetch(remote, NULL, &fetch_opts, "fetch");
 	if (error != 0) {
@@ -115,6 +118,8 @@ out:
 
 	if (repo)
 		git_repository_free(repo);
+
+	gtk_widget_set_sensitive(progressbar_button, TRUE);
 
 	return NULL;
 }

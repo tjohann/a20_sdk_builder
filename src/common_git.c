@@ -47,10 +47,16 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 
 	(void) payload; // not used
 
-	fprintf(stdout,	"Fetched: %3d%% (%d/%d) %d kB \n",
-		fetch_percent,
-		stats->received_objects, stats->total_objects,
-		receive_kbyte);
+	if (stats->received_objects == stats->total_objects) {
+		fprintf(stdout,
+			"Resolving deltas %d/%d\r",
+			stats->indexed_deltas, stats->total_deltas);
+	} else if (stats->total_objects > 0) {
+		fprintf(stdout,	"Fetched: %3d%% (%d/%d) %d kB \n",
+			fetch_percent,
+			stats->received_objects, stats->total_objects,
+			receive_kbyte);
+	}
 
 	/*
 	 * I suppose that if the window is destroyed for whatever reason,
@@ -62,25 +68,6 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	else
 		fprintf(stderr,
 			_("progressbar == NULL -> progressbar_window destroyed?\n"));
-
-	return 0;
-}
-
-
-int
-transfer_progress(const git_transfer_progress *stats, void *payload)
-{
-	if (stats->received_objects == stats->total_objects) {
-		fprintf(stdout,
-			"Resolving deltas %d/%d\r",
-			stats->indexed_deltas, stats->total_deltas);
-	} else if (stats->total_objects > 0) {
-		fprintf(stdout,
-			"Fetched: %d/%d objects (%d) with %zu bytes\r",
-			stats->received_objects, stats->total_objects,
-			stats->indexed_objects,
-			stats->received_bytes);
-	}
 
 	return 0;
 }
