@@ -139,6 +139,20 @@ clone_sdk_repo(void *args);
 
 
 /*
+ * common_git.c
+ * ==========
+ */
+
+int
+fetch_progress(const git_transfer_progress *stats, void *payload);
+
+int
+transfer_progress(const git_transfer_progress *stats, void *payload);
+
+int
+sideband_progress(const char *str, int len, void *payload);
+
+/*
  * update.c
  * ========
  */
@@ -159,7 +173,7 @@ download_toolchain(void *args);
 
 /*
  * test.c
- * ==========
+ * ======
  */
 
 void *
@@ -168,7 +182,7 @@ test_sdk(void *args);
 
 /*
  * config.c
- * ==========
+ * ========
  */
 
 void *
@@ -177,7 +191,7 @@ config_sdk(void *args);
 
 /*
  * help.c
- * ==========
+ * ======
  */
 
 void *

@@ -22,17 +22,6 @@
 
 
 static int
-sideband_progress(const char *str, int len, void *payload)
-{
-	(void) payload; // not used
-
-	fprintf(stdout, "Remote: %.*s \n", len, str);
-
-	return 0;
-}
-
-
-static int
 update_tips(const char *refname,
 	    const git_oid *first,
 	    const git_oid *second,
@@ -70,26 +59,6 @@ update_tips(const char *refname,
 
 	return 0;
 }
-
-
-static int
-transfer_progress(const git_transfer_progress *stats, void *payload)
-{
-	if (stats->received_objects == stats->total_objects) {
-		fprintf(stdout,
-			"Resolving deltas %d/%d\r",
-			stats->indexed_deltas, stats->total_deltas);
-	} else if (stats->total_objects > 0) {
-		fprintf(stdout,
-			"Fetched: %d/%d objects (%d) with %zu bytes\r",
-			stats->received_objects, stats->total_objects,
-			stats->indexed_objects,
-			stats->received_bytes);
-	}
-
-	return 0;
-}
-
 
 void *
 update_sdk_repo(void *args)

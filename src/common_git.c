@@ -21,12 +21,25 @@
 #include "common.h"
 
 
-static void
-checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
+int
+sideband_progress(const char *str, int len, void *payload)
 {
-	int checkout_percent = (100 * cur) / tot;
+	(void) payload; // not used
 
-	int statusbar_percent = (checkout_percent / 6 ) + 84;
+	fprintf(stdout, "Remote: %.*s \n", len, str);
+
+	return 0;
+}
+
+
+int
+fetch_progress(const git_transfer_progress *stats, void *payload)
+{
+	int fetch_percent = (100 * stats->received_objects)/stats->total_objects;
+	//int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
+	int receive_kbyte = stats->received_bytes / 1024;
+
+	int statusbar_percent = (fetch_percent * 5) / 6;
 	char statusbar_percent_string[5];
 
 	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
@@ -34,10 +47,10 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 
 	(void) payload; // not used
 
-	fprintf(stdout, "Checkout: %3d%% (%d/%d) %s \n",
-		checkout_percent,
-		(int) tot, (int) cur,
-		path);
+	fprintf(stdout,	"Fetched: %3d%% (%d/%d) %d kB \n",
+		fetch_percent,
+		stats->received_objects, stats->total_objects,
+		receive_kbyte);
 
 	/*
 	 * I suppose that if the window is destroyed for whatever reason,
@@ -49,44 +62,25 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 	else
 		fprintf(stderr,
 			_("progressbar == NULL -> progressbar_window destroyed?\n"));
+
+	return 0;
 }
 
 
-void *
-clone_sdk_repo(void *args)
+int
+transfer_progress(const git_transfer_progress *stats, void *payload)
 {
-	git_repository *repo = NULL;
-	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
-	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-
-	const char *url = REPO_NAME;
-	const char *path = SDK_GIT_PATH;
-
-	(void) args; // not used
-
-	if (create_progress_bar_window(CLONE_BAR) != 0)
-		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
-
-	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
-	checkout_opts.progress_cb = checkout_progress;
-	clone_opts.checkout_opts = checkout_opts;
-	clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
-	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
-
-	/*
-	 * I suppose that the clone proccess should finish; so i wont kill
-	 * the thread if the progessbar_window is destroyed.
-	 */
-	int error = git_clone(&repo, url, path, &clone_opts);
-	if (error != 0) {
-		GIT_ERROR_HANDLING();
+	if (stats->received_objects == stats->total_objects) {
+		fprintf(stdout,
+			"Resolving deltas %d/%d\r",
+			stats->indexed_deltas, stats->total_deltas);
+	} else if (stats->total_objects > 0) {
+		fprintf(stdout,
+			"Fetched: %d/%d objects (%d) with %zu bytes\r",
+			stats->received_objects, stats->total_objects,
+			stats->indexed_objects,
+			stats->received_bytes);
 	}
 
-out:
-	if (repo)
-		git_repository_free(repo);
-
-	gtk_widget_set_sensitive(progressbar_button, TRUE);
-
-	return NULL;
+	return 0;
 }
