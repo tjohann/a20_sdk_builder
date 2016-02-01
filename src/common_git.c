@@ -24,9 +24,16 @@
 int
 sideband_progress(const char *str, int len, void *payload)
 {
+	char textfield_update_string[255];
+	memset(textfield_update_string, 0, sizeof(textfield_update_string));
+
 	(void) payload; // not used
 
-	fprintf(stdout, "Remote: %.*s \n", len, str);
+	snprintf(textfield_update_string, sizeof(textfield_update_string),
+		 _("Remote: %.*s"), len, str);
+
+	write_to_textfield(_(textfield_update_string), INFO_MSG);
+	fprintf(stdout, textfield_update_string);
 
 	return 0;
 }
@@ -35,7 +42,7 @@ sideband_progress(const char *str, int len, void *payload)
 int
 fetch_progress(const git_transfer_progress *stats, void *payload)
 {
-	int fetch_percent = (100 * stats->received_objects)/stats->total_objects;
+	int fetch_percent = (100 * stats->received_objects)/ stats->total_objects;
 	//int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
 	int receive_kbyte = stats->received_bytes / 1024;
 
@@ -70,4 +77,27 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 			_("progressbar == NULL -> progressbar_window destroyed?\n"));
 
 	return 0;
+}
+
+
+void
+check_sdk_git_path()
+{
+	PRINT_LOCATION();
+
+	git_repository *repo = NULL;
+
+	const char *path = SDK_GIT_PATH;
+
+	int error = git_repository_open_ext(&repo, path, 0, NULL);
+	if (error == 0) {
+		lock_button(CLONE_B);
+		unlock_button(UPDATE_B);
+	} else {
+		lock_button(UPDATE_B);
+		unlock_button(CLONE_B);
+	}
+
+	if (repo)
+		git_repository_free(repo);
 }

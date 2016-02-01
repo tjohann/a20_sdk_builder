@@ -30,6 +30,9 @@ update_tips(const char *refname,
 	char first_oid_s[GIT_OID_HEXSZ+1];
 	char second_oid_s[GIT_OID_HEXSZ+1];
 
+	char textfield_update_string[255];
+	memset(textfield_update_string, 0, sizeof(textfield_update_string));
+
 	(void) payload; // not used
 
 	memset(first_oid_s, 0, GIT_OID_HEXSZ+1);
@@ -48,13 +51,19 @@ update_tips(const char *refname,
 	 */
 
 	if (git_oid_iszero(first)) {
-		fprintf(stdout, "[new] %.20s %s\n", second_oid_s, refname);
+		snprintf(textfield_update_string, sizeof(textfield_update_string),
+			 _("[new] %.20s %s\n"), second_oid_s, refname);
+
+		write_to_textfield(_(textfield_update_string), INFO_MSG);
+		fprintf(stdout, textfield_update_string);
 	} else {
 		git_oid_fmt(first_oid_s, first);
 		first_oid_s[GIT_OID_HEXSZ] = '\0';
-		fprintf(stdout,
-			"[updated] %.10s..%.10s %s\n",
-			first_oid_s, second_oid_s, refname);
+
+		snprintf(textfield_update_string, sizeof(textfield_update_string),
+			 _("[updated] %.10s..%.10s %s\n"),
+			 first_oid_s, second_oid_s, refname);
+		fprintf(stdout, textfield_update_string);
 	}
 
 	return 0;
@@ -71,6 +80,9 @@ update_sdk_repo(void *args)
 
 	const char *url = REPO_NAME;
 	const char *path = SDK_GIT_PATH;
+
+	char textfield_final_string[255];
+	memset(textfield_final_string, 0, sizeof(textfield_final_string));
 
 	(void) args; // not used
 
@@ -90,6 +102,11 @@ update_sdk_repo(void *args)
 	fetch_opts.callbacks.sideband_progress = sideband_progress;
 	fetch_opts.callbacks.transfer_progress = fetch_progress;
 
+	/*
+	 * only one thread could be active
+	 */
+	enter_repo_thread();
+
 	if (create_progress_bar_window(UPDATE_BAR) != 0)
 		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
@@ -99,23 +116,38 @@ update_sdk_repo(void *args)
 	}
 
 	stats = git_remote_stats(remote);
+	int receive_kbyte = stats->received_bytes / 1024;
 	if (stats->local_objects > 0) {
-		fprintf(stdout,
-			"Fetched: %d/%d objects with %zu bytes (used %d local objects)\n",
-			stats->indexed_objects, stats->total_objects,
-			stats->received_bytes,
-			stats->local_objects);
-	} else{
-		fprintf(stdout,
-			"Fetched: %d/%d objects with %zu bytes\n",
-			stats->indexed_objects, stats->total_objects,
-			stats->received_bytes);
+		snprintf(textfield_final_string,
+			 sizeof(textfield_final_string),
+			 _("Fetched: (%d/%d) %d kB (used %d local objects)\n"),
+			 stats->indexed_objects, stats->total_objects,
+			 receive_kbyte,
+			 stats->local_objects);
+
+		write_to_textfield(textfield_final_string, INFO_MSG);
+		fprintf(stdout, textfield_final_string);
+	} else {
+		snprintf(textfield_final_string,
+			 sizeof(textfield_final_string),
+			 _("Fetched: (%d/%d) %d kB \n"),
+			 stats->indexed_objects, stats->total_objects,
+			 receive_kbyte);
+
+		write_to_textfield(textfield_final_string, INFO_MSG);
+		fprintf(stdout, textfield_final_string);
 	}
+
+	set_progressbar_value(100, "100%");
+
+	/*
+	 * check for correct state
+	 */
+	leave_repo_thread();
 
 out:
 	if (remote)
 		git_remote_free(remote);
-
 	if (repo)
 		git_repository_free(repo);
 

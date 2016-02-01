@@ -82,8 +82,6 @@ main(int argc, char **argv)
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
 
-
-
 	/*
 	 * init gtk stuff
 	 */
@@ -97,8 +95,15 @@ main(int argc, char **argv)
 
 	gtk_init(&argc, &argv);
 	build_main_window();
-	gtk_main();
 
+	/*
+	 * check for some defaults
+	 */
+	check_sdk_git_path();
+	check_toolchain();
+	check_test_env();
+
+	gtk_main();
 	gdk_threads_leave();
 
 	git_libgit2_shutdown();

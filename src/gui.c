@@ -84,6 +84,13 @@ GdkPixbuf *icon;
 GtkTooltips *tooltips;
 
 
+/*
+ * gui specific defines
+ * --------------------
+ */
+#define LOCK_ELEMENT 0x00
+#define UNLOCK_ELEMENT 0x01
+
 
 /*
   usage:
@@ -136,15 +143,15 @@ set_progressbar_value(int statusbar_percent, char *statusbar_percent_string)
 	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
 
 	if (statusbar_percent == 100)
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar),
-					       1.0);
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar),
+					      1.0);
 
 	if (statusbar_percent == 0)
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar),
-					       0.0);
-
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar),
+					      0.0);
 	gdk_threads_leave();
 }
+
 
 int
 create_progress_bar_window(unsigned char progressbar_type)
@@ -182,8 +189,8 @@ create_progress_bar_window(unsigned char progressbar_type)
 		g_print(_("Progressbar_type == DOWNLOAD_BAR\n"));
 		break;
 	case UPDATE_BAR:
-		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Download progress"));
-		g_print(_("Progressbar_type == DOWNLOAD_BAR\n"));
+		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Update/Fetch progress"));
+		g_print(_("Progressbar_type == UPDATE_BAR\n"));
 		break;
 	default:
 		return -1;
@@ -216,6 +223,29 @@ create_progress_bar_window(unsigned char progressbar_type)
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), "0%");
 
 	return 0;
+}
+
+
+void
+enter_repo_thread()
+{
+	gdk_threads_enter();
+	lock_button(CLONE_B);
+	lock_button(UPDATE_B);
+	lock_button(DOWNLOAD_B);
+	lock_button(TEST_B);
+	gdk_threads_leave();
+}
+
+
+void
+leave_repo_thread()
+{
+	gdk_threads_enter();
+	check_sdk_git_path();
+	check_toolchain();
+	check_test_env();
+	gdk_threads_leave();
 }
 
 
@@ -333,6 +363,118 @@ save_as_menu(GtkWidget *widget, gpointer data)
 }
 
 
+/*
+ * button and menu
+ */
+static void
+handle_gui_element(gui_element_t button, unsigned char what_to_do)
+{
+	PRINT_LOCATION();
+
+	switch(button)
+	{
+	case CLONE_B:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(clone_b, TRUE);
+		else
+			gtk_widget_set_sensitive(clone_b, FALSE);
+		break;
+	case DOWNLOAD_B:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(download_b, TRUE);
+		else
+			gtk_widget_set_sensitive(download_b, FALSE);
+		break;
+	case UPDATE_B:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(update_b, TRUE);
+		else
+			gtk_widget_set_sensitive(update_b, FALSE);
+		break;
+	case TEST_B:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(test_b, TRUE);
+		else
+			gtk_widget_set_sensitive(test_b, FALSE);
+		break;
+	case HELP_B:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(help_b, TRUE);
+		else
+			gtk_widget_set_sensitive(help_b, FALSE);
+		break;
+	case OPEN_B:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(open_b, TRUE);
+		else
+			gtk_widget_set_sensitive(open_b, FALSE);
+		break;
+	default:
+		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
+	}
+}
+
+
+/*
+ * button and menu
+ */
+int
+get_state_of_gui_element(gui_element_t button)
+{
+	PRINT_LOCATION();
+
+	switch(button)
+	{
+	case CLONE_B:
+		return gtk_widget_get_sensitive(clone_b);
+		break;
+	case DOWNLOAD_B:
+		return gtk_widget_get_sensitive(download_b);
+		break;
+	case UPDATE_B:
+		return gtk_widget_get_sensitive(update_b);
+		break;
+	case TEST_B:
+		return gtk_widget_get_sensitive(test_b);
+		break;
+	case HELP_B:
+		return gtk_widget_get_sensitive(help_b);
+		break;
+	case OPEN_B:
+		return gtk_widget_get_sensitive(open_b);
+		break;
+	default:
+		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
+	}
+
+	return -1;
+}
+
+
+/*
+ * button and menu
+ */
+void
+lock_button(gui_element_t button)
+{
+	PRINT_LOCATION();
+
+	handle_gui_element(button, LOCK_ELEMENT);
+}
+
+
+/*
+ * button and menu
+ */
+void
+unlock_button(gui_element_t button)
+{
+	PRINT_LOCATION();
+
+	handle_gui_element(button, UNLOCK_ELEMENT);
+}
+
+
 static gboolean
 on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
@@ -355,7 +497,7 @@ on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 					_("Are you sure to quit (without saving)?"));
 	gtk_window_set_title(GTK_WINDOW(dialog), "Question");
 
-	gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+	gint result = gtk_dialog_run(GTK_DIALOG (dialog));
 	gtk_widget_destroy(dialog);
 
 	if (result == GTK_RESPONSE_YES)
@@ -600,7 +742,7 @@ write_to_textfield(char *message, message_types_t type)
 		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
 							 &iter,
-							 "WARNING: ", -1,
+							 "--- WARNING ---\n", -1,
 							 "bold", NULL);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
 		gdk_threads_leave();
@@ -610,7 +752,7 @@ write_to_textfield(char *message, message_types_t type)
 		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
 							 &iter,
-							 "ERROR: ", -1,
+							 "--- ERROR ---\n", -1,
 							 "red", "bold", NULL);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
 		gdk_threads_leave();
@@ -620,7 +762,7 @@ write_to_textfield(char *message, message_types_t type)
 		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
 							 &iter,
-							 "INFO: ", -1,
+							 "--- INFO ---\n", -1,
 							 "italic", NULL);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
 		gdk_threads_leave();

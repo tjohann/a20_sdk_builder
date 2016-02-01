@@ -70,6 +70,11 @@ clone_sdk_repo(void *args)
 	clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
 	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
 
+	/*
+	 * only one thread could be active
+	 */
+	enter_repo_thread();
+
 	if (create_progress_bar_window(CLONE_BAR) != 0)
 		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
@@ -81,6 +86,11 @@ clone_sdk_repo(void *args)
 	if (error != 0) {
 		GIT_ERROR_HANDLING();
 	}
+
+	/*
+	 * check for correct state
+	 */
+	leave_repo_thread();
 
 out:
 	if (repo)

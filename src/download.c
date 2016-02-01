@@ -26,7 +26,37 @@ download_toolchain(void *args)
 {
 	PRINT_LOCATION();
 
-	write_to_textfield(_("--INFO_MSG--: in download_toolchain\n"), INFO_MSG);
+	/*
+	 * only one thread could be active
+	 */
+	enter_repo_thread();
+
+	write_to_textfield(_("--INFO_MSG--: in download_toolchain\n"),
+			   INFO_MSG);
+	sleep(5);
+
+	/*
+	 * check for correct state
+	 */
+	leave_repo_thread();
 
 	return NULL;
+}
+
+void
+check_toolchain()
+{
+	PRINT_LOCATION();
+
+	const char *toolchain_path = TOOLCHAIN_PATH;
+        const char *repo_path = SDK_GIT_PATH;
+
+	/*
+	 * check checksum.sha256 and tgz are in sync
+	 */
+	int state = 1;
+	if (state == 0)
+		lock_button(DOWNLOAD_B);
+	else
+		unlock_button(DOWNLOAD_B);
 }

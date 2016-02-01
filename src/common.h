@@ -41,6 +41,7 @@ GtkWidget *progressbar_button;
  * ----------------
  */
 #define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
+#define TOOLCHAIN_PATH "/opt/a20_sdk"
 #define SDK_GIT_PATH "/var/lib/a20_sdk"
 
 
@@ -55,18 +56,28 @@ GtkWidget *progressbar_button;
  * -------------
  */
 typedef enum message_types {
-		NORMAL_MSG  = 0x00,
-		WARNING_MSG = 0x01,
-		ERROR_MSG   = 0x02,
-		INFO_MSG    = 0x03
+		NORMAL_MSG = 0x00,
+		WARNING_MSG,
+		ERROR_MSG,
+		INFO_MSG
 } message_types_t;
 
 
 typedef enum progressbar_types {
-		CLONE_BAR    = 0x00,
-		DOWNLOAD_BAR = 0x01,
-		UPDATE_BAR   = 0x02
+		CLONE_BAR = 0x01,
+		DOWNLOAD_BAR,
+		UPDATE_BAR
 } progressbar_types_t;
+
+
+typedef enum gui_element {
+		CLONE_B = 0x01,
+		DOWNLOAD_B,
+		UPDATE_B,
+		TEST_B,
+		HELP_B,
+		OPEN_B
+} gui_element_t;
 
 
 /*
@@ -80,21 +91,21 @@ typedef enum progressbar_types {
 	}
 
 
-#define GIT_ERROR_HANDLING() {					\
-		const git_error *err = giterr_last();		\
-								\
+#define GIT_ERROR_HANDLING() {						\
+		const git_error *err = giterr_last();			\
+									\
 		if (err) {						\
 			fprintf(stderr,					\
-				"ERROR %d: %s\n",			\
+				_("ERROR %d: %s\n"),			\
 				err->klass,				\
 				err->message);				\
 			write_to_textfield(err->message, ERROR_MSG);	\
 			write_to_textfield("\n", NORMAL_MSG);		\
 		} else {						\
 			fprintf(stderr,					\
-				"ERROR %d: no detailed info\n",		\
+				_("ERROR %d: no detailed info\n"),	\
 				error);					\
-			write_to_textfield("Unclassified error occured\n", \
+			write_to_textfield(_("Unclassified error occured\n"), \
 					   ERROR_MSG);			\
 		}							\
 		goto out;						\
@@ -112,13 +123,29 @@ build_main_window();
 void
 write_to_textfield(char *message, message_types_t type);
 
+int
+create_progress_bar_window(unsigned char progressbar_type);
+
 void
 set_progressbar_value(int statusbar_percent, char *statusbar_percent_string);
 
 GdkPixbuf *
 create_pixbuf(const gchar *filename);
 
+void
+lock_button(gui_element_t button);
 
+void
+unlock_button(gui_element_t button);
+
+int
+get_state_of_gui_element(gui_element_t button);
+
+void
+enter_repo_thread();
+
+void
+leave_repo_thread();
 
 /*
  * main.c
@@ -150,6 +177,9 @@ fetch_progress(const git_transfer_progress *stats, void *payload);
 int
 sideband_progress(const char *str, int len, void *payload);
 
+void
+check_sdk_git_path();
+
 
 /*
  * update.c
@@ -169,6 +199,8 @@ update_sdk_repo(void *args);
 void *
 download_toolchain(void *args);
 
+void
+check_toolchain();
 
 /*
  * test.c
@@ -177,6 +209,9 @@ download_toolchain(void *args);
 
 void *
 test_sdk(void *args);
+
+void
+check_test_env();
 
 
 /*
