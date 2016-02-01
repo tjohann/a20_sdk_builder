@@ -55,8 +55,11 @@ check_toolchain()
 	 * check checksum.sha256 and tgz are in sync
 	 */
 	int state = 1;
-	if (state == 0)
+	if (state == 0) {
 		lock_button(DOWNLOAD_B);
-	else
+		lock_button(DOWNLOAD_M);
+	} else {
 		unlock_button(DOWNLOAD_B);
+		unlock_button(DOWNLOAD_M);
+	}
 }

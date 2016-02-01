@@ -72,11 +72,15 @@ typedef enum progressbar_types {
 
 typedef enum gui_element {
 		CLONE_B = 0x01,
+		CLONE_M,
 		DOWNLOAD_B,
+		DOWNLOAD_M,
 		UPDATE_B,
+		UPDATE_M,
 		TEST_B,
 		HELP_B,
-		OPEN_B
+		OPEN_B,
+		OPEN_M
 } gui_element_t;
 
 

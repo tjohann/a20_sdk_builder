@@ -54,6 +54,13 @@ GtkWidget *new_m;
 GtkWidget *open_m;
 GtkWidget *save_m;
 GtkWidget *save_as_m;
+
+GtkWidget *sdk_menu;
+GtkWidget *sdk;
+GtkWidget *clone_m;
+GtkWidget *update_m;
+GtkWidget *download_m;
+
 GtkAccelGroup *accel_group;
 
 /*
@@ -231,8 +238,11 @@ enter_repo_thread()
 {
 	gdk_threads_enter();
 	lock_button(CLONE_B);
+	lock_button(CLONE_M);
 	lock_button(UPDATE_B);
+	lock_button(UPDATE_M);
 	lock_button(DOWNLOAD_B);
+	lock_button(DOWNLOAD_M);
 	lock_button(TEST_B);
 	gdk_threads_leave();
 }
@@ -374,22 +384,34 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 	switch(button)
 	{
 	case CLONE_B:
-		if (what_to_do == UNLOCK_ELEMENT)
+	case CLONE_M:
+		if (what_to_do == UNLOCK_ELEMENT) {
 			gtk_widget_set_sensitive(clone_b, TRUE);
-		else
+			gtk_widget_set_sensitive(clone_m, TRUE);
+		} else {
 			gtk_widget_set_sensitive(clone_b, FALSE);
+			gtk_widget_set_sensitive(clone_m, FALSE);
+		}
 		break;
 	case DOWNLOAD_B:
-		if (what_to_do == UNLOCK_ELEMENT)
+	case DOWNLOAD_M:
+		if (what_to_do == UNLOCK_ELEMENT) {
 			gtk_widget_set_sensitive(download_b, TRUE);
-		else
+			gtk_widget_set_sensitive(download_m, TRUE);
+		} else {
 			gtk_widget_set_sensitive(download_b, FALSE);
+			gtk_widget_set_sensitive(download_m, FALSE);
+		}
 		break;
 	case UPDATE_B:
-		if (what_to_do == UNLOCK_ELEMENT)
+	case UPDATE_M:
+		if (what_to_do == UNLOCK_ELEMENT) {
 			gtk_widget_set_sensitive(update_b, TRUE);
-		else
+			gtk_widget_set_sensitive(update_m, TRUE);
+		} else {
 			gtk_widget_set_sensitive(update_b, FALSE);
+			gtk_widget_set_sensitive(update_m, FALSE);
+		}
 		break;
 	case TEST_B:
 		if (what_to_do == UNLOCK_ELEMENT)
@@ -404,10 +426,14 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 			gtk_widget_set_sensitive(help_b, FALSE);
 		break;
 	case OPEN_B:
-		if (what_to_do == UNLOCK_ELEMENT)
+	case OPEN_M:
+		if (what_to_do == UNLOCK_ELEMENT) {
 			gtk_widget_set_sensitive(open_b, TRUE);
-		else
+			gtk_widget_set_sensitive(new_m, TRUE);
+		} else {
 			gtk_widget_set_sensitive(open_b, FALSE);
+			gtk_widget_set_sensitive(new_m, FALSE);
+		}
 		break;
 	default:
 		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
@@ -428,11 +454,20 @@ get_state_of_gui_element(gui_element_t button)
 	case CLONE_B:
 		return gtk_widget_get_sensitive(clone_b);
 		break;
+	case CLONE_M:
+		return gtk_widget_get_sensitive(clone_m);
+		break;
 	case DOWNLOAD_B:
 		return gtk_widget_get_sensitive(download_b);
 		break;
+	case DOWNLOAD_M:
+		return gtk_widget_get_sensitive(download_m);
+		break;
 	case UPDATE_B:
 		return gtk_widget_get_sensitive(update_b);
+		break;
+	case UPDATE_M:
+		return gtk_widget_get_sensitive(update_m);
 		break;
 	case TEST_B:
 		return gtk_widget_get_sensitive(test_b);
@@ -654,8 +689,43 @@ build_menu_bar()
 	// finish FILE-MENU
 	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
 
-	// ---------------------------------------------------------------------
 
+	// ---------------------- build SDK-MENU ------------------------------
+	sdk_menu = gtk_menu_new();
+
+	sdk = gtk_menu_item_new_with_mnemonic("_handle SDK");
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sdk), sdk_menu);
+
+	// CLONE menuentry
+	clone_m = gtk_menu_item_new_with_label(_("Clone SDK"));
+	gtk_tooltips_set_tip(tooltips,
+			     clone_m,
+			     _("Clone a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
+			     NULL);
+	g_signal_connect(clone_m, "activate", G_CALLBACK(clone_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), clone_m);
+
+	// UPDATE menuentry
+	update_m = gtk_menu_item_new_with_label(_("Update Repo"));
+	gtk_tooltips_set_tip(tooltips,
+			     update_m,
+			     _("Update a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
+			     NULL);
+	g_signal_connect(update_m, "activate", G_CALLBACK(update_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), update_m);
+
+	// DOWNLOAD menuentry
+	download_m = gtk_menu_item_new_with_label(_("Download toolchain"));
+	gtk_tooltips_set_tip(tooltips,
+			     download_m,
+			     _("Download toolchain binarys (http://sourceforge.net/projects/baalue-sdk/)"),
+			     NULL);
+	g_signal_connect(download_m, "activate", G_CALLBACK(download_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), download_m);
+
+
+	// finish SDK-MENU
+	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), sdk);
 }
 
 
