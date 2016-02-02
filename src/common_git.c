@@ -32,7 +32,7 @@ sideband_progress(const char *str, int len, void *payload)
 	snprintf(textfield_update_string, sizeof(textfield_update_string),
 		 _("Remote: %.*s"), len, str);
 
-	write_to_textfield(_(textfield_update_string), INFO_MSG);
+	write_to_textfield(textfield_update_string, INFO_MSG);
 	fprintf(stdout, textfield_update_string);
 
 	return 0;
@@ -46,6 +46,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	//int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
 	int receive_kbyte = stats->received_bytes / 1024;
 
+	// simple weight function add
 	int statusbar_percent = (fetch_percent * 5) / 6;
 	char statusbar_percent_string[5];
 
@@ -72,9 +73,13 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	 */
 	if (progressbar != NULL)
 		set_progressbar_value(statusbar_percent, statusbar_percent_string);
-	else
+	else {
 		fprintf(stderr,
-			_("progressbar == NULL -> progressbar_window destroyed?\n"));
+			_("ERROR: progressbar == NULL -> progressbar_window destroyed?\n"));
+		write_to_textfield(
+			_("progressbar == NULL -> progressbar_window destroyed?\n"),
+			ERROR_MSG);
+	}
 
 	return 0;
 }

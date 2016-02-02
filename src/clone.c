@@ -34,9 +34,9 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 
 	(void) payload; // not used
 
-	fprintf(stdout, "Checkout: %3d%% (%d/%d) %s \n",
+	fprintf(stdout, _("Checkout: %3d%% (%d/%d) %s \n"),
 		checkout_percent,
-		(int) tot, (int) cur,
+		(int) cur, (int) tot,
 		path);
 
 	/*
@@ -46,9 +46,13 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 	 */
 	if (progressbar != NULL)
 		set_progressbar_value(statusbar_percent, statusbar_percent_string);
-	else
+	else {
 		fprintf(stderr,
-			_("progressbar == NULL -> progressbar_window destroyed?\n"));
+			_("ERROR: progressbar == NULL -> progressbar_window destroyed?\n"));
+		write_to_textfield(
+			_("progressbar == NULL -> progressbar_window destroyed?\n"),
+			ERROR_MSG);
+	}
 }
 
 
@@ -73,7 +77,7 @@ clone_sdk_repo(void *args)
 	/*
 	 * only one thread could be active
 	 */
-	enter_repo_thread();
+	enter_sdk_thread();
 
 	if (create_progress_bar_window(CLONE_BAR) != 0)
 		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
@@ -87,12 +91,12 @@ clone_sdk_repo(void *args)
 		GIT_ERROR_HANDLING();
 	}
 
+out:
 	/*
 	 * check for correct state
 	 */
-	leave_repo_thread();
+	leave_sdk_thread();
 
-out:
 	if (repo)
 		git_repository_free(repo);
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-01-27 09:39+0100\n"
+"POT-Creation-Date: 2016-02-02 16:32+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -19,14 +19,222 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: src/a20_sdk_builder.c:76
+#: src/clone.c:37
+#, c-format
+msgid "Checkout: %3d%% (%d/%d) %s \n"
+msgstr ""
+
+#: src/clone.c:51 src/common_git.c:78 src/download.c:58
+#, c-format
+msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?\n"
+msgstr ""
+
+#: src/clone.c:53 src/common_git.c:80 src/download.c:60
+msgid "progressbar == NULL -> progressbar_window destroyed?\n"
+msgstr ""
+
+#: src/clone.c:83 src/download.c:87 src/update.c:111
+#, c-format
+msgid "ERROR: create_progress_bar_window != 0\n"
+msgstr ""
+
+#: src/common_git.c:33
+#, c-format
+msgid "Remote: %.*s"
+msgstr ""
+
+#: src/config.c:31
+msgid "--INFO_MSG--: in config_sdk\n"
+msgstr ""
+
+#: src/download.c:109
+#, c-format
+msgid "ERROR: curl_easy_init == NULL \n"
+msgstr ""
+
+#: src/download.c:110
+msgid "curl_easy_init == NULL \n"
+msgstr ""
+
+#: src/gui.c:178
+#, c-format
+msgid "ERROR: Progressbar != NULL\n"
+msgstr ""
+
+#: src/gui.c:179
+msgid "Progressbar != NULL\n"
+msgstr ""
+
+#: src/gui.c:192
+msgid "Clone progress"
+msgstr ""
+
+#: src/gui.c:193
+msgid "Progressbar_type == CLONE_BAR\n"
+msgstr ""
+
+#: src/gui.c:196
+msgid "Download progress"
+msgstr ""
+
+#: src/gui.c:197
+msgid "Progressbar_type == DOWNLOAD_BAR\n"
+msgstr ""
+
+#: src/gui.c:200
+msgid "Update/Fetch progress"
+msgstr ""
+
+#: src/gui.c:201
+msgid "Progressbar_type == UPDATE_BAR\n"
+msgstr ""
+
+#: src/gui.c:204
+#, c-format
+msgid "ERROR: unknown progressbar_type\n"
+msgstr ""
+
+#: src/gui.c:205
+msgid "Unknown progressbar_type != NULL\n"
+msgstr ""
+
+#: src/gui.c:222
+msgid "Close"
+msgstr ""
+
+#: src/gui.c:274 src/gui.c:287 src/gui.c:300 src/gui.c:313 src/gui.c:329
+#: src/gui.c:345
+#, c-format
+msgid "Can't create the thread"
+msgstr ""
+
+#: src/gui.c:442 src/gui.c:485
+msgid "Unknown GUI element\n"
+msgstr ""
+
+#: src/gui.c:535
+msgid "Are you sure to quit (without saving)?"
+msgstr ""
+
+#: src/gui.c:555
+msgid "Open Default"
+msgstr ""
+
+#: src/gui.c:559
+msgid "Load default configuration for this tool (a20_sdk_build.conf)"
+msgstr ""
+
+#: src/gui.c:563 src/gui.c:703
+msgid "Clone SDK"
+msgstr ""
+
+#: src/gui.c:567 src/gui.c:706
+msgid "Clone a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"
+msgstr ""
+
+#: src/gui.c:571 src/gui.c:712
+msgid "Update Repo"
+msgstr ""
+
+#: src/gui.c:575 src/gui.c:715
+msgid "Update a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"
+msgstr ""
+
+#: src/gui.c:579 src/gui.c:721
+msgid "Download toolchain"
+msgstr ""
+
+#: src/gui.c:583 src/gui.c:724
+msgid ""
+"Download toolchain binarys (http://sourceforge.net/projects/baalue-sdk/)"
+msgstr ""
+
+#: src/gui.c:587
+msgid "Test SDK"
+msgstr ""
+
+#: src/gui.c:591
+msgid "Run basic test/check on the sdk/toolchain"
+msgstr ""
+
+#: src/gui.c:595
+msgid "Help"
+msgstr ""
+
+#: src/gui.c:599
+msgid "Open help window"
+msgstr ""
+
+#: src/gui.c:603
+msgid "Quit"
+msgstr ""
+
+#: src/gui.c:611 src/gui.c:677
+msgid "Quit/Exit with autosave of toolconfig (a20_sdk_build.conf)"
+msgstr ""
+
+#: src/gui.c:636
+msgid "Create default toolconfig (a20_sdk_build.conf)"
+msgstr ""
+
+#: src/gui.c:645
+msgid "Open new toolconfig (a20_sdk_build.conf)"
+msgstr ""
+
+#: src/gui.c:655
+msgid "Save toolconfig (a20_sdk_build.conf)"
+msgstr ""
+
+#: src/gui.c:664
+msgid "Save toolconfig under a new name (a20_sdk_build.conf)"
+msgstr ""
+
+#: src/gui.c:844
+#, c-format
+msgid "ERROR: Message type not supported\n"
+msgstr ""
+
+#: src/help.c:31
+msgid "--INFO_MSG--: in help\n"
+msgstr ""
+
+#: src/main.c:76
 #, fuzzy, c-format
 msgid "Package name is %s\n"
 msgstr "Packet name ist %s\n"
 
-#: src/a20_sdk_builder.c:83
+#: src/main.c:86
 msgid "Init network code: done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/test.c:33
+msgid "--INFO_MSG--: in test_sdk\n"
+msgstr ""
+
+#: src/test.c:58
+#, c-format
+msgid "Something went wrong ret == -1"
+msgstr ""
+
+#: src/update.c:55
+#, c-format
+msgid "[new] %.20s %s\n"
+msgstr ""
+
+#: src/update.c:64
+#, c-format
+msgid "[updated] %.10s..%.10s %s\n"
+msgstr ""
+
+#: src/update.c:123
+#, c-format
+msgid "Fetched: (%d/%d) %d kB (used %d local objects)\n"
+msgstr ""
+
+#: src/update.c:133
+#, c-format
+msgid "Fetched: (%d/%d) %d kB \n"
+msgstr ""
 
 #: lib/network.c:27
 #, c-format

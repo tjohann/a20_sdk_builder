@@ -1,5 +1,13 @@
 # List of source files which contain translatable strings.
 
-src/a20_sdk_builder.c
+src/clone.c
+src/common_git.c
+src/config.c
+src/download.c
+src/gui.c
+src/help.c
+src/main.c
+src/test.c
+src/update.c
 lib/network.c
 lib/libservice.h

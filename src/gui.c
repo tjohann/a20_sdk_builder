@@ -176,7 +176,8 @@ create_progress_bar_window(unsigned char progressbar_type)
 
 	if (progressbar != NULL) {
 		fprintf(stderr, _("ERROR: Progressbar != NULL\n"));
-		destroy_progressbar_window();
+		write_to_textfield(_("Progressbar != NULL\n"), ERROR_MSG);
+		return -1;
 	}
 
 	progressbar_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -200,6 +201,8 @@ create_progress_bar_window(unsigned char progressbar_type)
 		g_print(_("Progressbar_type == UPDATE_BAR\n"));
 		break;
 	default:
+		fprintf(stderr, _("ERROR: unknown progressbar_type\n"));
+		write_to_textfield(_("Unknown progressbar_type != NULL\n"), ERROR_MSG);
 		return -1;
 	}
 
@@ -234,7 +237,7 @@ create_progress_bar_window(unsigned char progressbar_type)
 
 
 void
-enter_repo_thread()
+enter_sdk_thread()
 {
 	gdk_threads_enter();
 	lock_button(CLONE_B);
@@ -249,7 +252,7 @@ enter_repo_thread()
 
 
 void
-leave_repo_thread()
+leave_sdk_thread()
 {
 	gdk_threads_enter();
 	check_sdk_git_path();
@@ -778,7 +781,7 @@ setup_textfield()
 
 
 void
-write_to_textfield(char *message, message_types_t type)
+write_to_textfield(const char *message, message_types_t type)
 {
 	PRINT_LOCATION();
 

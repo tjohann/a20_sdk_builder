@@ -27,6 +27,11 @@
 #include <git2.h>
 #include <git2/clone.h>
 
+#include <curl/curl.h>
+
+#include <archive.h>
+#include <archive_entry.h>
+
 #include "config.h"
 #include "libservice.h"
 
@@ -41,6 +46,7 @@ GtkWidget *progressbar_button;
  * ----------------
  */
 #define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
+#define TOOLCHAIN_NAME "http://sourceforge.net/projects/a20devices/files/"
 #define TOOLCHAIN_PATH "/opt/a20_sdk"
 #define SDK_GIT_PATH "/var/lib/a20_sdk"
 
@@ -125,7 +131,7 @@ void
 build_main_window();
 
 void
-write_to_textfield(char *message, message_types_t type);
+write_to_textfield(const char *message, message_types_t type);
 
 int
 create_progress_bar_window(unsigned char progressbar_type);
@@ -146,10 +152,10 @@ int
 get_state_of_gui_element(gui_element_t button);
 
 void
-enter_repo_thread();
+enter_sdk_thread();
 
 void
-leave_repo_thread();
+leave_sdk_thread();
 
 /*
  * main.c
@@ -205,6 +211,16 @@ download_toolchain(void *args);
 
 void
 check_toolchain();
+
+
+/*
+ * extract.c
+ * ==========
+ */
+
+void
+extract_toolchain(void);
+
 
 /*
  * test.c

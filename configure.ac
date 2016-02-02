@@ -32,6 +32,8 @@ PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([LIBGTK], [gtk+-2.0])
 PKG_CHECK_MODULES([LIBCONFIG], [libconfig])
 PKG_CHECK_MODULES([LIBGIT2], [libgit2])
+PKG_CHECK_MODULES([LIBCURL], [libcurl])
+PKG_CHECK_MODULES([LIBARCHIVE], [libarchive])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h])

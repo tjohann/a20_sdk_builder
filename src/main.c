@@ -79,6 +79,9 @@ main(int argc, char **argv)
 	// for all git handling
 	git_libgit2_init();
 
+	// for all download handling
+	curl_global_init(CURL_GLOBAL_ALL);
+
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
 

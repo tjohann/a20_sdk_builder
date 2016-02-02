@@ -26,6 +26,8 @@ config_sdk(void *args)
 {
 	PRINT_LOCATION();
 
+	(void) args;
+
 	write_to_textfield(_("--INFO_MSG--: in config_sdk\n"), INFO_MSG);
 
 	return NULL;

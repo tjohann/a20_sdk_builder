@@ -24,20 +24,22 @@
 void *
 test_sdk(void *args)
 {
-	PRINT_LOCATION();
+
+	(void) args;
 
 	/*
 	 * only one thread could be active
 	 */
-	enter_repo_thread();
+	enter_sdk_thread();
 
 	write_to_textfield(_("--INFO_MSG--: in test_sdk\n"), INFO_MSG);
+
 	sleep(5);
 
         /*
 	 * check for correct state
 	 */
-	leave_repo_thread();
+	leave_sdk_thread();
 
 	return NULL;
 }
@@ -46,9 +48,6 @@ void
 check_test_env()
 {
 	PRINT_LOCATION();
-
-	const char *toolchain_path = TOOLCHAIN_PATH;
-        const char *repo_path = SDK_GIT_PATH;
 
 	/*
 	 * check state of download-button

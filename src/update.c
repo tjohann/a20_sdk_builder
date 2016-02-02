@@ -54,7 +54,7 @@ update_tips(const char *refname,
 		snprintf(textfield_update_string, sizeof(textfield_update_string),
 			 _("[new] %.20s %s\n"), second_oid_s, refname);
 
-		write_to_textfield(_(textfield_update_string), INFO_MSG);
+		write_to_textfield(textfield_update_string, INFO_MSG);
 		fprintf(stdout, textfield_update_string);
 	} else {
 		git_oid_fmt(first_oid_s, first);
@@ -105,7 +105,7 @@ update_sdk_repo(void *args)
 	/*
 	 * only one thread could be active
 	 */
-	enter_repo_thread();
+	enter_sdk_thread();
 
 	if (create_progress_bar_window(UPDATE_BAR) != 0)
 		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
@@ -140,12 +140,12 @@ update_sdk_repo(void *args)
 
 	set_progressbar_value(100, "100%");
 
+out:
 	/*
 	 * check for correct state
 	 */
-	leave_repo_thread();
+	leave_sdk_thread();
 
-out:
 	if (remote)
 		git_remote_free(remote);
 	if (repo)
