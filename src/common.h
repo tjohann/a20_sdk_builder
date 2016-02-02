@@ -32,6 +32,8 @@
 #include <archive.h>
 #include <archive_entry.h>
 
+#include <openssl/sha.h>
+
 #include "config.h"
 #include "libservice.h"
 

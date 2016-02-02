@@ -9,5 +9,6 @@ src/help.c
 src/main.c
 src/test.c
 src/update.c
+src/checksum.c
 lib/network.c
 lib/libservice.h
