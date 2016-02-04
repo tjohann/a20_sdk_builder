@@ -18,8 +18,8 @@
 
 */
 
-#ifndef _A20SDKBUILDER_H_
-#define _A20SDKBUILDER_H_
+#ifndef _BUILDER_COMMON_H_
+#define _BUILDER_COMMON_H_
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -34,7 +34,6 @@
 
 #include <openssl/sha.h>
 
-#include "config.h"
 #include "libservice.h"
 
 
@@ -47,10 +46,12 @@ GtkWidget *progressbar_button;
  * common locations
  * ----------------
  */
+// git repo related
 #define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
+#define SDK_GIT_PATH "/var/lib/a20_sdk"
+// toolchain realted
 #define TOOLCHAIN_NAME "http://sourceforge.net/projects/a20devices/files/"
 #define TOOLCHAIN_PATH "/opt/a20_sdk"
-#define SDK_GIT_PATH "/var/lib/a20_sdk"
 
 
 /*
@@ -67,7 +68,8 @@ typedef enum message_types {
 		NORMAL_MSG = 0x00,
 		WARNING_MSG,
 		ERROR_MSG,
-		INFO_MSG
+		INFO_MSG,
+		NONE
 } message_types_t;
 
 
@@ -80,6 +82,7 @@ typedef enum progressbar_types {
 
 typedef enum gui_element {
 		CLONE_B = 0x01,
+		INIT_M,
 		CLONE_M,
 		DOWNLOAD_B,
 		DOWNLOAD_M,
@@ -92,18 +95,36 @@ typedef enum gui_element {
 } gui_element_t;
 
 
+typedef enum download_types {
+		DOWNLOAD_TOOLCHAIN = 0x00,
+		DOWNLOAD_BANANAPI,
+		DOWNLOAD_BANANAPI_PRO,
+		DOWNLOAD_CUBIETRUCK,
+		DOWNLOAD_OLIMEX,
+		DOWNLOAD_ALL_IMAGES,
+		DOWNLOAD_ALL,
+} download_types_t;
+
+
+typedef struct download_tupel {
+	char *url;
+	char *path;
+} download_tupel_t;
+
+
+
 /*
  * common macros
  * -------------
  */
-#define PRINT_LOCATION() {						\
+#define PRINT_LOCATION() do {						\
 		g_print(_("Your're in %s of %s\n"),			\
 			__FUNCTION__,					\
 			__FILE__);					\
-	}
+	} while (0)
 
 
-#define GIT_ERROR_HANDLING() {						\
+#define git_error_handling() do {					\
 		const git_error *err = giterr_last();			\
 									\
 		if (err) {						\
@@ -121,7 +142,13 @@ typedef enum gui_element {
 					   ERROR_MSG);			\
 		}							\
 		goto out;						\
-	}
+	} while (0)
+
+
+#define ERROR_MSG_AND_RETURN(name) do {		\
+		error_msg(name);		\
+		return -1;			\
+	} while (0)
 
 
 /*
@@ -159,6 +186,7 @@ enter_sdk_thread();
 void
 leave_sdk_thread();
 
+
 /*
  * main.c
  * ======
@@ -166,6 +194,30 @@ leave_sdk_thread();
 
 void
 exit_function(GtkWidget *widget, gpointer data);
+
+
+/*
+ * error.c
+ * =======
+ */
+
+// print error message and exit
+void
+__attribute__((noreturn)) error_exit(const char *fmt, ...);
+
+void
+error_msg(const char *fmt, ...);
+
+
+/*
+ * init.c
+ * ======
+ */
+void *
+init_sdk_workdir(void *args);
+
+void
+check_sdk_workdir(void);
 
 
 /*

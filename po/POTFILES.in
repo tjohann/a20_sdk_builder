@@ -3,6 +3,7 @@
 src/clone.c
 src/common_git.c
 src/config.c
+src/error.c
 src/download.c
 src/gui.c
 src/help.c

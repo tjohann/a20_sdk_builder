@@ -24,7 +24,7 @@
 int
 sideband_progress(const char *str, int len, void *payload)
 {
-	char textfield_update_string[255];
+	char textfield_update_string[MAXLINE];
 	memset(textfield_update_string, 0, sizeof(textfield_update_string));
 
 	(void) payload; // not used

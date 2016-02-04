@@ -100,9 +100,10 @@ main(int argc, char **argv)
 	build_main_window();
 
 	/*
-	 * check for some defaults
+	 * check for some defaults to control the gui
 	 */
 	check_sdk_git_path();
+	check_sdk_workdir();
 	check_toolchain();
 	check_test_env();
 

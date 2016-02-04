@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Thorsten Johannvorderbrueggen
-# This file is distributed under the same license as the a20-sdk-builder package.
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-02 20:57+0100\n"
+"POT-Creation-Date: 2016-02-03 15:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,16 +22,16 @@ msgstr ""
 msgid "Checkout: %3d%% (%d/%d) %s \n"
 msgstr ""
 
-#: src/clone.c:51 src/common_git.c:78 src/download.c:60
+#: src/clone.c:51 src/common_git.c:78 src/download.c:64
 #, c-format
 msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?\n"
 msgstr ""
 
-#: src/clone.c:53 src/common_git.c:80 src/download.c:62
+#: src/clone.c:53 src/common_git.c:80 src/download.c:66
 msgid "progressbar == NULL -> progressbar_window destroyed?\n"
 msgstr ""
 
-#: src/clone.c:83 src/download.c:89 src/update.c:111
+#: src/clone.c:83 src/download.c:185 src/update.c:109
 #, c-format
 msgid "ERROR: create_progress_bar_window != 0\n"
 msgstr ""
@@ -45,149 +45,161 @@ msgstr ""
 msgid "--INFO_MSG--: in config_sdk\n"
 msgstr ""
 
-#: src/download.c:112
+#: src/download.c:91
+msgid "fd == NULL \n"
+msgstr ""
+
+#: src/download.c:111
 #, c-format
 msgid "ERROR: curl_easy_init == NULL \n"
 msgstr ""
 
-#: src/download.c:113
+#: src/download.c:112
 msgid "curl_easy_init == NULL \n"
 msgstr ""
 
-#: src/gui.c:178
+#: src/gui.c:180
 #, c-format
 msgid "ERROR: Progressbar != NULL\n"
 msgstr ""
 
-#: src/gui.c:179
+#: src/gui.c:181
 msgid "Progressbar != NULL\n"
 msgstr ""
 
-#: src/gui.c:192
+#: src/gui.c:194
 msgid "Clone progress"
 msgstr ""
 
-#: src/gui.c:193
+#: src/gui.c:195
 msgid "Progressbar_type == CLONE_BAR\n"
 msgstr ""
 
-#: src/gui.c:196
+#: src/gui.c:198
 msgid "Download progress"
 msgstr ""
 
-#: src/gui.c:197
+#: src/gui.c:199
 msgid "Progressbar_type == DOWNLOAD_BAR\n"
 msgstr ""
 
-#: src/gui.c:200
+#: src/gui.c:202
 msgid "Update/Fetch progress"
 msgstr ""
 
-#: src/gui.c:201
+#: src/gui.c:203
 msgid "Progressbar_type == UPDATE_BAR\n"
 msgstr ""
 
-#: src/gui.c:204
+#: src/gui.c:206
 #, c-format
 msgid "ERROR: unknown progressbar_type\n"
 msgstr ""
 
-#: src/gui.c:205
+#: src/gui.c:207
 msgid "Unknown progressbar_type != NULL\n"
 msgstr ""
 
-#: src/gui.c:222
+#: src/gui.c:224
 msgid "Close"
 msgstr ""
 
-#: src/gui.c:274 src/gui.c:287 src/gui.c:300 src/gui.c:313 src/gui.c:329
-#: src/gui.c:345
+#: src/gui.c:288 src/gui.c:301 src/gui.c:314 src/gui.c:327 src/gui.c:343
+#: src/gui.c:359
 #, c-format
 msgid "Can't create the thread"
 msgstr ""
 
-#: src/gui.c:442 src/gui.c:485
+#: src/gui.c:463 src/gui.c:506
 msgid "Unknown GUI element\n"
 msgstr ""
 
-#: src/gui.c:535
+#: src/gui.c:556
 msgid "Are you sure to quit (without saving)?"
 msgstr ""
 
-#: src/gui.c:555
+#: src/gui.c:576
 msgid "Open Default"
 msgstr ""
 
-#: src/gui.c:559
+#: src/gui.c:580
 msgid "Load default configuration for this tool (a20_sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:563 src/gui.c:703
+#: src/gui.c:584 src/gui.c:739
 msgid "Clone SDK"
 msgstr ""
 
-#: src/gui.c:567 src/gui.c:706
+#: src/gui.c:588 src/gui.c:742
 msgid "Clone a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"
 msgstr ""
 
-#: src/gui.c:571 src/gui.c:712
+#: src/gui.c:592 src/gui.c:748
 msgid "Update Repo"
 msgstr ""
 
-#: src/gui.c:575 src/gui.c:715
+#: src/gui.c:596 src/gui.c:751
 msgid "Update a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"
 msgstr ""
 
-#: src/gui.c:579 src/gui.c:721
+#: src/gui.c:600 src/gui.c:757
 msgid "Download toolchain"
 msgstr ""
 
-#: src/gui.c:583 src/gui.c:724
+#: src/gui.c:604 src/gui.c:760
 msgid ""
 "Download toolchain binarys (http://sourceforge.net/projects/baalue-sdk/)"
 msgstr ""
 
-#: src/gui.c:587
+#: src/gui.c:608
 msgid "Test SDK"
 msgstr ""
 
-#: src/gui.c:591
+#: src/gui.c:612
 msgid "Run basic test/check on the sdk/toolchain"
 msgstr ""
 
-#: src/gui.c:595
+#: src/gui.c:616
 msgid "Help"
 msgstr ""
 
-#: src/gui.c:599
+#: src/gui.c:620
 msgid "Open help window"
 msgstr ""
 
-#: src/gui.c:603
+#: src/gui.c:624
 msgid "Quit"
 msgstr ""
 
-#: src/gui.c:611 src/gui.c:677
+#: src/gui.c:632 src/gui.c:698
 msgid "Quit/Exit with autosave of toolconfig (a20_sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:636
+#: src/gui.c:657
 msgid "Create default toolconfig (a20_sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:645
+#: src/gui.c:666
 msgid "Open new toolconfig (a20_sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:655
+#: src/gui.c:676
 msgid "Save toolconfig (a20_sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:664
+#: src/gui.c:685
 msgid "Save toolconfig under a new name (a20_sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:844
+#: src/gui.c:725
+msgid "Init /opt/a20_sdk"
+msgstr ""
+
+#: src/gui.c:728
+msgid "Init workdir of a20_sdk -> /opt/a20_sdk"
+msgstr ""
+
+#: src/gui.c:886
 #, c-format
 msgid "ERROR: Message type not supported\n"
 msgstr ""
@@ -224,12 +236,12 @@ msgstr ""
 msgid "[updated] %.10s..%.10s %s\n"
 msgstr ""
 
-#: src/update.c:123
+#: src/update.c:120
 #, c-format
 msgid "Fetched: (%d/%d) %d kB (used %d local objects)\n"
 msgstr ""
 
-#: src/update.c:133
+#: src/update.c:130
 #, c-format
 msgid "Fetched: (%d/%d) %d kB \n"
 msgstr ""

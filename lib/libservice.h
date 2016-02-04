@@ -24,13 +24,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// more or less common inc
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <sys/ioctl.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+#include <syslog.h>
+#include <wait.h>
+#include <limits.h>
+#include <linux/limits.h>
+#include <sysexits.h>
+#include <ctype.h>
+#include <pthread.h>
+#include <bsd/stdlib.h>
+
+// time related inc
+#include <time.h>
+#include <sys/times.h>
+
+// inotify inc
+#include <sys/inotify.h>
+
+// more or less network related inc
+#include <netinet/in.h>
+#include <netdb.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <arpa/inet.h>
+#include <net/if.h>
+#include <netpacket/packet.h>
+
+// libconfig
 #include <libconfig.h>
 
+// autotools genrated config
 #include <config.h>
+
+// getopt and locale realted inc
+#include <getopt.h>
+#include <libintl.h>
 #include <locale.h>
-#include "config.h"
 #include "gettext.h"
 
+
+/*
+ * common defines
+ * -------------
+ */
+#define MAXLINE 254
+
+
+/*
+ * common types
+ * -------------
+ */
+
+
+/*
+ * common macros
+ * -------------
+ */
 #define _(string) gettext(string)
 
 

@@ -87,9 +87,9 @@ clone_sdk_repo(void *args)
 	 * the thread if the progessbar_window is destroyed.
 	 */
 	int error = git_clone(&repo, url, path, &clone_opts);
-	if (error != 0) {
-		GIT_ERROR_HANDLING();
-	}
+	if (error != 0)
+		git_error_handling();
+
 
 out:
 	/*

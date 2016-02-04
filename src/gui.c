@@ -57,6 +57,8 @@ GtkWidget *save_as_m;
 
 GtkWidget *sdk_menu;
 GtkWidget *sdk;
+GtkWidget *init_m;
+GtkWidget *sep2_m;
 GtkWidget *clone_m;
 GtkWidget *update_m;
 GtkWidget *download_m;
@@ -240,6 +242,7 @@ void
 enter_sdk_thread()
 {
 	gdk_threads_enter();
+	lock_button(INIT_M);
 	lock_button(CLONE_B);
 	lock_button(CLONE_M);
 	lock_button(UPDATE_B);
@@ -256,9 +259,20 @@ leave_sdk_thread()
 {
 	gdk_threads_enter();
 	check_sdk_git_path();
+	check_sdk_workdir();
 	check_toolchain();
 	check_test_env();
 	gdk_threads_leave();
+}
+
+
+static void
+init_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
 }
 
 
@@ -438,6 +452,13 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 			gtk_widget_set_sensitive(new_m, FALSE);
 		}
 		break;
+	case INIT_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(init_m, TRUE);
+		else
+			gtk_widget_set_sensitive(init_m, FALSE);
+		break;
+
 	default:
 		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
 	}
@@ -696,8 +717,23 @@ build_menu_bar()
 	// ---------------------- build SDK-MENU ------------------------------
 	sdk_menu = gtk_menu_new();
 
-	sdk = gtk_menu_item_new_with_mnemonic("_handle SDK");
+	sdk = gtk_menu_item_new_with_mnemonic("_SDK");
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sdk), sdk_menu);
+
+
+	// CLONE menuentry
+	init_m = gtk_menu_item_new_with_label(_("Init /opt/a20_sdk"));
+	gtk_tooltips_set_tip(tooltips,
+			     init_m,
+			     _("Init workdir of a20_sdk -> /opt/a20_sdk"),
+			     NULL);
+	g_signal_connect(init_m, "activate", G_CALLBACK(init_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), init_m);
+
+
+	// SEPERATOR
+	sep2_m = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), sep2_m);
 
 	// CLONE menuentry
 	clone_m = gtk_menu_item_new_with_label(_("Clone SDK"));
@@ -837,6 +873,12 @@ write_to_textfield(const char *message, message_types_t type)
 							 &iter,
 							 "--- INFO ---\n", -1,
 							 "italic", NULL);
+		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+		gdk_threads_leave();
+		break;
+	case NONE:
+		gdk_threads_enter();
+		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
 		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
 		gdk_threads_leave();
 		break;

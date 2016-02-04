@@ -30,7 +30,7 @@ update_tips(const char *refname,
 	char first_oid_s[GIT_OID_HEXSZ+1];
 	char second_oid_s[GIT_OID_HEXSZ+1];
 
-	char textfield_update_string[255];
+	char textfield_update_string[MAXLINE];
 	memset(textfield_update_string, 0, sizeof(textfield_update_string));
 
 	(void) payload; // not used
@@ -81,21 +81,19 @@ update_sdk_repo(void *args)
 	const char *url = REPO_NAME;
 	const char *path = SDK_GIT_PATH;
 
-	char textfield_final_string[255];
+	char textfield_final_string[MAXLINE];
 	memset(textfield_final_string, 0, sizeof(textfield_final_string));
 
 	(void) args; // not used
 
 	int error = git_repository_open(&repo, path);
-	if (error != 0) {
-		GIT_ERROR_HANDLING();
-	}
+	if (error != 0)
+		git_error_handling();
 
 	if (git_remote_lookup(&remote, repo, url) != 0) {
 		error = git_remote_create_anonymous(&remote, repo, url);
-		if (error != 0) {
-			GIT_ERROR_HANDLING();
-		}
+		if (error != 0)
+			git_error_handling();
 	}
 
 	fetch_opts.callbacks.update_tips = &update_tips;
@@ -111,9 +109,8 @@ update_sdk_repo(void *args)
 		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
 	error = git_remote_fetch(remote, NULL, &fetch_opts, "fetch");
-	if (error != 0) {
-		GIT_ERROR_HANDLING();
-	}
+	if (error != 0)
+		git_error_handling();
 
 	stats = git_remote_stats(remote);
 	int receive_kbyte = stats->received_bytes / 1024;
