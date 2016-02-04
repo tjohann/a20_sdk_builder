@@ -30,8 +30,5 @@ help(void *args)
 
 	write_to_textfield(_("--INFO_MSG--: in help\n"), INFO_MSG);
 
-	extract_toolchain();
-
-
 	return NULL;
 }

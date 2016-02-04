@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-03 15:00+0100\n"
+"POT-Creation-Date: 2016-02-04 10:28+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -24,16 +24,16 @@ msgstr ""
 msgid "Checkout: %3d%% (%d/%d) %s \n"
 msgstr ""
 
-#: src/clone.c:51 src/common_git.c:78 src/download.c:64
+#: src/clone.c:51 src/common_git.c:78 src/download.c:78
 #, c-format
 msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?\n"
 msgstr ""
 
-#: src/clone.c:53 src/common_git.c:80 src/download.c:66
+#: src/clone.c:53 src/common_git.c:80 src/download.c:80
 msgid "progressbar == NULL -> progressbar_window destroyed?\n"
 msgstr ""
 
-#: src/clone.c:83 src/download.c:185 src/update.c:109
+#: src/clone.c:83 src/download.c:276 src/update.c:109
 #, c-format
 msgid "ERROR: create_progress_bar_window != 0\n"
 msgstr ""
@@ -47,16 +47,20 @@ msgstr ""
 msgid "--INFO_MSG--: in config_sdk\n"
 msgstr ""
 
-#: src/download.c:91
+#: src/download.c:105
+msgid "(url == NULL) || (path == NULL) \n"
+msgstr ""
+
+#: src/download.c:116
 msgid "fd == NULL \n"
 msgstr ""
 
-#: src/download.c:111
+#: src/download.c:136
 #, c-format
 msgid "ERROR: curl_easy_init == NULL \n"
 msgstr ""
 
-#: src/download.c:112
+#: src/download.c:137
 msgid "curl_easy_init == NULL \n"
 msgstr ""
 

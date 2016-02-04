@@ -110,13 +110,13 @@ copy_data(struct archive *a_read, struct archive *a_write)
 
 
 void
-extract_toolchain()
+extract_toolchain(char *filename)
 {
 	struct archive *archive;
 	struct archive *ext;
 	struct archive_entry *entry;
 
-	char *filename = "/opt/a20_sdk/toolchain_x86_64.tgz";
+	//char *filename = "/opt/a20_sdk/toolchain_x86_64.tgz";
 	chdir("/opt/a20_sdk/");
 
 	int error = 0;

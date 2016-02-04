@@ -34,3 +34,10 @@ https://libgit2.github.com/docs/
 https://libgit2.github.com/docs/guides/101-samples/
 https://libgit2.github.com/docs/guides/authentication/
 https://libgit2.github.com/libgit2/ex/HEAD/network/fetch.html#git_remote_create_anonymous-4
+
+
+linux-vdso.so (missing on slackware)
+-------------
+http://stackoverflow.com/questions/26266641/why-would-the-same-binary-want-linux-vdso-so-1-on-one-64-bit-rhel-5-4-server-and
+http://www.trilithium.com/johan/2005/08/linux-gate/
+http://man7.org/linux/man-pages/man7/vdso.7.html

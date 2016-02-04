@@ -24,9 +24,9 @@
 #define MAX_SIZE_DOWNLOAD_ARRAY 15
 
 // toolchain adds
-#define TOOLCHAIN_NAME_ADD       "/toolchain_x86_64.tgz/download"
+#define TOOLCHAIN_NAME_ADD       "toolchain_x86_64.tgz/download"
 #define TOOLCHAIN_PATH_ADD       "/toolchain_x86_64.tgz"
-#define TOOLCHAIN_NAME_HOST_ADD  "/host_x86_64.tgz/download"
+#define TOOLCHAIN_NAME_HOST_ADD  "host_x86_64.tgz/download"
 #define TOOLCHAIN_PATH_HOST_ADD  "/host_x86_64.tgz"
 
 // bananapi adds
@@ -166,14 +166,13 @@ build_download_array(download_types_t d_type, download_tupel_t *download_array[]
 
 	download_tupel_t *element = NULL;
 
-
-	//char *url = "http://sourceforge.net/projects/a20devices/files/toolchain_x86_64.tgz/download";
-        //char *path = "/opt/a20_sdk/toolchain_x86_64.tgz";
-
 	switch (d_type)
 	{
 	case DOWNLOAD_TOOLCHAIN:
 
+		/*
+		 * toolchain_x86_64.tgz
+		 */
 		// build url string
 		len_add_url = strlen(TOOLCHAIN_NAME_ADD);
 		len_url = len_base_url + len_add_url;
@@ -211,10 +210,52 @@ build_download_array(download_types_t d_type, download_tupel_t *download_array[]
 		element->path = path;
 		element->url = url;
 
+		// add to download array -> toolchain_x86_64.tgz
 		download_array[0] = element;
 
+		/*
+		 * host_x86_64.tgz
+		 */
+		// build url string
+		len_add_url = strlen(TOOLCHAIN_NAME_HOST_ADD);
+		len_url = len_base_url + len_add_url;
 
-		// not yet
+		url = malloc(len_url + 1);
+		if (url == NULL)
+			goto error;
+		memset(url, 0, len_url + 1);
+
+		strncpy(url, TOOLCHAIN_NAME, len_base_url);
+		strncat(url, TOOLCHAIN_NAME_HOST_ADD, len_add_url);
+
+		printf("in build array with url: %s\n", url);
+
+		// build path string
+		len_add_path = strlen(TOOLCHAIN_PATH_HOST_ADD);
+		len_path = len_base_path + len_add_path;
+
+		path = malloc(len_path + 1);
+		if (path == NULL)
+			goto error;
+		memset(path, 0, len_path + 1);
+
+		strncpy(path, TOOLCHAIN_PATH, len_base_path);
+		strncat(path, TOOLCHAIN_PATH_HOST_ADD, len_add_path);
+
+		printf("in build array with url: %s\n", path);
+
+		// build the first element of dowload_array
+		element = malloc(sizeof(download_tupel_t));
+		if (element == NULL)
+			goto error;
+
+		memset(element, 0, sizeof(download_tupel_t));
+		element->path = path;
+		element->url = url;
+
+                // add to download array -> host_x86_64.tgz
+		download_array[1] = element;
+
 		break;
 	case DOWNLOAD_BANANAPI:
 		// not yet
@@ -247,6 +288,7 @@ build_download_array(download_types_t d_type, download_tupel_t *download_array[]
 error:
 	if (url)
 		free(url);
+
 	if (path)
 		free(path);
 
@@ -266,6 +308,8 @@ download_toolchain(void *args)
 	memset(download_array, 0, sizeof(download_array));
 
 	printf("in download toolchain\n");
+
+	(void) args;
 
         /*
 	 * only one thread could be active
@@ -293,7 +337,7 @@ download_toolchain(void *args)
 
 		set_progressbar_value(100, "100%");
 
-		extract_toolchain();
+		extract_toolchain(download_array[i]->path);
 		i++;
 	}
 
@@ -313,8 +357,8 @@ check_toolchain()
 {
 	PRINT_LOCATION();
 
-	const char *toolchain_path = TOOLCHAIN_PATH;
-        const char *repo_path = SDK_GIT_PATH;
+	//const char *toolchain_path = TOOLCHAIN_PATH;
+        //const char *repo_path = SDK_GIT_PATH;
 
 	/*
 	 * check checksum.sha256 and tgz are in sync

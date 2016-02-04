@@ -273,7 +273,7 @@ check_toolchain();
  */
 
 void
-extract_toolchain(void);
+extract_toolchain(char *filename);
 
 
 /*
