@@ -1,6 +1,6 @@
 # Makefile.am
 
-appicondir = $(datadir)/icons/hicolor/scalable/apps
+appicondir = @datadir@/icons/hicolor/scalable/apps
 appicon_DATA = a20_sdk_builder.svg
 
 

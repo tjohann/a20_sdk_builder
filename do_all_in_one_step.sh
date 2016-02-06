@@ -4,7 +4,7 @@ sudo make uninstall
 make distclean
 
 autoreconf --install || exit 1
-./configure --prefix=$HOME
+./configure --prefix=$HOME --sysconfdir=/etc
 
 cd po
 make update-po
