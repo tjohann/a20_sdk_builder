@@ -8,4 +8,7 @@ EXTRA_DIST = build-aux/autoconf/config.rpath
 desktopdir = $(datadir)/applications
 dist_desktop_DATA = a20_sdk_builder.desktop
 
+sysconfdir = /etc/sdk_builder/
+sysconf_DATA = common_gui.conf
+
 
