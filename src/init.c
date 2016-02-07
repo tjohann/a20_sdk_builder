@@ -21,6 +21,15 @@
 #include "common.h"
 
 
+void
+init_main_config()
+{
+
+	// do something
+
+}
+
+
 void *
 init_sdk_workdir(void *args)
 {

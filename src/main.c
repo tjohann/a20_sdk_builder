@@ -82,6 +82,9 @@ main(int argc, char **argv)
 	// for all download handling
 	curl_global_init(CURL_GLOBAL_ALL);
 
+	// init main config struct
+	init_main_config();
+
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
 

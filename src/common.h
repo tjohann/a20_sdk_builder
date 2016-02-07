@@ -58,6 +58,7 @@ GtkWidget *progressbar_button;
  * common defines
  * -------------
  */
+config_t cfg;
 
 
 /*
@@ -110,6 +111,20 @@ typedef struct download_tupel {
 	char *url;
 	char *path;
 } download_tupel_t;
+
+
+struct conf_obj {
+	char *name;
+        /*
+	 * main parts
+	 */
+	const char *gui_name;
+	/*
+	 * toolchain
+	 */
+	const char *url;
+	const char *path;
+} conf_obj_t;
 
 
 
@@ -213,6 +228,9 @@ error_msg(const char *fmt, ...);
  * init.c
  * ======
  */
+void
+init_main_config();
+
 void *
 init_sdk_workdir(void *args);
 

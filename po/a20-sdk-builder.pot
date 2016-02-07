@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-06 09:53+0100\n"
+"POT-Creation-Date: 2016-02-07 09:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Package name is %s\n"
 msgstr ""
 
-#: src/main.c:86
+#: src/main.c:89
 msgid "Init network code: done\n"
 msgstr ""
 
