@@ -37,34 +37,7 @@
 #include "libservice.h"
 
 
-// all global widgets
-GtkWidget *progressbar;
-GtkWidget *progressbar_button;
 
-
-/*
- * common locations
- * ----------------
- */
-// git repo related
-#define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
-#define SDK_GIT_PATH "/var/lib/a20_sdk"
-// toolchain realted
-#define TOOLCHAIN_NAME "http://sourceforge.net/projects/a20devices/files/"
-#define TOOLCHAIN_PATH "/opt/a20_sdk"
-
-
-/*
- * common defines
- * -------------
- */
-config_t cfg;
-
-
-/*
- * common types
- * -------------
- */
 typedef enum message_types {
 		NORMAL_MSG = 0x00,
 		WARNING_MSG,
@@ -113,24 +86,80 @@ typedef struct download_tupel {
 } download_tupel_t;
 
 
-struct conf_obj {
+typedef struct conf_obj {
+	// to check conf_file against -> sdk_builder
 	char *name;
         /*
-	 * main parts
+	 * gui
 	 */
-	const char *gui_name;
+	// example (a20_sdk) -> a20_sdk_builder
+	char *gui_name;
+        /*
+	 * *_sdk.git
+	 */
+	download_tupel_t *repo;
+        /*
+	 * toolchain -> cross-compiler and libs
+	 * host -> sysroot and host tools like mkimage
+	 */
+	download_tupel_t *toolchain;
+	download_tupel_t *host;
 	/*
-	 * toolchain
+	 * devices (4 devices max)
 	 */
-	const char *url;
-	const char *path;
+	// example (a20_sdk) -> bananapi
+	char *name_device1;
+	download_tupel_t *device1_kernel;
+	download_tupel_t *device1_rootfs;
+	download_tupel_t *device1_home;
+	download_tupel_t *device1_image;
+	// example (a20_sdk) -> bananapi_pro
+	char *name_device2;
+	download_tupel_t *device2_kernel;
+	download_tupel_t *device2_rootfs;
+	download_tupel_t *device2_home;
+	download_tupel_t *device2_image;
+	// example (a20_sdk) -> cubietruck
+	char *name_device3;
+	download_tupel_t *device3_kernel;
+	download_tupel_t *device3_rootfs;
+	download_tupel_t *device3_home;
+	download_tupel_t *device3_image;
+	// example (a20_sdk) -> olimex
+	char *name_device4;
+	download_tupel_t *device4_kernel;
+	download_tupel_t *device4_rootfs;
+	download_tupel_t *device4_home;
+	download_tupel_t *device4_image;
 } conf_obj_t;
 
 
+/*
+ * global objects
+ * --------------
+ */
+
+// global config struct
+conf_obj_t *sdk_builder_config;
+
+// all global widgets
+GtkWidget *progressbar;
+GtkWidget *progressbar_button;
+
+
+#define COMMON_WORKDIR "/opt"
+
+// git repo related
+#define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
+#define SDK_GIT_PATH "/var/lib/a20_sdk"
+// toolchain realted
+#define TOOLCHAIN_NAME "http://sourceforge.net/projects/a20devices/files/"
+#define TOOLCHAIN_PATH "/opt/a20_sdk"
+
 
 /*
- * common macros
- * -------------
+ * common.h
+ * ========
  */
 #define PRINT_LOCATION() do {						\
 		g_print(_("Your're in %s of %s\n"),			\

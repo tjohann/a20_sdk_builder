@@ -21,11 +21,27 @@
 #include "common.h"
 
 
-/*
- * fix paths -> see a20_sdk.git
- */
-//const char *url = "https://github.com/tjohann/a20_sdk.git";
-//const char *path = "/var/lib/a20_sdk";
+
+static void
+usage(void)
+{
+	fprintf(stdout, "\nusage: ./sdk_builder -f a20_sdk_builder.conf \n");
+}
+
+
+static void
+__attribute__((noreturn)) usage_exit(void)
+{
+	usage();
+	exit(EXIT_SUCCESS);
+}
+
+
+static void
+cleanup(void)
+{
+	fprintf(stdout, "in cleanup -> cheers %s\n\n", getenv("USER"));
+}
 
 
 static void
@@ -65,10 +81,29 @@ int
 main(int argc, char **argv)
 {
 	int status = EXIT_SUCCESS;
+	char *conf_file = NULL;
+	int c;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
+
+	while ((c = getopt(argc, argv, "hf:")) != -1) {
+		switch (c) {
+		case 'f':
+			conf_file = optarg;
+			break;
+		case 'h':
+			usage_exit();
+			break;
+		default:
+			fprintf(stderr,"ERROR: no valid argument");
+			usage_exit();
+		}
+	}
+
+	if (atexit(cleanup) != 0)
+		exit(EXIT_FAILURE);
 
 	/*
 	 * init non-gtk stuff
@@ -83,7 +118,8 @@ main(int argc, char **argv)
 	curl_global_init(CURL_GLOBAL_ALL);
 
 	// init main config struct
-	init_main_config();
+	if (conf_file != NULL)
+		init_main_config(conf_file);
 
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));

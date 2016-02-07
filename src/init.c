@@ -22,10 +22,45 @@
 
 
 void
-init_main_config()
+init_main_config(char *conf_file)
 {
+	const char *str;
+	config_t cfg;
 
-	// do something
+	/*
+	 * read config
+	 */
+/*	int cur_dir = open(".", O_RDONLY);
+	if (cur_dir == -1)
+		error_exit("can't open actual dir -> %s",
+			   strerror(errno));
+
+	if (chdir(conf_dir) == -1)
+		error_exit("can't change to dir %s -> %s",
+			   conf_dir,
+			   strerror(errno));
+
+        config_init(&cfg);
+        if (config_read_file(&cfg, CONF_FILE) != CONFIG_TRUE)
+        {
+                fprintf(stderr, "%s:%d - %s\n",
+                        config_error_file(&cfg),
+                        config_error_line(&cfg),
+                        config_error_text(&cfg));
+
+                config_destroy(&cfg);
+                exit(EXIT_FAILURE);
+        }
+
+        if (config_lookup_string(&cfg, "name", &str))
+                fprintf(stdout, "config-file for %s\n", str);
+        else
+                error_exit("No 'name' setting in config file!");
+
+		putchar('\n');*/
+
+
+	//config_destroy(&cfg);
 
 }
 
