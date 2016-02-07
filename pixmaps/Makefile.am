@@ -1,7 +1,7 @@
 # Makefile.am
 
 appicondir = @datadir@/icons/hicolor/scalable/apps
-appicon_DATA = a20_sdk_builder.svg
+appicon_DATA = sdk_builder.svg
 
 
 #

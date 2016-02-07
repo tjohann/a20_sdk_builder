@@ -1,6 +1,6 @@
 lf# configure.ac
 
-AC_INIT([A20 SDK builder], [trunk], [thorsten.johannvorderbrueggen@t-online.de])
+AC_INIT([SDK builder], [trunk], [thorsten.johannvorderbrueggen@t-online.de])
 AC_COPYRIGHT([Copyright 2016, Thorsten Johannvorderbrueggen])
 
 AC_CONFIG_AUX_DIR([build-aux/autoconf])

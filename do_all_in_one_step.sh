@@ -13,4 +13,4 @@ cd ..
 make
 sudo make install
 
-a20_sdk_builder &
+sdk_builder &

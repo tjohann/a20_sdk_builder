@@ -1,8 +1,8 @@
 # Makefile.am
 
-bin_PROGRAMS = a20_sdk_builder
+bin_PROGRAMS = sdk_builder
 
-a20_sdk_builder_SOURCES =         \
+sdk_builder_SOURCES =             \
 	main.c                    \
 	error.c	                  \
 	gui.c                     \
@@ -20,7 +20,7 @@ a20_sdk_builder_SOURCES =         \
 	gettext.h
 
 
-a20_sdk_builder_CFLAGS =          \
+sdk_builder_CFLAGS =              \
 	$(LIBGTK_CFLAGS)          \
 	$(LIBCONFIG_CFLAGS)       \
 	$(LIBGIT2_CFLAGS)         \
@@ -30,7 +30,7 @@ a20_sdk_builder_CFLAGS =          \
 	-DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../lib
 
 
-a20_sdk_builder_LDADD =           \
+sdk_builder_LDADD =               \
 	$(LIBGTK_LIBS)            \
 	$(LIBCONFIG_LIBS)         \
 	$(LIBGIT2_LIBS)           \
@@ -43,6 +43,10 @@ a20_sdk_builder_LDADD =           \
 #
 # specials to handle /opt/a20_sdk(toolchain) and /var/lib/a20_sdk(git repo)
 #
+# TODO: remove -> build small scripts for it
+# NOTE: will removed
+#
+
 install-data-hook: handle_opt handle_var
 uninstall-hook: remove_opt remove_var
 
