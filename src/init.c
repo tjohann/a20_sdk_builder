@@ -22,18 +22,25 @@
 
 
 void
+check_current_path()
+{
+	printf("Current working dir %s\n", get_current_dir_name());
+}
+
+
+void
 init_main_config(char *conf_file)
 {
 	const char *str;
 	config_t cfg;
-
+	
+	char *conf_dir = "/etc/sdk_builder/";
 	/*
 	 * read config
 	 */
-/*	int cur_dir = open(".", O_RDONLY);
+	int cur_dir = open(".", O_RDONLY);
 	if (cur_dir == -1)
-		error_exit("can't open actual dir -> %s",
-			   strerror(errno));
+		error_exit("can't open actual dir -> %s", strerror(errno));
 
 	if (chdir(conf_dir) == -1)
 		error_exit("can't change to dir %s -> %s",
@@ -41,7 +48,7 @@ init_main_config(char *conf_file)
 			   strerror(errno));
 
         config_init(&cfg);
-        if (config_read_file(&cfg, CONF_FILE) != CONFIG_TRUE)
+        if (config_read_file(&cfg, conf_file) != CONFIG_TRUE)
         {
                 fprintf(stderr, "%s:%d - %s\n",
                         config_error_file(&cfg),
@@ -57,11 +64,13 @@ init_main_config(char *conf_file)
         else
                 error_exit("No 'name' setting in config file!");
 
-		putchar('\n');*/
 
+	/*
+	 * ...
+	 */
+	
 
-	//config_destroy(&cfg);
-
+	config_destroy(&cfg);
 }
 
 

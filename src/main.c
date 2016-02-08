@@ -118,12 +118,15 @@ main(int argc, char **argv)
 	curl_global_init(CURL_GLOBAL_ALL);
 
 	// init main config struct
+	conf_file = "a20_sdk_builder.conf";
 	if (conf_file != NULL)
 		init_main_config(conf_file);
 
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
 
+	check_current_path();
+	
 	/*
 	 * init gtk stuff
 	 */
