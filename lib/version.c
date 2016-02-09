@@ -27,3 +27,40 @@ show_version_info()
 	fprintf(stdout, "Package version: %s\n", PACKAGE_VERSION);
 
 }
+
+void
+show_package_name()
+{
+	fprintf(stdout, _("Package name is %s\n"), PACKAGE_STRING);
+}
+
+void
+show_program_name(char *program_name)
+{
+	fprintf(stdout, _("Program name is %s\n"), program_name);
+}
+
+void
+set_program_name(char **program_name, char *kdo_arg)
+{
+	char *whoami = NULL;
+	char *tmp_str = NULL;
+	size_t len = 0;
+
+	if (kdo_arg == NULL)
+		kdo_arg = "dummy";
+
+	if ((whoami = strrchr(kdo_arg, '/')) == NULL)
+		whoami = kdo_arg;
+	else
+		whoami++;
+
+	len = strlen(whoami) + 1;
+	printf("strlen whoami %d\n", len);
+	tmp_str = malloc(len);
+
+	memset(tmp_str, 0, len);
+	strncat(tmp_str, whoami, len);
+
+	*program_name = tmp_str;
+}

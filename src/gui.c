@@ -101,9 +101,25 @@ GtkTooltips *tooltips;
 #define UNLOCK_ELEMENT 0x01
 
 
+
+void
+show_gtk_version_info()
+{
+	g_print("Glib version: %d.%d.%d\n",
+		glib_major_version,
+		glib_minor_version,
+		glib_micro_version);
+
+	g_print("GTK+ version: %d.%d.%d\n",
+		gtk_major_version,
+		gtk_minor_version,
+		gtk_micro_version);
+}
+
+
 /*
   usage:
-  icon = create_pixbuf("a20_sdk_icon.svg");
+  icon = create_pixbuf("sdk_icon.svg");
   gtk_window_set_icon(GTK_WINDOW(window), icon);
 
   update icon cache:
@@ -577,7 +593,7 @@ build_button_box()
 	g_signal_connect(open_b, "clicked", G_CALLBACK(new_config), NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     open_b,
-			     _("Load default configuration for this tool (a20_sdk_build.conf)"),
+			     _("Load default configuration for this tool (*sdk_build.conf)"),
 			     NULL);
 	gtk_container_add(GTK_CONTAINER(buttonbox), open_b);
 
@@ -585,7 +601,7 @@ build_button_box()
 	g_signal_connect(clone_b, "clicked", G_CALLBACK(clone_button), NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     clone_b,
-			     _("Clone a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
+			     _("Clone SDK repository"),
 			     NULL);
 	gtk_container_add(GTK_CONTAINER(buttonbox), clone_b);
 
@@ -593,7 +609,7 @@ build_button_box()
 	g_signal_connect(update_b, "clicked", G_CALLBACK(update_button), NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     update_b,
-			     _("Update a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
+			     _("Update SDK repository"),
 			     NULL);
 	gtk_container_add(GTK_CONTAINER(buttonbox), update_b);
 
@@ -601,7 +617,7 @@ build_button_box()
 	g_signal_connect(download_b, "clicked", G_CALLBACK(download_button), NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     download_b,
-			     _("Download toolchain binarys (http://sourceforge.net/projects/baalue-sdk/)"),
+			     _("Download toolchain binarys"),
 			     NULL);
 	gtk_container_add(GTK_CONTAINER(buttonbox), download_b);
 
@@ -629,7 +645,7 @@ build_button_box()
 				 window);
 	gtk_tooltips_set_tip(tooltips,
 			     exit_b,
-			     _("Quit/Exit with autosave of toolconfig (a20_sdk_build.conf)"),
+			     _("Quit/Exit"),
 			     NULL);
 	gtk_container_add(GTK_CONTAINER(buttonbox), exit_b);
 }
@@ -654,7 +670,7 @@ build_menu_bar()
 	new_m = gtk_image_menu_item_new_from_stock(GTK_STOCK_NEW, NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     new_m,
-			     _("Create default toolconfig (a20_sdk_build.conf)"),
+			     _("Create default toolconfig"),
 			     NULL);
 	g_signal_connect(new_m, "activate", G_CALLBACK(new_config), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), new_m);
@@ -663,7 +679,7 @@ build_menu_bar()
 	open_m = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     open_m,
-			     _("Open new toolconfig (a20_sdk_build.conf)"),
+			     _("Open new toolconfig "),
 			     NULL);
 	g_signal_connect(open_m, "activate", G_CALLBACK(open_menu), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), open_m);
@@ -673,7 +689,7 @@ build_menu_bar()
 	save_m = gtk_image_menu_item_new_from_stock(GTK_STOCK_SAVE, NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     save_m,
-			     _("Save toolconfig (a20_sdk_build.conf)"),
+			     _("Save toolconfig "),
 			     NULL);
 	g_signal_connect(save_m, "activate", G_CALLBACK(save_menu), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), save_m);
@@ -682,7 +698,7 @@ build_menu_bar()
 	save_as_m = gtk_image_menu_item_new_from_stock(GTK_STOCK_SAVE_AS, NULL);
 	gtk_tooltips_set_tip(tooltips,
 			     save_as_m,
-			     _("Save toolconfig under a new name (a20_sdk_build.conf)"),
+			     _("Save toolconfig under a new name"),
 			     NULL);
 	g_signal_connect(save_as_m, "activate", G_CALLBACK(save_as_menu), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), save_as_m);
@@ -695,7 +711,7 @@ build_menu_bar()
 	quit_m = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
 	gtk_tooltips_set_tip(tooltips,
 			     quit_m,
-			     _("Quit/Exit with autosave of toolconfig (a20_sdk_build.conf)"),
+			     _("Quit/Exit with autosave of toolconfig"),
 			     NULL);
 	g_signal_connect(quit_m, "activate", G_CALLBACK(exit_function), NULL);
 	g_signal_connect_swapped(quit_m,
@@ -722,10 +738,10 @@ build_menu_bar()
 
 
 	// CLONE menuentry
-	init_m = gtk_menu_item_new_with_label(_("Init /opt/a20_sdk"));
+	init_m = gtk_menu_item_new_with_label(_("Init /opt/*_sdk"));
 	gtk_tooltips_set_tip(tooltips,
 			     init_m,
-			     _("Init workdir of a20_sdk -> /opt/a20_sdk"),
+			     _("Init workdir of *_sdk -> /opt/*_sdk"),
 			     NULL);
 	g_signal_connect(init_m, "activate", G_CALLBACK(init_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), init_m);
@@ -739,7 +755,7 @@ build_menu_bar()
 	clone_m = gtk_menu_item_new_with_label(_("Clone SDK"));
 	gtk_tooltips_set_tip(tooltips,
 			     clone_m,
-			     _("Clone a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
+			     _("Clone SDK repository"),
 			     NULL);
 	g_signal_connect(clone_m, "activate", G_CALLBACK(clone_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), clone_m);
@@ -748,7 +764,7 @@ build_menu_bar()
 	update_m = gtk_menu_item_new_with_label(_("Update Repo"));
 	gtk_tooltips_set_tip(tooltips,
 			     update_m,
-			     _("Update a20_sdk.git (https://github.com/tjohann/a20_sdk_builder.git)"),
+			     _("Update SDK repositor"),
 			     NULL);
 	g_signal_connect(update_m, "activate", G_CALLBACK(update_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), update_m);
@@ -757,7 +773,7 @@ build_menu_bar()
 	download_m = gtk_menu_item_new_with_label(_("Download toolchain"));
 	gtk_tooltips_set_tip(tooltips,
 			     download_m,
-			     _("Download toolchain binarys (http://sourceforge.net/projects/baalue-sdk/)"),
+			     _("Download toolchain binarys"),
 			     NULL);
 	g_signal_connect(download_m, "activate", G_CALLBACK(download_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), download_m);
@@ -888,15 +904,15 @@ write_to_textfield(const char *message, message_types_t type)
 }
 
 void
-build_main_window()
+build_main_window(conf_obj_t *sdk_builder_config)
 {
 	PRINT_LOCATION();
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	gtk_window_set_title(GTK_WINDOW(window), "A20-SDK-Builder");
+	gtk_window_set_title(GTK_WINDOW(window), "SDK-Builder");
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-	gtk_window_set_icon_name(GTK_WINDOW (window), "a20_sdk_builder");
+	gtk_window_set_icon_name(GTK_WINDOW (window), "sdk_builder");
 
 	/*
 	  The size calculation is a little bit tricky

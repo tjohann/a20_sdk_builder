@@ -21,41 +21,43 @@
 #include "common.h"
 
 
-
-static void
-usage(void)
-{
-	fprintf(stdout, "\nusage: ./sdk_builder -f a20_sdk_builder.conf \n");
-}
+static char *program_name;
 
 
 static void
-__attribute__((noreturn)) usage_exit(void)
+__attribute__((noreturn)) usage(int status)
 {
-	usage();
-	exit(EXIT_SUCCESS);
+	putchar('\n');
+	fprintf(stdout, _("Usage: %s [options]              \n"), program_name);
+	fprintf(stdout, _("Options:                                       \n"));
+
+	fprintf(stdout, _("        -f filename.conf   \
+give a name for a configuration file \n"));
+	fprintf(stdout, _("        -d directory       \
+give a directory name to search for configuration file \n"));
+	putchar('\n');
+	fprintf(stdout, _("Examples:                                      \n"));
+	fprintf(stdout, _("Normal usage (choose configuration via menuentry):  \
+sdk_builder \n"));
+	fprintf(stdout, _("Give configuration as argument:                     \
+sdk_builder -f a20_sdk_builder.conf \n"));
+	fprintf(stdout, _("-> check defaults paths /etc/sdk_builder       \n"));
+	fprintf(stdout, _("-> second check /usr/local/etc/sdk_builder     \n"));
+	fprintf(stdout, _("Give configuration directory as argument:           \
+sdk_builder -d $HOME/etc/sdk-builder/ \n"));
+	fprintf(stdout, _("-> choose configuration via menuentry          \n"));
+	fprintf(stdout, _("Give both as argument:                              \
+sdk_builder -f a20_sdk_builder.conf -d $HOME/etc/sdk-builder/ \n"));
+	putchar('\n');
+
+	exit(status);
 }
 
 
 static void
 cleanup(void)
 {
-	fprintf(stdout, "in cleanup -> cheers %s\n\n", getenv("USER"));
-}
-
-
-static void
-show_gtk_version_info()
-{
-	g_print("Glib version: %d.%d.%d\n",
-		glib_major_version,
-		glib_minor_version,
-		glib_micro_version);
-
-	g_print("GTK+ version: %d.%d.%d\n",
-		gtk_major_version,
-		gtk_minor_version,
-		gtk_micro_version);
+	fprintf(stdout, _("Finalize cleanup -> cheers %s\n"), getenv("USER"));
 }
 
 
@@ -78,60 +80,64 @@ exit_function(GtkWidget *widget, gpointer data)
 
 
 int
-main(int argc, char **argv)
+main(int argc, char *argv[])
 {
-	int status = EXIT_SUCCESS;
 	char *conf_file = NULL;
+	char *conf_dir = NULL;
 	int c;
+	char *p = NULL;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 
-	while ((c = getopt(argc, argv, "hf:")) != -1) {
+	set_program_name(&program_name, argv[0]);
+
+	while ((c = getopt(argc, argv, "hf:d:")) != -1) {
 		switch (c) {
 		case 'f':
 			conf_file = optarg;
 			break;
+		case 'd':
+			conf_dir = optarg;
+			break;
 		case 'h':
-			usage_exit();
+			usage(EXIT_SUCCESS);
 			break;
 		default:
-			fprintf(stderr,"ERROR: no valid argument");
-			usage_exit();
+			fprintf(stderr, _("ERROR: no valid argument\n"));
+			usage(EXIT_FAILURE);
 		}
 	}
 
 	if (atexit(cleanup) != 0)
 		exit(EXIT_FAILURE);
 
-	/*
+
+        /*
 	 * init non-gtk stuff
 	 */
-	g_print(_("Package name is %s\n"), PACKAGE_STRING);
-	show_version_info();
-
-	// for all git handling
 	git_libgit2_init();
-
-	// for all download handling
 	curl_global_init(CURL_GLOBAL_ALL);
 
-	// init main config struct
-	conf_file = "a20_sdk_builder.conf";
-	if (conf_file != NULL)
-		init_main_config(conf_file);
+	conf_obj_t *sdk_builder_config = create_main_config();
+	if (sdk_builder_config == NULL) {
+		error_exit("sdk_builder_config == NULL -> %s", strerror(errno));
+ 	} else {
+		if (init_main_config(conf_file, conf_dir, sdk_builder_config) == 0)
+			g_print(_("Init main sdk_config done\n"));
+		else
+			g_print(_("Init_main_config() != 0\n"));
+
+		free_main_config(sdk_builder_config);
+	}
 
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
 
-	check_current_path();
-	
 	/*
 	 * init gtk stuff
 	 */
-	show_gtk_version_info();
-
 	if (!g_thread_supported())
 		g_thread_init(NULL);
 
@@ -139,20 +145,35 @@ main(int argc, char **argv)
 	gdk_threads_enter();
 
 	gtk_init(&argc, &argv);
-	build_main_window();
+	build_main_window(sdk_builder_config);
 
 	/*
 	 * check for some defaults to control the gui
 	 */
-	check_sdk_git_path();
-	check_sdk_workdir();
-	check_toolchain();
-	check_test_env();
+	if (check_init_state(sdk_builder_config) == 0) {
+                // TODO: set globals?
+		check_sdk_git_path();
+		check_sdk_workdir();
+		check_toolchain();
+		check_test_env();
+	} else {
+		// TODO: 1). deactivate all button/menu other than open/new
+		//       2). clear globals?
+	}
+
+	/*
+	 * show some debug info
+	 */
+	show_program_name(program_name);
+	show_package_name();
+	show_version_info();
+	show_gtk_version_info();
+
 
 	gtk_main();
 	gdk_threads_leave();
 
 	git_libgit2_shutdown();
 
-	return status;
+	return EXIT_SUCCESS;
 }

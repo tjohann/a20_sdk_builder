@@ -104,7 +104,16 @@
  */
 
 void
-show_version_info();
+show_version_info(void);
+
+void
+show_package_name(void);
+
+void
+show_program_name(char *program_name);
+
+void
+set_program_name(char **program_name, char *kdo_arg);
 
 
 /*

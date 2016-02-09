@@ -86,7 +86,15 @@ typedef struct download_tupel {
 } download_tupel_t;
 
 
+typedef struct conf_path {
+	char *conf_file;
+	char *conf_dir;
+} conf_path_t;
+
+
 typedef struct conf_obj {
+	// location of config dir/file
+	conf_path_t *conf_location;
 	// to check conf_file against -> sdk_builder
 	char *name;
         /*
@@ -138,9 +146,6 @@ typedef struct conf_obj {
  * global objects
  * --------------
  */
-
-// global config struct
-conf_obj_t *sdk_builder_config;
 
 // all global widgets
 GtkWidget *progressbar;
@@ -201,7 +206,10 @@ GtkWidget *progressbar_button;
  */
 
 void
-build_main_window();
+show_gtk_version_info(void);
+
+void
+build_main_window(conf_obj_t *sdk_builder_config);
 
 void
 write_to_textfield(const char *message, message_types_t type);
@@ -225,10 +233,10 @@ int
 get_state_of_gui_element(gui_element_t button);
 
 void
-enter_sdk_thread();
+enter_sdk_thread(void);
 
 void
-leave_sdk_thread();
+leave_sdk_thread(void);
 
 
 /*
@@ -257,8 +265,18 @@ error_msg(const char *fmt, ...);
  * init.c
  * ======
  */
+
 void
-init_main_config();
+free_main_config(conf_obj_t *sdk_builder_config);
+
+int
+init_main_config(char *conf_file, char *conf_dir, conf_obj_t *sdk_builder_config);
+
+conf_obj_t *
+create_main_config();
+
+int
+check_init_state(conf_obj_t *sdk_builder_config);
 
 void *
 init_sdk_workdir(void *args);
@@ -289,7 +307,7 @@ int
 sideband_progress(const char *str, int len, void *payload);
 
 void
-check_sdk_git_path();
+check_sdk_git_path(void);
 
 
 /*
@@ -311,7 +329,7 @@ void *
 download_toolchain(void *args);
 
 void
-check_toolchain();
+check_toolchain(void);
 
 
 /*
@@ -332,7 +350,7 @@ void *
 test_sdk(void *args);
 
 void
-check_test_env();
+check_test_env(void);
 
 
 /*
