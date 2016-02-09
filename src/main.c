@@ -32,20 +32,19 @@ __attribute__((noreturn)) usage(int status)
 	fprintf(stdout, _("Options:                                       \n"));
 
 	fprintf(stdout, _("        -f filename.conf   \
-give a name for a configuration file \n"));
+give a name for a configuration file [mandatory]      \n"));
 	fprintf(stdout, _("        -d directory       \
-give a directory name to search for configuration file \n"));
+give a directory name to search for configuration file\n"));
+	fprintf(stdout, _("        -h                 \
+show help                                             \n"));
 	putchar('\n');
 	fprintf(stdout, _("Examples:                                      \n"));
-	fprintf(stdout, _("Normal usage (choose configuration via menuentry):  \
-sdk_builder \n"));
+	fprintf(stdout, _("Normal usage (via desktop.entry):                   \
+a20_sdk_builder \n"));
 	fprintf(stdout, _("Give configuration as argument:                     \
-sdk_builder -f a20_sdk_builder.conf \n"));
-	fprintf(stdout, _("-> check defaults paths /etc/sdk_builder       \n"));
-	fprintf(stdout, _("-> second check /usr/local/etc/sdk_builder     \n"));
-	fprintf(stdout, _("Give configuration directory as argument:           \
-sdk_builder -d $HOME/etc/sdk-builder/ \n"));
-	fprintf(stdout, _("-> choose configuration via menuentry          \n"));
+sdk_builder -f a20_sdk_builder.conf                   \n"));
+	fprintf(stdout, _("-> check path /etc/sdk_builder                 \n"));
+	fprintf(stdout, _("-> check path /usr/local/etc/sdk_builder       \n"));
 	fprintf(stdout, _("Give both as argument:                              \
 sdk_builder -f a20_sdk_builder.conf -d $HOME/etc/sdk-builder/ \n"));
 	putchar('\n');
@@ -113,6 +112,8 @@ main(int argc, char *argv[])
 	if (atexit(cleanup) != 0)
 		exit(EXIT_FAILURE);
 
+	if (conf_file == NULL)
+		usage(EXIT_FAILURE);	
 
         /*
 	 * init non-gtk stuff

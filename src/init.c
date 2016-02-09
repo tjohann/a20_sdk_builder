@@ -22,13 +22,76 @@
 #include "global.h"
 
 
-static conf_path_t *
-fill_conf_dir_defaults()
+static int
+fill_conf_location(char *conf_file, char *conf_dir)
 {
+	conf_path_t *tmp = NULL;
+	char *conf_f = NULL;
+	char *conf_d = NULL;
+	size_t len = 0;
 
-        // do something
+	tmp = malloc(sizeof(conf_path_t));
+	if (tmp == NULL)
+		return -1;
 
+	memset(tmp, 0, sizeof(conf_path_t));
 
+	if (conf_dir == NULL) {
+		struct stat sb;
+		memset(&sb, 0, sizeof(struct stat));
+
+		if (stat("/etc/sdk_builder", &sb) == 0 && S_ISDIR(sb.st_mode))
+			printf("is dir\n");
+		else {
+			g_print("no dir\n");
+
+			memset(&sb, 0, sizeof(struct stat));
+
+			if (stat("/usr/local/etc/sdk_builder", &sb) == 0 && S_ISDIR(sb.st_mode))
+				printf("is dir\n");
+			else
+				printf("no dir\n");
+		}
+
+	} else {
+		len = strlen(conf_dir) + 1;
+		conf_d = malloc(len);
+		if (conf_d == NULL)
+			goto error;
+	
+		memset(conf_d, 0, len);
+		strncat(conf_d, conf_dir, len);
+	}
+
+	len = strlen(conf_file) + 1;
+	conf_f = malloc(len);
+	if (conf_f == NULL)
+		goto error;
+	
+	memset(conf_f, 0, len);
+	strncat(conf_f, conf_file, len);
+
+	
+	tmp->conf_file = conf_f;
+	tmp->conf_dir = conf_d;
+	conf_location = tmp;
+
+	g_print(_("conf_f %s\n"), tmp->conf_file);
+	g_print(_("conf_d %s\n"), tmp->conf_dir);
+	
+	return 0;
+
+error:
+	if (tmp != NULL)
+		free(tmp);
+
+	if (conf_f != NULL)
+		free(conf_f);
+
+	if (conf_d != NULL)
+		free(conf_d);
+	
+	return -1;
 }
 
 
@@ -41,9 +104,18 @@ init_main_config(char *conf_file, char *conf_dir)
 	if (conf_file == NULL)
 		return -1;
 
-	//if (conf_dir == NULL)
-	//	sdk_builder_config->conf_location = fill_conf_dir_defaults;
+	int cur_dir = open(".", O_RDONLY);
+	if (cur_dir == -1)
+		error_exit(_("can't open actual dir -> %s\n"), strerror(errno));
 
+	int error = fill_conf_location(conf_file, conf_dir);
+	if (error == -1)
+		return -1;
+	else
+		g_print(_("conf_location->conf_dir: %s\n"), conf_location->conf_dir);
+
+
+	
 	//conf_dir = "/etc/sdk_builder/";
 	/*
 	 * read config

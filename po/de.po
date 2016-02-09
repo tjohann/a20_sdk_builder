@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-09 20:02+0100\n"
+"POT-Creation-Date: 2016-02-09 21:18+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -233,78 +233,75 @@ msgstr ""
 
 #: src/main.c:34
 #, c-format
-msgid "        -f filename.conf   give a name for a configuration file \n"
+msgid ""
+"        -f filename.conf   give a name for a configuration file "
+"[mandatory]      \n"
 msgstr ""
 
 #: src/main.c:36
 #, c-format
 msgid ""
 "        -d directory       give a directory name to search for configuration "
-"file \n"
+"file\n"
 msgstr ""
 
-#: src/main.c:39
+#: src/main.c:38
+#, c-format
+msgid ""
+"        -h                 show "
+"help                                             \n"
+msgstr ""
+
+#: src/main.c:41
 #, c-format
 msgid "Examples:                                      \n"
 msgstr ""
 
-#: src/main.c:40
-#, c-format
-msgid "Normal usage (choose configuration via menuentry):  sdk_builder \n"
-msgstr ""
-
 #: src/main.c:42
 #, c-format
-msgid ""
-"Give configuration as argument:                     sdk_builder -f "
-"a20_sdk_builder.conf \n"
+msgid "Normal usage (via desktop.entry):                   a20_sdk_builder \n"
 msgstr ""
 
 #: src/main.c:44
 #, c-format
-msgid "-> check defaults paths /etc/sdk_builder       \n"
-msgstr ""
-
-#: src/main.c:45
-#, c-format
-msgid "-> second check /usr/local/etc/sdk_builder     \n"
+msgid ""
+"Give configuration as argument:                     sdk_builder -f "
+"a20_sdk_builder.conf                   \n"
 msgstr ""
 
 #: src/main.c:46
 #, c-format
-msgid ""
-"Give configuration directory as argument:           sdk_builder -d $HOME/etc/"
-"sdk-builder/ \n"
+msgid "-> check path /etc/sdk_builder                 \n"
+msgstr ""
+
+#: src/main.c:47
+#, c-format
+msgid "-> check path /usr/local/etc/sdk_builder       \n"
 msgstr ""
 
 #: src/main.c:48
-#, c-format
-msgid "-> choose configuration via menuentry          \n"
-msgstr ""
-
-#: src/main.c:49
 #, c-format
 msgid ""
 "Give both as argument:                              sdk_builder -f "
 "a20_sdk_builder.conf -d $HOME/etc/sdk-builder/ \n"
 msgstr ""
 
-#: src/main.c:60
+#: src/main.c:59
 #, c-format
 msgid "Finalize cleanup -> cheers %s\n"
 msgstr ""
 
-#: src/main.c:108
+#: src/main.c:107
 #, c-format
 msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/main.c:125
+#: src/main.c:126
 #, fuzzy
 msgid "Init main sdk_config done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/main.c:127
+#: src/main.c:128
 msgid "Possible problem: init_main_config() != 0\n"
 msgstr ""
 
