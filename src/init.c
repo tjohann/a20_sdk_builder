@@ -19,37 +19,7 @@
 */
 
 #include "common.h"
-
-
-void
-free_main_config(conf_obj_t *sdk_builder_config)
-{
-	if (sdk_builder_config != NULL) {
-
-		/*
-		 * free content
-		 */
-
-		free(sdk_builder_config);
-	} else {
-		fprintf(stdout, _("Nothing to free %s\n"), __FUNCTION__);
-	}
-}
-
-
-conf_obj_t *
-create_main_config()
-{
-	conf_obj_t *sdk_builder_config = NULL;
-
-	sdk_builder_config = malloc(sizeof(conf_obj_t));
-	if (sdk_builder_config == NULL)
-		return NULL;
-
-	memset(sdk_builder_config, 0, sizeof(conf_obj_t));
-
-	return sdk_builder_config;
-}
+#include "global.h"
 
 
 static conf_path_t *
@@ -63,7 +33,7 @@ fill_conf_dir_defaults()
 
 
 int
-init_main_config(char *conf_file, char *conf_dir, conf_obj_t *sdk_builder_config)
+init_main_config(char *conf_file, char *conf_dir)
 {
 	const char *str;
 	config_t cfg;
@@ -71,8 +41,8 @@ init_main_config(char *conf_file, char *conf_dir, conf_obj_t *sdk_builder_config
 	if (conf_file == NULL)
 		return -1;
 
-	if (conf_dir == NULL)
-		sdk_builder_config->conf_location = fill_conf_dir_defaults;
+	//if (conf_dir == NULL)
+	//	sdk_builder_config->conf_location = fill_conf_dir_defaults;
 
 	//conf_dir = "/etc/sdk_builder/";
 	/*
@@ -136,22 +106,4 @@ check_sdk_workdir()
 /*
  * check if /opt/*_sdk is available
  */
-
-}
-
-
-int
-check_init_state(conf_obj_t *sdk_builder_config)
-{
-	if (sdk_builder_config == NULL)
-		return -1;
-	else
-		fprintf(stdout, "sdk_builder_config != NULL\n");
-
-	if (sdk_builder_config->conf_location == NULL)
-		return -1;
-	else
-		fprintf(stdout, "sdk_builder_config->conf_location != NULL\n");
-
-	// TODO: check more of the structure
 }

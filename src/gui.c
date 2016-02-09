@@ -19,7 +19,7 @@
 */
 
 #include "common.h"
-
+#include "global.h"
 
 /*
  * main window
@@ -904,7 +904,7 @@ write_to_textfield(const char *message, message_types_t type)
 }
 
 void
-build_main_window(conf_obj_t *sdk_builder_config)
+build_main_window()
 {
 	PRINT_LOCATION();
 

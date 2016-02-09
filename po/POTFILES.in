@@ -11,5 +11,7 @@ src/main.c
 src/test.c
 src/update.c
 src/checksum.c
+src/common.h
+src/global.h
 lib/network.c
 lib/libservice.h

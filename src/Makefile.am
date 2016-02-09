@@ -16,6 +16,7 @@ sdk_builder_SOURCES =             \
 	checksum.c                \
 	test.c                    \
 	common.h                  \
+	global.h		  \
 	help.c                    \
 	gettext.h
 

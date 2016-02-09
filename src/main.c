@@ -19,7 +19,7 @@
 */
 
 #include "common.h"
-
+#include "global.h"
 
 static char *program_name;
 
@@ -120,20 +120,15 @@ main(int argc, char *argv[])
 	git_libgit2_init();
 	curl_global_init(CURL_GLOBAL_ALL);
 
-	conf_obj_t *sdk_builder_config = create_main_config();
-	if (sdk_builder_config == NULL) {
-		error_exit("sdk_builder_config == NULL -> %s", strerror(errno));
- 	} else {
-		if (init_main_config(conf_file, conf_dir, sdk_builder_config) == 0)
-			g_print(_("Init main sdk_config done\n"));
-		else
-			g_print(_("Init_main_config() != 0\n"));
 
-		free_main_config(sdk_builder_config);
-	}
+	if (init_main_config(conf_file, conf_dir) == 0)
+		g_print(_("Init main sdk_config done\n"));
+	else
+		g_print(_("Possible problem: init_main_config() != 0\n"));
 
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
+
 
 	/*
 	 * init gtk stuff
@@ -145,21 +140,17 @@ main(int argc, char *argv[])
 	gdk_threads_enter();
 
 	gtk_init(&argc, &argv);
-	build_main_window(sdk_builder_config);
+	build_main_window();
+
 
 	/*
 	 * check for some defaults to control the gui
 	 */
-	if (check_init_state(sdk_builder_config) == 0) {
-                // TODO: set globals?
-		check_sdk_git_path();
-		check_sdk_workdir();
-		check_toolchain();
-		check_test_env();
-	} else {
-		// TODO: 1). deactivate all button/menu other than open/new
-		//       2). clear globals?
-	}
+	check_sdk_git_path();
+	check_sdk_workdir();
+	check_toolchain();
+	check_test_env();
+
 
 	/*
 	 * show some debug info

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-09 17:52+0100\n"
+"POT-Creation-Date: 2016-02-09 20:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "progressbar == NULL -> progressbar_window destroyed?\n"
 msgstr ""
 
-#: src/clone.c:83 src/download.c:320 src/update.c:109
+#: src/clone.c:83 src/download.c:320 src/update.c:110
 #, c-format
 msgid "ERROR: create_progress_bar_window != 0\n"
 msgstr ""
@@ -297,15 +297,15 @@ msgstr ""
 msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/main.c:128
+#: src/main.c:125
 msgid "Init main sdk_config done\n"
 msgstr ""
 
-#: src/main.c:130
-msgid "Init_main_config() != 0\n"
+#: src/main.c:127
+msgid "Possible problem: init_main_config() != 0\n"
 msgstr ""
 
-#: src/main.c:136
+#: src/main.c:131
 msgid "Init network code: done\n"
 msgstr ""
 
@@ -318,24 +318,43 @@ msgstr ""
 msgid "Something went wrong ret == -1"
 msgstr ""
 
-#: src/update.c:55
+#: src/update.c:56
 #, c-format
 msgid "[new] %.20s %s\n"
 msgstr ""
 
-#: src/update.c:64
+#: src/update.c:65
 #, c-format
 msgid "[updated] %.10s..%.10s %s\n"
 msgstr ""
 
-#: src/update.c:120
+#: src/update.c:121
 #, c-format
 msgid "Fetched: (%d/%d) %d kB (used %d local objects)\n"
 msgstr ""
 
-#: src/update.c:130
+#: src/update.c:131
 #, c-format
 msgid "Fetched: (%d/%d) %d kB \n"
+msgstr ""
+
+#: src/common.h:114
+#, c-format
+msgid "Your're in %s of %s\n"
+msgstr ""
+
+#: src/common.h:125
+#, c-format
+msgid "ERROR %d: %s\n"
+msgstr ""
+
+#: src/common.h:132
+#, c-format
+msgid "ERROR %d: no detailed info\n"
+msgstr ""
+
+#: src/common.h:134
+msgid "Unclassified error occured\n"
 msgstr ""
 
 #: lib/network.c:27

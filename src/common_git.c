@@ -19,7 +19,7 @@
 */
 
 #include "common.h"
-
+#include "global.h"
 
 int
 sideband_progress(const char *str, int len, void *payload)

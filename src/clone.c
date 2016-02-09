@@ -19,7 +19,7 @@
 */
 
 #include "common.h"
-
+#include "global.h"
 
 static void
 checkout_progress(const char *path, size_t cur, size_t tot, void *payload)

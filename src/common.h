@@ -36,6 +36,12 @@
 
 #include "libservice.h"
 
+/*
+ * global objects
+ * --------------
+ */
+
+// --> see global.h
 
 
 typedef enum message_types {
@@ -92,74 +98,12 @@ typedef struct conf_path {
 } conf_path_t;
 
 
-typedef struct conf_obj {
-	// location of config dir/file
-	conf_path_t *conf_location;
-	// to check conf_file against -> sdk_builder
-	char *name;
-        /*
-	 * gui
-	 */
-	// example (a20_sdk) -> a20_sdk_builder
-	char *gui_name;
-        /*
-	 * *_sdk.git
-	 */
-	download_tupel_t *repo;
-        /*
-	 * toolchain -> cross-compiler and libs
-	 * host -> sysroot and host tools like mkimage
-	 */
-	download_tupel_t *toolchain;
-	download_tupel_t *host;
-	/*
-	 * devices (4 devices max)
-	 */
-	// example (a20_sdk) -> bananapi
-	char *name_device1;
-	download_tupel_t *device1_kernel;
-	download_tupel_t *device1_rootfs;
-	download_tupel_t *device1_home;
-	download_tupel_t *device1_image;
-	// example (a20_sdk) -> bananapi_pro
-	char *name_device2;
-	download_tupel_t *device2_kernel;
-	download_tupel_t *device2_rootfs;
-	download_tupel_t *device2_home;
-	download_tupel_t *device2_image;
-	// example (a20_sdk) -> cubietruck
-	char *name_device3;
-	download_tupel_t *device3_kernel;
-	download_tupel_t *device3_rootfs;
-	download_tupel_t *device3_home;
-	download_tupel_t *device3_image;
-	// example (a20_sdk) -> olimex
-	char *name_device4;
-	download_tupel_t *device4_kernel;
-	download_tupel_t *device4_rootfs;
-	download_tupel_t *device4_home;
-	download_tupel_t *device4_image;
-} conf_obj_t;
-
-
 /*
  * global objects
  * --------------
  */
 
-// all global widgets
-GtkWidget *progressbar;
-GtkWidget *progressbar_button;
-
-
-#define COMMON_WORKDIR "/opt"
-
-// git repo related
-#define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
-#define SDK_GIT_PATH "/var/lib/a20_sdk"
-// toolchain realted
-#define TOOLCHAIN_NAME "http://sourceforge.net/projects/a20devices/files/"
-#define TOOLCHAIN_PATH "/opt/a20_sdk"
+// --> see global.h
 
 
 /*
@@ -209,7 +153,7 @@ void
 show_gtk_version_info(void);
 
 void
-build_main_window(conf_obj_t *sdk_builder_config);
+build_main_window();
 
 void
 write_to_textfield(const char *message, message_types_t type);
@@ -266,17 +210,8 @@ error_msg(const char *fmt, ...);
  * ======
  */
 
-void
-free_main_config(conf_obj_t *sdk_builder_config);
-
 int
-init_main_config(char *conf_file, char *conf_dir, conf_obj_t *sdk_builder_config);
-
-conf_obj_t *
-create_main_config();
-
-int
-check_init_state(conf_obj_t *sdk_builder_config);
+init_main_config(char *conf_file, char *conf_dir);
 
 void *
 init_sdk_workdir(void *args);

@@ -19,6 +19,7 @@
 */
 
 #include "common.h"
+#include "global.h"
 
 
 static int

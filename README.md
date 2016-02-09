@@ -52,7 +52,7 @@ You can start the gui in different ways:
 
     a20_sdk_builder
 
-which starts sdk_builder with the configuration a20_sdk_builder.conf.
+which starts sdk_builder with the configuration a20_sdk_builder.conf (search in /etc/sdk_builder/ and /usr/local/etc/sdk_builder/).
 
 
 This is equivalent to
@@ -60,9 +60,9 @@ This is equivalent to
     sdk_builder -f a20_sdk_builder.conf
 
 
-or you start the sdk_builder whithout a configuration:
+or you start the sdk_builder with a different location for the configuration:
 
-    sdk_builder
+    sdk_builder -f a20_sdk_builder.conf -d $HOME/etc/sdk_builder/
 
 
 If you use the latest approach then you have to open a configuration file via menu File and new/open.

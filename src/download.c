@@ -19,7 +19,7 @@
 */
 
 #include "common.h"
-
+#include "global.h"
 
 #define MAX_SIZE_DOWNLOAD_ARRAY 15
 
