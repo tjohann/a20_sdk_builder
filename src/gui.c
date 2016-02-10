@@ -105,6 +105,8 @@ GtkTooltips *tooltips;
 void
 show_gtk_version_info()
 {
+	fprintf(stdout, _("Show verion of used gui libs: \n"));
+	fprintf(stdout, _("----------------------------- \n"));
 	g_print("Glib version: %d.%d.%d\n",
 		glib_major_version,
 		glib_minor_version,
@@ -114,6 +116,7 @@ show_gtk_version_info()
 		gtk_major_version,
 		gtk_minor_version,
 		gtk_micro_version);
+	fprintf(stdout, _("---------------------------- \n"));
 }
 
 
@@ -910,7 +913,11 @@ build_main_window()
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	gtk_window_set_title(GTK_WINDOW(window), "SDK-Builder");
+	if (gui_name == NULL)
+		gtk_window_set_title(GTK_WINDOW(window), "SDK-Builder");
+	else
+		gtk_window_set_title(GTK_WINDOW(window), gui_name);
+
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_icon_name(GTK_WINDOW (window), "sdk_builder");
 

@@ -60,6 +60,33 @@ cleanup(void)
 }
 
 
+static void
+show_all_infos()
+{
+	/*
+	 * show some useful info
+	 */
+	show_program_name(program_name);
+	show_package_name();
+	show_version_info();
+	show_gtk_version_info();
+	show_config();
+}
+
+
+static void
+check_all_states()
+{
+	/*
+	 * check for some defaults to control the gui
+	 */
+	check_sdk_git_path();
+	check_sdk_workdir();
+	check_toolchain();
+	check_test_env();
+}
+
+
 void
 exit_function(GtkWidget *widget, gpointer data)
 {
@@ -113,7 +140,7 @@ main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 
 	if (conf_file == NULL)
-		usage(EXIT_FAILURE);	
+		usage(EXIT_FAILURE);
 
         /*
 	 * init non-gtk stuff
@@ -122,10 +149,12 @@ main(int argc, char *argv[])
 	curl_global_init(CURL_GLOBAL_ALL);
 
 
-	if (init_main_config(conf_file, conf_dir) == 0)
+	if (init_main_config(conf_file, conf_dir) == 0) {
 		g_print(_("Init main sdk_config done\n"));
-	else
+	} else {
 		g_print(_("Possible problem: init_main_config() != 0\n"));
+		usage(EXIT_FAILURE);
+	}
 
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
@@ -147,19 +176,13 @@ main(int argc, char *argv[])
 	/*
 	 * check for some defaults to control the gui
 	 */
-	check_sdk_git_path();
-	check_sdk_workdir();
-	check_toolchain();
-	check_test_env();
+	check_all_states();
 
 
 	/*
-	 * show some debug info
+	 * show some useful info
 	 */
-	show_program_name(program_name);
-	show_package_name();
-	show_version_info();
-	show_gtk_version_info();
+	show_all_infos();
 
 
 	gtk_main();

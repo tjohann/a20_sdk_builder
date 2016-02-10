@@ -78,32 +78,61 @@ download_tupel_t *host;
  * devices (4 devices max)
  */
 // example (a20_sdk) -> bananapi
-char *name_device1;
+char *device1_name;
 download_tupel_t *device1_kernel;
-download_tupel_t *device1_rootfs;
+download_tupel_t *device1_root;
 download_tupel_t *device1_home;
-download_tupel_t *device1_image;
 
 // example (a20_sdk) -> bananapi_pro
-char *name_device2;
+char *device2_name;
 download_tupel_t *device2_kernel;
-download_tupel_t *device2_rootfs;
+download_tupel_t *device2_root;
 download_tupel_t *device2_home;
-download_tupel_t *device2_image;
 
 // example (a20_sdk) -> cubietruck
-char *name_device3;
+char *device3_name;
 download_tupel_t *device3_kernel;
-download_tupel_t *device3_rootfs;
+download_tupel_t *device3_root;
 download_tupel_t *device3_home;
-download_tupel_t *device3_image;
 
 // example (a20_sdk) -> olimex
-char *name_device4;
+char *device4_name;
 download_tupel_t *device4_kernel;
-download_tupel_t *device4_rootfs;
+download_tupel_t *device4_root;
 download_tupel_t *device4_home;
-download_tupel_t *device4_image;
+
+/*
+ * external repos (10 max)
+ */
+char *repo1_name;
+download_tupel_t *repo1;
+
+char *repo2_name;
+download_tupel_t *repo2;
+
+char *repo3_name;
+download_tupel_t *repo3;
+
+char *repo4_name;
+download_tupel_t *repo4;
+
+char *repo5_name;
+download_tupel_t *repo5;
+
+char *repo6_name;
+download_tupel_t *repo6;
+
+char *repo7_name;
+download_tupel_t *repo7;
+
+char *repo8_name;
+download_tupel_t *repo8;
+
+char *repo9_name;
+download_tupel_t *repo9;
+
+char *repo10_name;
+download_tupel_t *repo10;
 
 
 #endif

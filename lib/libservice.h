@@ -99,8 +99,8 @@
 
 
 /*
- * version.c
- * =========
+ * helper.c
+ * ========
  */
 
 void
@@ -115,6 +115,11 @@ show_program_name(char *program_name);
 void
 set_program_name(char **program_name, char *kdo_arg);
 
+bool
+is_this_a_dir(const char *dir_name);
+
+char *
+alloc_string(const char *tmp_str);
 
 /*
  * network.c

@@ -219,6 +219,9 @@ init_sdk_workdir(void *args);
 void
 check_sdk_workdir(void);
 
+void
+show_config();
+
 
 /*
  * clone.c
