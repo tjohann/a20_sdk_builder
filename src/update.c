@@ -79,8 +79,8 @@ update_sdk_repo(void *args)
 
 	const git_transfer_progress *stats;
 
-	const char *url = REPO_NAME;
-	const char *path = SDK_GIT_PATH;
+	char *url = sdk_repo->url;
+	char *path = sdk_repo->path;
 
 	char textfield_final_string[MAXLINE];
 	memset(textfield_final_string, 0, sizeof(textfield_final_string));
