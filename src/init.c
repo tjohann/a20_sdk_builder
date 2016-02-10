@@ -22,12 +22,6 @@
 #include "global.h"
 
 
-#define INIT_ERROR() do {			\
-		if (error != 0)			\
-			goto error;		\
-	} while(0)
-
-
 static int
 fill_conf_location(char *conf_file, char *conf_dir)
 {
@@ -213,7 +207,7 @@ init_main_config(char *conf_file, char *conf_dir)
 		goto error;
 
         // repo
-	error = read_conf_download_tupel(&cfg, "repo.url", "repo.path", &repo);
+	error = read_conf_download_tupel(&cfg, "repo.url", "repo.path", &sdk_repo);
 	if (error != 0)
 		goto error;
 
@@ -449,13 +443,13 @@ show_config()
 		gui_name);
 
 	// repo
-	if (repo != NULL) {
-		fprintf(stdout, _("Global: repo->url %s             \n"),
-			repo->url);
-		fprintf(stdout, _("Global: repo->path %s            \n"),
-			repo->path);
+	if (sdk_repo != NULL) {
+		fprintf(stdout, _("Global: sdk_repo->url %s         \n"),
+			sdk_repo->url);
+		fprintf(stdout, _("Global: sdk_repo->path %s        \n"),
+			sdk_repo->path);
 	} else {
-		fprintf(stdout, _("Global: ERROR: repo == NULL     \n"));
+		fprintf(stdout, _("Global: ERROR: sdk_repo == NULL  \n"));
 	}
 
 	// toolchain

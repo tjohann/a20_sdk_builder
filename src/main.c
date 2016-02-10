@@ -172,18 +172,15 @@ main(int argc, char *argv[])
 	gtk_init(&argc, &argv);
 	build_main_window();
 
-
 	/*
 	 * check for some defaults to control the gui
 	 */
 	check_all_states();
 
-
 	/*
 	 * show some useful info
 	 */
 	show_all_infos();
-
 
 	gtk_main();
 	gdk_threads_leave();

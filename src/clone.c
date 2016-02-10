@@ -63,8 +63,8 @@ clone_sdk_repo(void *args)
 	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
 	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
 
-	const char *url = REPO_NAME;
-	const char *path = SDK_GIT_PATH;
+	char *url = sdk_repo->url;
+	char *path = sdk_repo->path;
 
 	(void) args; // not used
 

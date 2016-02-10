@@ -65,7 +65,7 @@ char *gui_name;
 /*
  * *_sdk.git
  */
-download_tupel_t *repo;
+download_tupel_t *sdk_repo;
 
 /*
  * toolchain -> cross-compiler and libs
