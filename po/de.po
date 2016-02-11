@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-10 19:16+0100\n"
+"POT-Creation-Date: 2016-02-11 14:01+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -19,26 +19,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: src/clone.c:37
+#: src/clone.c:36
 #, c-format
 msgid "Checkout: %3d%% (%d/%d) %s \n"
 msgstr ""
 
-#: src/clone.c:51 src/common_git.c:78 src/download.c:78
-#, c-format
-msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?\n"
-msgstr ""
-
-#: src/clone.c:53 src/common_git.c:80 src/download.c:80
-msgid "progressbar == NULL -> progressbar_window destroyed?\n"
-msgstr ""
-
-#: src/clone.c:83 src/download.c:320 src/update.c:110
+#: src/clone.c:84 src/download.c:144 src/update.c:148
 #, c-format
 msgid "ERROR: create_progress_bar_window != 0\n"
 msgstr ""
 
-#: src/common_git.c:33
+#: src/common_git.c:32
 #, c-format
 msgid "Remote: %.*s"
 msgstr ""
@@ -47,189 +38,183 @@ msgstr ""
 msgid "--INFO_MSG--: in config_sdk\n"
 msgstr ""
 
-#: src/download.c:105
+#: src/download.c:55
+#, c-format
+msgid "Download: %3d%% (%llu/%llu)\n"
+msgstr ""
+
+#: src/download.c:78
 msgid "(url == NULL) || (path == NULL) \n"
 msgstr ""
 
-#: src/download.c:116
+#: src/download.c:90
 msgid "fd == NULL \n"
 msgstr ""
 
-#: src/download.c:136
+#: src/download.c:111
 #, c-format
 msgid "ERROR: curl_easy_init == NULL \n"
 msgstr ""
 
-#: src/download.c:137
+#: src/download.c:112
 msgid "curl_easy_init == NULL \n"
 msgstr ""
 
-#: src/gui.c:108
+#: src/download.c:143 src/download.c:168
+msgid "Download toolchain/host"
+msgstr ""
+
+#: src/gui.c:107
 #, c-format
 msgid "Show verion of used gui libs: \n"
 msgstr ""
 
-#: src/gui.c:109
+#: src/gui.c:108
 #, c-format
 msgid "----------------------------- \n"
 msgstr ""
 
-#: src/gui.c:119
+#: src/gui.c:118
 #, c-format
 msgid "---------------------------- \n"
 msgstr ""
 
+#: src/gui.c:185
+#, c-format
+msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?\n"
+msgstr ""
+
+#: src/gui.c:187
+msgid "progressbar == NULL -> progressbar_window destroyed?\n"
+msgstr ""
+
 #: src/gui.c:199
+msgid "Possible ERROR: progressbar_window != NULL\n"
+msgstr ""
+
+#: src/gui.c:223
 #, c-format
 msgid "ERROR: Progressbar != NULL\n"
 msgstr ""
 
-#: src/gui.c:200
+#: src/gui.c:224
 msgid "Progressbar != NULL\n"
 msgstr ""
 
-#: src/gui.c:213
-msgid "Clone progress"
-msgstr ""
-
-#: src/gui.c:214
-msgid "Progressbar_type == CLONE_BAR\n"
-msgstr ""
-
-#: src/gui.c:217
-msgid "Download progress"
-msgstr ""
-
-#: src/gui.c:218
-msgid "Progressbar_type == DOWNLOAD_BAR\n"
-msgstr ""
-
-#: src/gui.c:221
-msgid "Update/Fetch progress"
-msgstr ""
-
-#: src/gui.c:222
-msgid "Progressbar_type == UPDATE_BAR\n"
-msgstr ""
-
-#: src/gui.c:225
-#, c-format
-msgid "ERROR: unknown progressbar_type\n"
-msgstr ""
-
-#: src/gui.c:226
-msgid "Unknown progressbar_type != NULL\n"
-msgstr ""
-
-#: src/gui.c:243
+#: src/gui.c:249
 msgid "Close"
 msgstr ""
 
-#: src/gui.c:307 src/gui.c:320 src/gui.c:333 src/gui.c:346 src/gui.c:362
-#: src/gui.c:378
+#: src/gui.c:313 src/gui.c:326 src/gui.c:339 src/gui.c:352 src/gui.c:368
+#: src/gui.c:384
 #, c-format
 msgid "Can't create the thread"
 msgstr ""
 
-#: src/gui.c:482 src/gui.c:525
+#: src/gui.c:493 src/gui.c:548
 msgid "Unknown GUI element\n"
 msgstr ""
 
-#: src/gui.c:575
+#: src/gui.c:598
 msgid "Are you sure to quit (without saving)?"
 msgstr ""
 
-#: src/gui.c:595
+#: src/gui.c:618
 msgid "Open Default"
 msgstr ""
 
-#: src/gui.c:599
+#: src/gui.c:622
 msgid "Load default configuration for this tool (*sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:603 src/gui.c:758
+#: src/gui.c:626 src/gui.c:781
 msgid "Clone SDK"
 msgstr ""
 
-#: src/gui.c:607 src/gui.c:761
+#: src/gui.c:630 src/gui.c:784
 msgid "Clone SDK repository"
 msgstr ""
 
-#: src/gui.c:611 src/gui.c:767
+#: src/gui.c:634 src/gui.c:790
 msgid "Update Repo"
 msgstr ""
 
-#: src/gui.c:615
+#: src/gui.c:638
 msgid "Update SDK repository"
 msgstr ""
 
-#: src/gui.c:619 src/gui.c:776
+#: src/gui.c:642 src/gui.c:799
 msgid "Download toolchain"
 msgstr ""
 
-#: src/gui.c:623 src/gui.c:779
+#: src/gui.c:646 src/gui.c:802
 msgid "Download toolchain binarys"
 msgstr ""
 
-#: src/gui.c:627
+#: src/gui.c:650
 msgid "Test SDK"
 msgstr ""
 
-#: src/gui.c:631
+#: src/gui.c:654
 msgid "Run basic test/check on the sdk/toolchain"
 msgstr ""
 
-#: src/gui.c:635
+#: src/gui.c:658
 msgid "Help"
 msgstr ""
 
-#: src/gui.c:639
+#: src/gui.c:662
 msgid "Open help window"
 msgstr ""
 
-#: src/gui.c:643
+#: src/gui.c:666
 msgid "Quit"
 msgstr ""
 
-#: src/gui.c:651
+#: src/gui.c:674
 msgid "Quit/Exit"
 msgstr ""
 
-#: src/gui.c:676
+#: src/gui.c:699
 msgid "Create default toolconfig"
 msgstr ""
 
-#: src/gui.c:685
+#: src/gui.c:708
 msgid "Open new toolconfig "
 msgstr ""
 
-#: src/gui.c:695
+#: src/gui.c:718
 msgid "Save toolconfig "
 msgstr ""
 
-#: src/gui.c:704
+#: src/gui.c:727
 msgid "Save toolconfig under a new name"
 msgstr ""
 
-#: src/gui.c:717
+#: src/gui.c:740
 msgid "Quit/Exit with autosave of toolconfig"
 msgstr ""
 
-#: src/gui.c:744
+#: src/gui.c:767
 msgid "Init /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:747
+#: src/gui.c:770
 msgid "Init workdir of *_sdk -> /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:770
+#: src/gui.c:793
 msgid "Update SDK repositor"
 msgstr ""
 
-#: src/gui.c:905
+#: src/gui.c:924
 #, c-format
 msgid "ERROR: Message type not supported\n"
+msgstr ""
+
+#: src/gui.c:927
+#, c-format
+msgid "ERROR: textfield_buffer == NULL!\n"
 msgstr ""
 
 #: src/help.c:31
@@ -306,21 +291,21 @@ msgstr ""
 msgid "Finalize cleanup -> cheers %s\n"
 msgstr ""
 
-#: src/main.c:134
+#: src/main.c:133
 #, c-format
 msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/main.c:153
+#: src/main.c:152
 #, fuzzy
 msgid "Init main sdk_config done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/main.c:155
+#: src/main.c:154
 msgid "Possible problem: init_main_config() != 0\n"
 msgstr ""
 
-#: src/main.c:160
+#: src/main.c:159
 msgid "Init network code: done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
@@ -333,42 +318,42 @@ msgstr ""
 msgid "Something went wrong ret == -1"
 msgstr ""
 
-#: src/update.c:56
+#: src/update.c:55
 #, c-format
 msgid "[new] %.20s %s\n"
 msgstr ""
 
-#: src/update.c:65
+#: src/update.c:64
 #, c-format
 msgid "[updated] %.10s..%.10s %s\n"
 msgstr ""
 
-#: src/update.c:121
+#: src/update.c:108
 #, c-format
 msgid "Fetched: (%d/%d) %d kB (used %d local objects)\n"
 msgstr ""
 
-#: src/update.c:131
+#: src/update.c:118
 #, c-format
 msgid "Fetched: (%d/%d) %d kB \n"
 msgstr ""
 
-#: src/common.h:114
+#: src/common.h:80
 #, fuzzy, c-format
 msgid "Your're in %s of %s\n"
 msgstr "Du bist in %s von %s\n"
 
-#: src/common.h:125
+#: src/common.h:91
 #, c-format
 msgid "ERROR %d: %s\n"
 msgstr ""
 
-#: src/common.h:132
+#: src/common.h:98
 #, c-format
 msgid "ERROR %d: no detailed info\n"
 msgstr ""
 
-#: src/common.h:134
+#: src/common.h:100
 msgid "Unclassified error occured\n"
 msgstr ""
 

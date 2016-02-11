@@ -19,7 +19,6 @@
 */
 
 #include "common.h"
-#include "global.h"
 
 static void
 checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
@@ -39,48 +38,22 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 		(int) cur, (int) tot,
 		path);
 
-	/*
-	 * I suppose that if the window is destroyed for whatever reason,
-	 * the clone proccess should continue. Otherwise we leave a broken
-	 * git repo.
-	 */
-	if (progressbar != NULL)
-		set_progressbar_value(statusbar_percent, statusbar_percent_string);
-	else {
-		fprintf(stderr,
-			_("ERROR: progressbar == NULL -> progressbar_window destroyed?\n"));
-		write_to_textfield(
-			_("progressbar == NULL -> progressbar_window destroyed?\n"),
-			ERROR_MSG);
-	}
+	set_progressbar_value(statusbar_percent, statusbar_percent_string);
 }
 
 
-void *
-clone_sdk_repo(void *args)
+static void
+do_clone_repo(char *url, char *path)
 {
 	git_repository *repo = NULL;
 	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
 	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-
-	char *url = sdk_repo->url;
-	char *path = sdk_repo->path;
-
-	(void) args; // not used
 
 	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 	checkout_opts.progress_cb = checkout_progress;
 	clone_opts.checkout_opts = checkout_opts;
 	clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
 	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
-
-	/*
-	 * only one thread could be active
-	 */
-	enter_sdk_thread();
-
-	if (create_progress_bar_window(CLONE_BAR) != 0)
-		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
 	/*
 	 * I suppose that the clone proccess should finish; so i wont kill
@@ -90,17 +63,32 @@ clone_sdk_repo(void *args)
 	if (error != 0)
 		git_error_handling();
 
-
 out:
-	/*
-	 * check for correct state
-	 */
-	leave_sdk_thread();
-
 	if (repo)
 		git_repository_free(repo);
+}
 
-	gtk_widget_set_sensitive(progressbar_button, TRUE);
+
+
+void *
+clone_sdk_repo(void *args)
+{
+	char *url = get_sdk_repo_url();
+	char *path = get_sdk_repo_path();
+
+	(void) args; // not used
+
+	enter_sdk_thread();
+
+	if (create_progressbar_window(path) != 0)
+		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
+
+	do_clone_repo(url, path);
+
+	set_progressbar_value(100, "100%");
+	unlock_button(PROGRESSBAR_B);
+
+	leave_sdk_thread();
 
 	return NULL;
 }

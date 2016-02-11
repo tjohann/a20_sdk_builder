@@ -21,27 +21,8 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
-#include "common.h"
+#include "libservice.h"
 
-
-/*
- * global objects
- * --------------
- */
-
-// all global widgets
-GtkWidget *progressbar;
-GtkWidget *progressbar_button;
-
-
-#define COMMON_WORKDIR "/opt"
-
-// git repo related
-#define REPO_NAME "https://github.com/tjohann/a20_sdk.git"
-#define SDK_GIT_PATH "/var/lib/a20_sdk"
-// toolchain realted
-#define TOOLCHAIN_NAME "http://sourceforge.net/projects/a20devices/files/"
-#define TOOLCHAIN_PATH "/opt/a20_sdk"
 
 
 /*
@@ -52,9 +33,12 @@ GtkWidget *progressbar_button;
  * config specific
  */
 // to check conf_file against (really simple check)
-char *name;
+char *sdk_config_name;
 // location of config dir/file
 conf_path_t *conf_location;
+// runtime*/workdir
+char *workdir;
+char *runtimedir;
 
 /*
  * gui
@@ -82,57 +66,77 @@ char *device1_name;
 download_tupel_t *device1_kernel;
 download_tupel_t *device1_root;
 download_tupel_t *device1_home;
+device_tupel_t *device1;
 
 // example (a20_sdk) -> bananapi_pro
 char *device2_name;
 download_tupel_t *device2_kernel;
 download_tupel_t *device2_root;
 download_tupel_t *device2_home;
+device_tupel_t *device2;
 
 // example (a20_sdk) -> cubietruck
 char *device3_name;
 download_tupel_t *device3_kernel;
 download_tupel_t *device3_root;
 download_tupel_t *device3_home;
+device_tupel_t *device3;
 
 // example (a20_sdk) -> olimex
 char *device4_name;
 download_tupel_t *device4_kernel;
 download_tupel_t *device4_root;
 download_tupel_t *device4_home;
+device_tupel_t *device4;
 
 /*
  * external repos (10 max)
  */
 char *repo1_name;
 download_tupel_t *repo1;
+//repo_tupel_t *repo1;
 
 char *repo2_name;
 download_tupel_t *repo2;
+//repo_tupel_t *repo2;
 
 char *repo3_name;
 download_tupel_t *repo3;
+//repo_tupel_t *repo3;
 
 char *repo4_name;
 download_tupel_t *repo4;
+//repo_tupel_t *repo4;
 
 char *repo5_name;
 download_tupel_t *repo5;
+//repo_tupel_t *repo5;
 
 char *repo6_name;
 download_tupel_t *repo6;
+//repo_tupel_t *repo6;
 
 char *repo7_name;
 download_tupel_t *repo7;
+//repo_tupel_t *repo7;
 
 char *repo8_name;
 download_tupel_t *repo8;
+//repo_tupel_t *repo8;
 
 char *repo9_name;
 download_tupel_t *repo9;
+//repo_tupel_t *repo9;
 
 char *repo10_name;
 download_tupel_t *repo10;
+//repo_tupel_t *repo10;
+
+
+/*
+ * kernel -> taken from /var/lib/..._sdk/..._env
+ */
+kernel_tupel_t *kernel;
 
 
 #endif

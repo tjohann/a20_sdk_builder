@@ -94,7 +94,7 @@ exit_function(GtkWidget *widget, gpointer data)
 	  For autosave ...
 
 	  Quit-Button and Quit-Function do autosave
-	  "X" of the wm-window will send "delete-event" which will be handeld via
+	  via "X" of the wm-window will send "delete-event" which will be handeld
 	  dialog box (see on_delete_event@gui.c)
 	 */
 
@@ -111,7 +111,6 @@ main(int argc, char *argv[])
 	char *conf_file = NULL;
 	char *conf_dir = NULL;
 	int c;
-	char *p = NULL;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);

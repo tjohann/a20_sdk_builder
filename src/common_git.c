@@ -19,7 +19,6 @@
 */
 
 #include "common.h"
-#include "global.h"
 
 int
 sideband_progress(const char *str, int len, void *payload)
@@ -42,8 +41,10 @@ sideband_progress(const char *str, int len, void *payload)
 int
 fetch_progress(const git_transfer_progress *stats, void *payload)
 {
-	int fetch_percent = (100 * stats->received_objects)/ stats->total_objects;
-	//int index_percent = (100 * stats->indexed_objects) /stats->total_objects;
+	int fetch_percent = (100 * stats->received_objects) /
+		stats->total_objects;
+	//int index_percent = (100 * stats->indexed_objects) /
+	//      stats->total_objects;
 	int receive_kbyte = stats->received_bytes / 1024;
 
 	// simple weight function add
@@ -56,8 +57,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	(void) payload; // not used
 
 	if (stats->received_objects == stats->total_objects) {
-		fprintf(stdout,
-			"Resolving deltas %d/%d\r",
+		fprintf(stdout,	"Resolving deltas %d/%d\r",
 			stats->indexed_deltas, stats->total_deltas);
 	} else if (stats->total_objects > 0) {
 		fprintf(stdout,	"Fetched: %3d%% (%d/%d) %d kB \n",
@@ -66,20 +66,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 			receive_kbyte);
 	}
 
-	/*
-	 * I suppose that if the window is destroyed for whatever reason,
-	 * the clone proccess should continue. Otherwise we leave a broken
-	 * git repo.
-	 */
-	if (progressbar != NULL)
-		set_progressbar_value(statusbar_percent, statusbar_percent_string);
-	else {
-		fprintf(stderr,
-			_("ERROR: progressbar == NULL -> progressbar_window destroyed?\n"));
-		write_to_textfield(
-			_("progressbar == NULL -> progressbar_window destroyed?\n"),
-			ERROR_MSG);
-	}
+	set_progressbar_value(statusbar_percent, statusbar_percent_string);
 
 	return 0;
 }
@@ -92,7 +79,7 @@ check_sdk_git_path()
 
 	git_repository *repo = NULL;
 
-	const char *path = SDK_GIT_PATH;
+	const char *path = get_sdk_repo_path();
 
 	int error = git_repository_open_ext(&repo, path, 0, NULL);
 	if (error == 0) {

@@ -19,7 +19,6 @@
 */
 
 #include "common.h"
-#include "global.h"
 
 
 static int
@@ -70,8 +69,9 @@ update_tips(const char *refname,
 	return 0;
 }
 
-void *
-update_sdk_repo(void *args)
+
+static void
+do_update_repo(char *url, char *path)
 {
 	git_repository *repo;
 	git_remote *remote = NULL;
@@ -79,13 +79,8 @@ update_sdk_repo(void *args)
 
 	const git_transfer_progress *stats;
 
-	char *url = sdk_repo->url;
-	char *path = sdk_repo->path;
-
 	char textfield_final_string[MAXLINE];
 	memset(textfield_final_string, 0, sizeof(textfield_final_string));
-
-	(void) args; // not used
 
 	int error = git_repository_open(&repo, path);
 	if (error != 0)
@@ -100,14 +95,6 @@ update_sdk_repo(void *args)
 	fetch_opts.callbacks.update_tips = &update_tips;
 	fetch_opts.callbacks.sideband_progress = sideband_progress;
 	fetch_opts.callbacks.transfer_progress = fetch_progress;
-
-	/*
-	 * only one thread could be active
-	 */
-	enter_sdk_thread();
-
-	if (create_progress_bar_window(UPDATE_BAR) != 0)
-		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
 
 	error = git_remote_fetch(remote, NULL, &fetch_opts, "fetch");
 	if (error != 0)
@@ -136,20 +123,36 @@ update_sdk_repo(void *args)
 		fprintf(stdout, textfield_final_string);
 	}
 
-	set_progressbar_value(100, "100%");
-
 out:
-	/*
-	 * check for correct state
-	 */
-	leave_sdk_thread();
-
 	if (remote)
 		git_remote_free(remote);
 	if (repo)
 		git_repository_free(repo);
 
-	gtk_widget_set_sensitive(progressbar_button, TRUE);
+}
+
+
+
+void *
+update_sdk_repo(void *args)
+{
+
+	char *url = get_sdk_repo_url();
+	char *path = get_sdk_repo_path();
+
+	(void) args; // not used
+
+	enter_sdk_thread();
+
+	if (create_progressbar_window(path) != 0)
+		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
+
+	do_update_repo(url, path);
+
+	set_progressbar_value(100, "100%");
+	unlock_button(PROGRESSBAR_B);
+
+	leave_sdk_thread();
 
 	return NULL;
 }

@@ -28,7 +28,9 @@ fill_conf_location(char *conf_file, char *conf_dir)
 	conf_path_t *tmp = NULL;
 	char *conf_f = NULL;
 	char *conf_d = NULL;
-	char *usr_local_etc = "/usr/local/etc/sdb_builder";
+
+	// the default sysconfdir (see FHS)
+	char *usr_local_etc = "/usr/local/etc/sdk_builder";
 	char *etc = "/etc/sdk_builder";
 
 	tmp = malloc(sizeof(conf_path_t));
@@ -53,17 +55,14 @@ fill_conf_location(char *conf_file, char *conf_dir)
 			conf_dir = usr_local_etc;
 	}
 
-	// conf dir handling
 	conf_d = alloc_string(conf_dir);
 	if (conf_d == NULL)
 		goto error;
 
-	// conf file handling
 	conf_f = alloc_string(conf_file);
 	if (conf_f == NULL)
 		goto error;
 
-	// finalize
 	tmp->conf_file = conf_f;
 	tmp->conf_dir = conf_d;
 	conf_location = tmp;
@@ -73,10 +72,8 @@ fill_conf_location(char *conf_file, char *conf_dir)
 error:
 	if (tmp != NULL)
 		free(tmp);
-
 	if (conf_f != NULL)
 		free(conf_f);
-
 	if (conf_d != NULL)
 		free(conf_d);
 
@@ -105,7 +102,10 @@ read_conf_string(config_t *cfg, char *conf_name, char **write_to)
 
 
 static int
-read_conf_download_tupel(config_t *cfg, char *url, char *path, download_tupel_t  **write_to)
+read_conf_download_tupel(config_t *cfg,
+			 char *url,
+			 char *path,
+			 download_tupel_t  **write_to)
 {
 	const char *str;
 	char *tmp_url = NULL;
@@ -146,13 +146,10 @@ read_conf_download_tupel(config_t *cfg, char *url, char *path, download_tupel_t 
 	return 0;
 
 error:
-
 	if (tmp_url != NULL)
 		free(tmp_url);
-
 	if (tmp_path != NULL)
 		free(tmp_path);
-
 	if (repo != NULL)
 		free(repo);
 
@@ -165,6 +162,8 @@ init_main_config(char *conf_file, char *conf_dir)
 {
 	const char *sdk_name = "SDK-Builder";
 	config_t cfg;
+
+	memset(&cfg, 0, sizeof(config_t));
 
 	if (conf_file == NULL)
 		return -1;
@@ -190,16 +189,26 @@ init_main_config(char *conf_file, char *conf_dir)
                 goto error;
         }
 
-        // name
-	error = read_conf_string(&cfg, "name", &name);
+        // sdk_config_name
+	error = read_conf_string(&cfg, "sdk_config_name", &sdk_config_name);
 	if (error != 0)
 		goto error;
 
 	// check for correct config type (a minimal check only)
-	if (strncmp(name, sdk_name, strlen(sdk_name)) != 0) {
+	if (strncmp(sdk_config_name, sdk_name, strlen(sdk_name)) != 0) {
 		fprintf(stderr, _("ERROR: not a valid configuration type!\n"));
 		goto error;
 	}
+
+	// workdir
+	error = read_conf_string(&cfg, "common.workdir", &workdir);
+	if (error != 0)
+		goto error;
+
+	// runtimedir
+	error = read_conf_string(&cfg, "common.runtimedir", &runtimedir);
+	if (error != 0)
+		goto error;
 
 	// gui_name
 	error = read_conf_string(&cfg, "common.gui_name", &gui_name);
@@ -207,7 +216,8 @@ init_main_config(char *conf_file, char *conf_dir)
 		goto error;
 
         // repo
-	error = read_conf_download_tupel(&cfg, "repo.url", "repo.path", &sdk_repo);
+	error = read_conf_download_tupel(&cfg, "sdk_repo.url", "sdk_repo.path",
+					 &sdk_repo);
 	if (error != 0)
 		goto error;
 
@@ -230,19 +240,22 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "device1.name", &device1_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "device1.kernel.url", "device1.kernel.path",
+						 "device1.kernel.url",
+						 "device1.kernel.path",
 						 &device1_kernel);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device1.root.url", "device1.root.path",
+						 "device1.root.url",
+						 "device1.root.path",
 						 &device1_root);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device1.home.url", "device1.home.path",
+						 "device1.home.url",
+						 "device1.home.path",
 						 &device1_home);
 		if (error != 0)
 			goto error;
@@ -253,19 +266,22 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "device2.name", &device2_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "device2.kernel.url", "device2.kernel.path",
+						 "device2.kernel.url",
+						 "device2.kernel.path",
 						 &device2_kernel);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device2.root.url", "device2.root.path",
+						 "device2.root.url",
+						 "device2.root.path",
 						 &device2_root);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device2.home.url", "device2.home.path",
+						 "device2.home.url",
+						 "device2.home.path",
 						 &device2_home);
 		if (error != 0)
 			goto error;
@@ -275,19 +291,22 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "device3.name", &device3_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "device3.kernel.url", "device3.kernel.path",
+						 "device3.kernel.url",
+						 "device3.kernel.path",
 						 &device3_kernel);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device3.root.url", "device3.root.path",
+						 "device3.root.url",
+						 "device3.root.path",
 						 &device3_root);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device3.home.url", "device3.home.path",
+						 "device3.home.url",
+						 "device3.home.path",
 						 &device3_home);
 		if (error != 0)
 			goto error;
@@ -297,19 +316,22 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "device4.name", &device4_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "device4.kernel.url", "device4.kernel.path",
+						 "device4.kernel.url",
+						 "device4.kernel.path",
 						 &device4_kernel);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device4.root.url", "device4.root.path",
+						 "device4.root.url",
+						 "device4.root.path",
 						 &device4_root);
 		if (error != 0)
 			goto error;
 
 		error = read_conf_download_tupel(&cfg,
-						 "device4.home.url", "device4.home.path",
+						 "device4.home.url",
+						 "device4.home.path",
 						 &device4_home);
 		if (error != 0)
 			goto error;
@@ -321,7 +343,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo1.name", &repo1_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo1.url", "external.repo1.path",
+						 "external.repo1.url",
+						 "external.repo1.path",
 						 &repo1);
 		if (error != 0)
 			goto error;
@@ -331,7 +354,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo2.name", &repo2_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo2.url", "external.repo2.path",
+						 "external.repo2.url",
+						 "external.repo2.path",
 						 &repo2);
 		if (error != 0)
 			goto error;
@@ -341,7 +365,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo3.name", &repo3_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo3.url", "external.repo3.path",
+						 "external.repo3.url",
+						 "external.repo3.path",
 						 &repo3);
 		if (error != 0)
 			goto error;
@@ -351,7 +376,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo4.name", &repo4_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo4.url", "external.repo4.path",
+						 "external.repo4.url",
+						 "external.repo4.path",
 						 &repo4);
 		if (error != 0)
 			goto error;
@@ -361,7 +387,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo5.name", &repo5_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo5.url", "external.repo5.path",
+						 "external.repo5.url",
+						 "external.repo5.path",
 						 &repo5);
 		if (error != 0)
 			goto error;
@@ -371,7 +398,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo6.name", &repo6_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo6.url", "external.repo6.path",
+						 "external.repo6.url",
+						 "external.repo6.path",
 						 &repo6);
 		if (error != 0)
 			goto error;
@@ -381,7 +409,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo7.name", &repo7_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo7.url", "external.repo7.path",
+						 "external.repo7.url",
+						 "external.repo7.path",
 						 &repo7);
 		if (error != 0)
 			goto error;
@@ -391,7 +420,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo8.name", &repo8_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo8.url", "external.repo8.path",
+						 "external.repo8.url",
+						 "external.repo8.path",
 						 &repo8);
 		if (error != 0)
 			goto error;
@@ -401,7 +431,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo9.name", &repo9_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo9.url", "external.repo9.path",
+						 "external.repo9.url",
+						 "external.repo9.path",
 						 &repo9);
 		if (error != 0)
 			goto error;
@@ -411,7 +442,8 @@ init_main_config(char *conf_file, char *conf_dir)
 	error = read_conf_string(&cfg, "external.repo10.name", &repo10_name);
 	if (error == 0) {
 		error = read_conf_download_tupel(&cfg,
-						 "external.repo10.url", "external.repo10.path",
+						 "external.repo10.url",
+						 "external.repo10.path",
 						 &repo10);
 		if (error != 0)
 			goto error;
@@ -437,8 +469,8 @@ show_config()
 		conf_location->conf_file);
 	fprintf(stdout, _("Global: conf_location->conf_dir: %s      \n"),
 		conf_location->conf_dir);
-	fprintf(stdout, _("Global: name: %s                         \n"),
-		name);
+	fprintf(stdout, _("Global: sdk_config_name: %s              \n"),
+		sdk_config_name);
 	fprintf(stdout, _("Global: gui_name: %s                     \n"),
 		gui_name);
 

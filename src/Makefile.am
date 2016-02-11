@@ -4,7 +4,6 @@ bin_PROGRAMS = sdk_builder
 
 sdk_builder_SOURCES =             \
 	main.c                    \
-	error.c	                  \
 	gui.c                     \
 	init.c                    \
 	common_git.c              \
@@ -16,7 +15,6 @@ sdk_builder_SOURCES =             \
 	checksum.c                \
 	test.c                    \
 	common.h                  \
-	global.h		  \
 	help.c                    \
 	gettext.h
 

@@ -41,9 +41,7 @@
  * --------------
  */
 
-// --> see global.h
-
-
+// attribute for write_to_textfield
 typedef enum message_types {
 		NORMAL_MSG = 0x00,
 		WARNING_MSG,
@@ -53,13 +51,11 @@ typedef enum message_types {
 } message_types_t;
 
 
-typedef enum progressbar_types {
-		CLONE_BAR = 0x01,
-		DOWNLOAD_BAR,
-		UPDATE_BAR
-} progressbar_types_t;
-
-
+/*
+ * at least for a common naming scheme
+ * CLONE_B -> clone button
+ * CLONE_M -> clone menutentry
+ */
 typedef enum gui_element {
 		CLONE_B = 0x01,
 		INIT_M,
@@ -71,39 +67,9 @@ typedef enum gui_element {
 		TEST_B,
 		HELP_B,
 		OPEN_B,
-		OPEN_M
+		OPEN_M,
+		PROGRESSBAR_B
 } gui_element_t;
-
-
-typedef enum download_types {
-		DOWNLOAD_TOOLCHAIN = 0x00,
-		DOWNLOAD_BANANAPI,
-		DOWNLOAD_BANANAPI_PRO,
-		DOWNLOAD_CUBIETRUCK,
-		DOWNLOAD_OLIMEX,
-		DOWNLOAD_ALL_IMAGES,
-		DOWNLOAD_ALL,
-} download_types_t;
-
-
-typedef struct download_tupel {
-	char *url;
-	char *path;
-} download_tupel_t;
-
-
-typedef struct conf_path {
-	char *conf_file;
-	char *conf_dir;
-} conf_path_t;
-
-
-/*
- * global objects
- * --------------
- */
-
-// --> see global.h
 
 
 /*
@@ -159,7 +125,10 @@ void
 write_to_textfield(const char *message, message_types_t type);
 
 int
-create_progress_bar_window(unsigned char progressbar_type);
+create_progressbar_window(char *name);
+
+void
+set_progressbar_window_title(char *title);
 
 void
 set_progressbar_value(int statusbar_percent, char *statusbar_percent_string);
@@ -190,19 +159,6 @@ leave_sdk_thread(void);
 
 void
 exit_function(GtkWidget *widget, gpointer data);
-
-
-/*
- * error.c
- * =======
- */
-
-// print error message and exit
-void
-__attribute__((noreturn)) error_exit(const char *fmt, ...);
-
-void
-error_msg(const char *fmt, ...);
 
 
 /*
@@ -275,7 +231,7 @@ check_toolchain(void);
  * ==========
  */
 
-void
+int
 extract_toolchain(char *filename);
 
 

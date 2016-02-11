@@ -19,7 +19,6 @@
 */
 
 #include "common.h"
-#include "global.h"
 
 /*
  * main window
@@ -68,8 +67,8 @@ GtkAccelGroup *accel_group;
 /*
  * clone/download progressbar
  */
-// GtkWidget *progressbar;        <- common.h
-// GtkWidget *progressbar_button; <- common.h
+GtkWidget *progressbar;
+GtkWidget *progressbar_button;
 GtkWidget *progressbar_window;
 GtkWidget *progressbar_vbox;
 GtkWidget *progressbar_sep;
@@ -137,7 +136,6 @@ create_pixbuf(const gchar *filename)
 	pixbuf = gdk_pixbuf_new_from_file(filename, &error);
 
 	if (!pixbuf) {
-
 		fprintf(stderr, "%s\n", error->message);
 		g_error_free(error);
 	}
@@ -149,8 +147,11 @@ create_pixbuf(const gchar *filename)
 static void
 destroy_progressbar_window()
 {
-	gtk_widget_destroy(GTK_WIDGET(progressbar_window));
+	if (progressbar_window != NULL)
+		gtk_widget_destroy(GTK_WIDGET(progressbar_window));
+
 	progressbar = NULL;
+	progressbar_button = NULL;
 }
 
 
@@ -162,29 +163,52 @@ set_progressbar_value(int statusbar_percent, char *statusbar_percent_string)
 	 * -> 	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
 	 */
 
-	gdk_threads_enter();
+	if (progressbar != NULL) {
+		gdk_threads_enter();
 
-	gtk_progress_set_value(GTK_PROGRESS(progressbar), statusbar_percent);
-	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar),
-				  statusbar_percent_string);
+		gtk_progress_set_value(GTK_PROGRESS(progressbar), statusbar_percent);
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar),
+					  statusbar_percent_string);
 
-	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
+		gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
 
-	if (statusbar_percent == 100)
-		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar),
-					      1.0);
+		if (statusbar_percent == 100)
+			gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar),
+						      1.0);
 
-	if (statusbar_percent == 0)
-		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar),
-					      0.0);
-	gdk_threads_leave();
+		if (statusbar_percent == 0)
+			gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar),
+						      0.0);
+		gdk_threads_leave();
+	} else {
+		fprintf(stderr,
+			_("ERROR: progressbar == NULL -> progressbar_window destroyed?\n"));
+		write_to_textfield(
+			_("progressbar == NULL -> progressbar_window destroyed?\n"),
+			ERROR_MSG);
+	}
+}
+
+
+void
+set_progressbar_window_title(char *title)
+{
+	if (progressbar_window != NULL)
+		gtk_window_set_title(GTK_WINDOW(progressbar_window), title);
+	else
+		g_print(_("Possible ERROR: progressbar_window != NULL\n"));
 }
 
 
 int
-create_progress_bar_window(unsigned char progressbar_type)
+create_progressbar_window(char *name)
 {
-	PRINT_LOCATION();
+	char *title = NULL;
+
+	if (name == NULL)
+		title = "Progress";
+	else
+		title = name;
 
 	/*
 	   Layout:
@@ -207,25 +231,7 @@ create_progress_bar_window(unsigned char progressbar_type)
 			 G_CALLBACK(destroy_progressbar_window),
 			 NULL);
 	gtk_window_set_resizable(GTK_WINDOW(progressbar_window), FALSE);
-
-	switch (progressbar_type) {
-	case CLONE_BAR:
-		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Clone progress"));
-		g_print(_("Progressbar_type == CLONE_BAR\n"));
-		break;
-	case DOWNLOAD_BAR:
-		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Download progress"));
-		g_print(_("Progressbar_type == DOWNLOAD_BAR\n"));
-		break;
-	case UPDATE_BAR:
-		gtk_window_set_title(GTK_WINDOW(progressbar_window), _("Update/Fetch progress"));
-		g_print(_("Progressbar_type == UPDATE_BAR\n"));
-		break;
-	default:
-		fprintf(stderr, _("ERROR: unknown progressbar_type\n"));
-		write_to_textfield(_("Unknown progressbar_type != NULL\n"), ERROR_MSG);
-		return -1;
-	}
+	gtk_window_set_title(GTK_WINDOW(progressbar_window), title);
 
 	progressbar_vbox = gtk_vbox_new(FALSE, 5);
 	gtk_container_set_border_width(GTK_CONTAINER(progressbar_vbox), 5);
@@ -477,7 +483,12 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 		else
 			gtk_widget_set_sensitive(init_m, FALSE);
 		break;
-
+	case PROGRESSBAR_B:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(progressbar_button, TRUE);
+		else
+			gtk_widget_set_sensitive(progressbar_button, FALSE);
+		break;
 	default:
 		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
 	}
@@ -520,6 +531,18 @@ get_state_of_gui_element(gui_element_t button)
 		break;
 	case OPEN_B:
 		return gtk_widget_get_sensitive(open_b);
+		break;
+	case OPEN_M:
+		return gtk_widget_get_sensitive(open_m);
+		break;
+	case INIT_M:
+		return gtk_widget_get_sensitive(init_m);
+		break;
+	case PROGRESSBAR_B:
+		if (progressbar_button != NULL)
+			return gtk_widget_get_sensitive(progressbar_button);
+		else
+			return false;
 		break;
 	default:
 		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
@@ -817,21 +840,12 @@ setup_textfield()
 
 	textfield_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textfield));
 
-	gtk_text_buffer_create_tag(textfield_buffer,
-				   "bold",
-				   "weight",
-				   PANGO_WEIGHT_BOLD,
-				   NULL);
-	gtk_text_buffer_create_tag(textfield_buffer,
-				   "italic",
-				   "style",
-				   PANGO_STYLE_ITALIC,
-				   NULL);
-	gtk_text_buffer_create_tag(textfield_buffer,
-				   "red",
-				   "foreground",
-				   "red",
-				   NULL);
+	gtk_text_buffer_create_tag(textfield_buffer, "bold", "weight",
+				   PANGO_WEIGHT_BOLD, NULL);
+	gtk_text_buffer_create_tag(textfield_buffer, "italic", "style",
+				   PANGO_STYLE_ITALIC, NULL);
+	gtk_text_buffer_create_tag(textfield_buffer, "red", "foreground",
+				   "red",  NULL);
 }
 
 
@@ -858,51 +872,59 @@ write_to_textfield(const char *message, message_types_t type)
 						   "bold", "italic" ,"red", NULL);
 	*/
 
-	switch(type) {
-	case NORMAL_MSG:
-		gdk_threads_enter();
-		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
-		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
-		gdk_threads_leave();
-		break;
-	case WARNING_MSG:
-		gdk_threads_enter();
-		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
-		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
-							 &iter,
-							 "--- WARNING ---\n", -1,
-							 "bold", NULL);
-		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
-		gdk_threads_leave();
-		break;
-	case ERROR_MSG:
-		gdk_threads_enter();
-		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
-		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
-							 &iter,
-							 "--- ERROR ---\n", -1,
-							 "red", "bold", NULL);
-		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
-		gdk_threads_leave();
-		break;
-	case INFO_MSG:
-		gdk_threads_enter();
-		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
-		gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
-							 &iter,
-							 "--- INFO ---\n", -1,
-							 "italic", NULL);
-		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
-		gdk_threads_leave();
-		break;
-	case NONE:
-		gdk_threads_enter();
-		gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
-		gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
-		gdk_threads_leave();
-		break;
-	default:
-		fprintf(stderr,_("ERROR: Message type not supported\n"));
+	if (textfield_buffer != NULL) {
+		switch(type) {
+		case NORMAL_MSG:
+			gdk_threads_enter();
+			gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
+			gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+			gdk_threads_leave();
+			break;
+		case WARNING_MSG:
+			gdk_threads_enter();
+			gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
+			gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
+								 &iter,
+								 "--- WARNING ---\n",
+								 -1, "bold",
+								 NULL);
+			gtk_text_buffer_insert(textfield_buffer, &iter,
+					       message, -1);
+			gdk_threads_leave();
+			break;
+		case ERROR_MSG:
+			gdk_threads_enter();
+			gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
+			gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
+								 &iter,
+								 "--- ERROR ---\n",
+								 -1, "red", "bold",
+								 NULL);
+			gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+			gdk_threads_leave();
+			break;
+		case INFO_MSG:
+			gdk_threads_enter();
+			gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
+			gtk_text_buffer_insert_with_tags_by_name(textfield_buffer,
+								 &iter,
+								 "--- INFO ---\n",
+								 -1, "italic",
+								 NULL);
+			gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+			gdk_threads_leave();
+			break;
+		case NONE:
+			gdk_threads_enter();
+			gtk_text_buffer_get_end_iter(textfield_buffer, &iter);
+			gtk_text_buffer_insert(textfield_buffer, &iter, message, -1);
+			gdk_threads_leave();
+			break;
+		default:
+			fprintf(stderr,_("ERROR: Message type not supported\n"));
+		}
+	} else {
+		fprintf(stderr, _("ERROR: textfield_buffer == NULL!\n"));
 	}
 }
 
@@ -910,6 +932,8 @@ void
 build_main_window()
 {
 	PRINT_LOCATION();
+
+	char *gui_name = get_common_gui_name();
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -940,14 +964,10 @@ build_main_window()
 	/*
 	 * delete-event -> event coming from the window manager
 	 */
-	g_signal_connect(window,
-			 "delete-event",
-			 G_CALLBACK(on_delete_event),
-			 NULL);
-	g_signal_connect(window,
-			 "destroy",
-			 G_CALLBACK(gtk_main_quit),
-			 NULL);
+	g_signal_connect(window, "delete-event",
+			 G_CALLBACK(on_delete_event), NULL);
+	g_signal_connect(window, "destroy",
+			 G_CALLBACK(gtk_main_quit), NULL);
 
         /*
 	   Layout:
@@ -1005,10 +1025,8 @@ build_main_window()
 
 	textfield_table = gtk_table_new(2, 1, FALSE);
 	textfield_scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy(
-		GTK_SCROLLED_WINDOW(textfield_scrolled),
-		GTK_POLICY_NEVER,
-		GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(textfield_scrolled),
+		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
 	textfield = gtk_text_view_new();
 	setup_textfield();
@@ -1018,8 +1036,10 @@ build_main_window()
 	setup_textfield_entry();
 
 	gtk_container_add(GTK_CONTAINER(textfield_scrolled), textfield);
-	gtk_table_attach_defaults(GTK_TABLE(textfield_table), textfield_scrolled, 0, 1, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(textfield_table), textfield_entry, 0, 1, 1, 2);
+	gtk_table_attach_defaults(GTK_TABLE(textfield_table),
+				  textfield_scrolled, 0, 1, 0, 1);
+	gtk_table_attach_defaults(GTK_TABLE(textfield_table),
+				  textfield_entry, 0, 1, 1, 2);
 
 	gtk_box_pack_end(GTK_BOX(hbox), textfield_table, TRUE, TRUE, 1);
 

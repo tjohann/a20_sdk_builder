@@ -21,9 +21,6 @@
 #ifndef _LIBSERVICE_H_
 #define _LIBSERVICE_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-
 // more or less common inc
 #include <stdio.h>
 #include <sys/types.h>
@@ -90,6 +87,47 @@
  * -------------
  */
 
+// dowload/clone url to path
+typedef struct download_tupel {
+	char *url;
+	char *path;
+} download_tupel_t;
+
+
+// represent a device like Bananapi or Olimex
+typedef struct device_tupel {
+	char *name;
+	download_tupel_t *kernel;
+	download_tupel_t *root;
+	download_tupel_t *home;
+} device_tupel_t;
+
+
+// represent a externel repo like u-boot or linux
+typedef struct repo_tupel {
+	char *name;
+	download_tupel_t *repo;
+} repo_tupel_t;
+
+
+// represent the kernel parts
+typedef struct kernel_tupel {
+	download_tupel_t *non_rt_kernel;
+	download_tupel_t *rt_kernel;
+	download_tupel_t *rt_patch;
+} kernel_tupel_t;
+
+
+/*
+ * configuration dir and configuration file
+ * -> conf_dir = /etc/sdk_builder
+ * -> conf_file = a20_sdk_builder.conf
+ */
+typedef struct conf_path {
+	char *conf_file;
+	char *conf_dir;
+} conf_path_t;
+
 
 /*
  * common macros
@@ -128,6 +166,76 @@ alloc_string(const char *tmp_str);
 
 int
 init_network(void);
+
+
+/*
+ * error.c
+ * =======
+ */
+
+// print error message and exit
+void
+__attribute__((noreturn)) error_exit(const char *fmt, ...);
+
+void
+error_msg(const char *fmt, ...);
+
+
+/*
+ * config.c
+ * ========
+ */
+
+/*
+ * Scheme:
+ *
+ * get/set_STRUCTURE_VARIABLE  -> sdk_repo.url -> get_sdk_repo_url()
+ */
+
+/*
+ * common
+ */
+char *
+get_common_gui_name();
+
+char *
+get_common_workdir();
+
+char *
+get_common_runtimedir();
+
+/*
+ * sdk_repo
+ */
+char *
+get_sdk_repo_url();
+
+char *
+get_sdk_repo_path();
+
+
+/*
+ * toolchain
+ */
+char *
+get_toolchain_url();
+
+char *
+get_toolchain_path();
+
+download_tupel_t *
+get_toolchain();
+
+
+
+/*
+ * download_tupel_t
+ */
+char *
+get_download_tupel_url(download_tupel_t *t);
+
+char *
+get_download_tupel_path(download_tupel_t *t);
 
 
 

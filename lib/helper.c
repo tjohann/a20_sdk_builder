@@ -89,7 +89,7 @@ is_this_a_dir(const char *dir_name)
 
 	if (dir_name == NULL)
 		return false;
-	
+
 	if (stat(dir_name, &sb) == 0 && S_ISDIR(sb.st_mode))
 		return true;
 	else
@@ -111,13 +111,13 @@ alloc_string(const char *tmp_str)
 
 	// conf dir handling
 	len = strlen(tmp_str) + 1;
-	
+
 	str = malloc(len);
 	if (str == NULL)
 		return NULL;
-	
+
 	memset(str, 0, len);
 	strncat(str, tmp_str, len);
-	
+
 	return str;
 }

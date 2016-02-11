@@ -20,7 +20,6 @@
 
 #include "common.h"
 
-
 /*
  * module specific macros
  * ======================
@@ -66,7 +65,7 @@
 		write_to_textfield(archive_error_string(archive),	\
 				   NONE);				\
 		write_to_textfield("\n", NONE);				\
-		goto out;						\
+		goto error;						\
 	} while (0)
 
 
@@ -109,17 +108,19 @@ copy_data(struct archive *a_read, struct archive *a_write)
 }
 
 
-void
+int
 extract_toolchain(char *filename)
 {
 	struct archive *archive;
 	struct archive *ext;
 	struct archive_entry *entry;
 
-	//char *filename = "/opt/a20_sdk/toolchain_x86_64.tgz";
-	chdir("/opt/a20_sdk/");
+	char *workdir = get_common_workdir();
 
-	int error = 0;
+	if (workdir)
+		chdir(workdir);
+	else
+		return -1;
 
 	size_t block_size = 10240;
 	int flags = ARCHIVE_EXTRACT_TIME;
@@ -131,7 +132,7 @@ extract_toolchain(char *filename)
 	archive_read_support_compression_all(archive);
 	archive_read_support_format_tar(archive);
 
-	error = archive_read_open_filename(archive, filename, block_size);
+	int error = archive_read_open_filename(archive, filename, block_size);
 	if (error)
 		handle_error_archive_read_open_filename();
 
@@ -160,7 +161,14 @@ extract_toolchain(char *filename)
 	}
 
 	write_to_textfield(_("Uncompress archive finished\n"), INFO_MSG);
-out:
+
 	archive_read_close(archive);
 	archive_read_free(archive);
+	return 0;
+
+error:
+	archive_read_close(archive);
+	archive_read_free(archive);
+
+	return -1;
 }

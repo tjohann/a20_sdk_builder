@@ -3,7 +3,6 @@
 src/clone.c
 src/common_git.c
 src/config.c
-src/error.c
 src/download.c
 src/gui.c
 src/help.c
@@ -12,7 +11,9 @@ src/test.c
 src/update.c
 src/checksum.c
 src/common.h
-src/global.h
+lib/global.h
 lib/network.c
 lib/helper.c
+lib/config.c
+lib/error.c
 lib/libservice.h

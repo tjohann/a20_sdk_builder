@@ -50,5 +50,5 @@ calc_checksum()
 		printf("%02x", buffer[len]);
 	putchar('\n');
 
-	return 0;
+	//return 0;
 }
