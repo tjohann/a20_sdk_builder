@@ -33,10 +33,12 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 
 	(void) payload; // not used
 
+#ifdef DEBUG
 	info_msg(_("Checkout: %3d%% (%d/%d) %s"),
-		 checkout_percent,
-		 (int) cur, (int) tot,
-		 path);
+		checkout_percent,
+		(int) cur, (int) tot,
+		path);
+#endif
 
 	set_progressbar_value(statusbar_percent, statusbar_percent_string);
 }

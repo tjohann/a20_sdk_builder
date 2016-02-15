@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Thorsten Johannvorderbrueggen
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the sdk-builder package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-15 15:39+0100\n"
+"POT-Creation-Date: 2016-02-15 20:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/clone.c:36
+#: src/clone.c:37
 #, c-format
 msgid "Checkout: %3d%% (%d/%d) %s"
 msgstr ""
 
-#: src/clone.c:84 src/download.c:137 src/update.c:145
+#: src/clone.c:86 src/download.c:138 src/update.c:145
 msgid "ERROR: create_progress_bar_window != 0"
 msgstr ""
 
@@ -40,24 +40,24 @@ msgstr ""
 msgid "--INFO_MSG--: in config_sdk"
 msgstr ""
 
-#: src/download.c:55
+#: src/download.c:56
 #, c-format
 msgid "Download: %3d%% (%llu/%llu)"
 msgstr ""
 
-#: src/download.c:75
+#: src/download.c:76
 msgid "(url == NULL) || (path == NULL)"
 msgstr ""
 
-#: src/download.c:84
+#: src/download.c:85
 msgid "fd == NULL"
 msgstr ""
 
-#: src/download.c:105
+#: src/download.c:106
 msgid "curl_easy_init == NULL"
 msgstr ""
 
-#: src/download.c:136 src/download.c:161
+#: src/download.c:137 src/download.c:162
 msgid "Download toolchain/host"
 msgstr ""
 

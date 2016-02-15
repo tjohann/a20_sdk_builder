@@ -52,9 +52,10 @@ checkout_progress(void *p,
 	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
 	snprintf(statusbar_percent_string, 5, "%3d%%", statusbar_percent);
 
+#ifdef DEBUG
 	info_msg(_("Download: %3d%% (%llu/%llu)"), statusbar_percent,
-		 cur, tot);
-
+		cur, tot);
+#endif
 	set_progressbar_value(statusbar_percent, statusbar_percent_string);
 
 	return 0;

@@ -55,6 +55,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 
 	(void) payload; // not used
 
+#ifdef DEBUG
 	if (stats->received_objects == stats->total_objects) {
 		info_msg("Resolving deltas %d/%d",
 			 stats->indexed_deltas, stats->total_deltas);
@@ -64,6 +65,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 			 stats->received_objects, stats->total_objects,
 			 receive_kbyte);
 	}
+#endif
 
 	set_progressbar_value(statusbar_percent, statusbar_percent_string);
 
