@@ -24,118 +24,31 @@
 #include "libservice.h"
 
 
-
 /*
  * global configurations
  */
 
-/*
- * config specific
- */
-// to check conf_file against (really simple check)
-char *sdk_config_name;
-// location of config dir/file
+/* location of config dir/file -> not part of conf file! */
 conf_path_t *conf_location;
-// runtime*/workdir
+
+/* to check conf_file against (really simple check) */
+char *sdk_config_name;
+
+char *gui_name;
 char *workdir;
 char *runtimedir;
 
-/*
- * gui
- */
-// example (a20_sdk) -> a20_sdk_builder
-char *gui_name;
-
-/*
- * *_sdk.git
- */
 download_tupel_t *sdk_repo;
-
-/*
- * toolchain -> cross-compiler and libs
- * host -> sysroot and host tools like mkimage
- */
 download_tupel_t *toolchain;
 download_tupel_t *host;
 
-/*
- * devices (4 devices max)
- */
-// example (a20_sdk) -> bananapi
-char *device1_name;
-download_tupel_t *device1_kernel;
-download_tupel_t *device1_root;
-download_tupel_t *device1_home;
-device_tupel_t *device1;
+/* deviceX */
+device_tupel_t *device_array[MAX_SUPPORTED_DEVICES + 1];
 
-// example (a20_sdk) -> bananapi_pro
-char *device2_name;
-download_tupel_t *device2_kernel;
-download_tupel_t *device2_root;
-download_tupel_t *device2_home;
-device_tupel_t *device2;
+/* external */
+repo_tupel_t *repo_array[MAX_SUPPORTED_EXTERNAL_REPOS + 1];
 
-// example (a20_sdk) -> cubietruck
-char *device3_name;
-download_tupel_t *device3_kernel;
-download_tupel_t *device3_root;
-download_tupel_t *device3_home;
-device_tupel_t *device3;
-
-// example (a20_sdk) -> olimex
-char *device4_name;
-download_tupel_t *device4_kernel;
-download_tupel_t *device4_root;
-download_tupel_t *device4_home;
-device_tupel_t *device4;
-
-/*
- * external repos (10 max)
- */
-char *repo1_name;
-download_tupel_t *repo1;
-//repo_tupel_t *repo1;
-
-char *repo2_name;
-download_tupel_t *repo2;
-//repo_tupel_t *repo2;
-
-char *repo3_name;
-download_tupel_t *repo3;
-//repo_tupel_t *repo3;
-
-char *repo4_name;
-download_tupel_t *repo4;
-//repo_tupel_t *repo4;
-
-char *repo5_name;
-download_tupel_t *repo5;
-//repo_tupel_t *repo5;
-
-char *repo6_name;
-download_tupel_t *repo6;
-//repo_tupel_t *repo6;
-
-char *repo7_name;
-download_tupel_t *repo7;
-//repo_tupel_t *repo7;
-
-char *repo8_name;
-download_tupel_t *repo8;
-//repo_tupel_t *repo8;
-
-char *repo9_name;
-download_tupel_t *repo9;
-//repo_tupel_t *repo9;
-
-char *repo10_name;
-download_tupel_t *repo10;
-//repo_tupel_t *repo10;
-
-
-/*
- * kernel -> taken from /var/lib/..._sdk/..._env
- */
+/* kernel -> taken from /var/lib/..._sdk/..._env  */
 kernel_tupel_t *kernel;
 
 

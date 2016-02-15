@@ -76,38 +76,19 @@ typedef enum gui_element {
  * common.h
  * ========
  */
-#define PRINT_LOCATION() do {						\
-		g_print(_("Your're in %s of %s\n"),			\
-			__FUNCTION__,					\
-			__FILE__);					\
-	} while (0)
-
-
 #define git_error_handling() do {					\
 		const git_error *err = giterr_last();			\
 									\
 		if (err) {						\
-			fprintf(stderr,					\
-				_("ERROR %d: %s\n"),			\
-				err->klass,				\
-				err->message);				\
-			write_to_textfield(err->message, ERROR_MSG);	\
-			write_to_textfield("\n", NORMAL_MSG);		\
+			write_error_msg(_("GIT: %d: %s"), err->klass,	\
+					err->message);			\
 		} else {						\
-			fprintf(stderr,					\
-				_("ERROR %d: no detailed info\n"),	\
-				error);					\
-			write_to_textfield(_("Unclassified error occured\n"), \
-					   ERROR_MSG);			\
+			write_error_msg(_("GIT: %d: no detailed info"), \
+					error);				\
 		}							\
 		goto out;						\
 	} while (0)
 
-
-#define ERROR_MSG_AND_RETURN(name) do {		\
-		error_msg(name);		\
-		return -1;			\
-	} while (0)
 
 
 /*
@@ -162,21 +143,59 @@ exit_function(GtkWidget *widget, gpointer data);
 
 
 /*
+ * message_handler.c
+ * =================
+ */
+// print error message and exit
+void
+__attribute__((noreturn)) write_error_msg_exit(const char *fmt, ...);
+
+// print error message
+void
+write_error_msg(const char *fmt, ...);
+
+// print error message and return
+void
+write_error_msg_return(const char *fmt, ...);
+
+// print info message
+void
+write_info_msg(const char *fmt, ...);
+
+// print info message and return
+void
+write_info_msg_return(const char *fmt, ...);
+
+// print debug message
+void
+write_debug_msg(const char *fmt, ...);
+
+// print debug message and return
+void
+write_debug_msg_return(const char *fmt, ...);
+
+// print warning message
+void
+write_warning_msg(const char *fmt, ...);
+
+// print warning message and return
+void
+write_warning_msg_return(const char *fmt, ...);
+
+
+/*
  * init.c
  * ======
  */
 
-int
-init_main_config(char *conf_file, char *conf_dir);
-
 void *
 init_sdk_workdir(void *args);
 
-void
+int
 check_sdk_workdir(void);
 
-void
-show_config();
+int
+check_sdk_runtimedir(void);
 
 
 /*

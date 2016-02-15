@@ -21,24 +21,43 @@
 #include "libservice.h"
 
 
+int use_syslog;
+
+
 /*
- * common error function which is called in all exported error handling
+ * Common error function which is called in all exported error handling
  * functions
+ * Hint: see man 3 syslog for log_level
+ *
+ * +------------------+------------+------------+--------------------------+
+ * |     function     | use errno? | terminate? | log_level (man 3 syslog) |
+ * +------------------+------------+------------+--------------------------+
+ * | error_exit       |     yes    |   exit()   |         LOG_ERR          |
+ * | dump_exit        |     yes    |  abort()   |         LOG_ERR          |
+ * | error_msg        |     yes    |    no      |         LOG_ERR          |
+ * | error_msg_return |     no     |   return   |         LOG_ERR          |
+ * | info_msg         |     no     |    no      |         LOG_INFO         |
+ * | info_msg_return  |     no     |   return   |         LOG_INFO         |
+ * | debug_msg        |     no     |    no      |         LOG_DEBUG        |
+ * | debug_msg_return |     no     |    no      |         LOG_DEBUG        |
+ * +------------------+------------+------------+--------------------------+
  */
 static void
-error_common(int errno_flag, int error, const char *fmt, va_list va)
+error_common(int errno_flag, int log_level, const char *fmt, va_list va)
 {
-	char buf[MAXLINE];
+	char buf[MAXLINE + 1];
+	int errno_save = errno;
 
-	vsnprintf(buf, MAXLINE-1, fmt, va);
+	vsnprintf(buf, MAXLINE, fmt, va);
 
+	size_t n = strlen(buf);
 	if (errno_flag)
-		snprintf(buf+strlen(buf),
-			 MAXLINE-strlen(buf)-1,
-			 ": %s",
-			 strerror(error));
+		snprintf(buf + n, MAXLINE - n, ": %s", strerror(errno_save));
 
 	strcat(buf, "\n");
+
+	if (use_syslog)
+		syslog(log_level, buf);
 
 	fflush(stdout);
 	fputs(buf, stderr);
@@ -55,10 +74,27 @@ __attribute__((noreturn)) error_exit(const char *fmt, ...)
 	va_list va;
 
 	va_start(va, fmt);
-	error_common(0, 0, fmt, va);
+	error_common(1, LOG_ERR, fmt, va);
 	va_end(va);
 
 	exit(EXIT_FAILURE);
+}
+
+
+/*
+ * print error message and dump/exit
+ */
+void
+__attribute__((noreturn)) dump_exit(const char *fmt, ...)
+{
+	va_list va;
+
+	va_start(va, fmt);
+	error_common(1, LOG_ERR, fmt, va);
+	va_end(va);
+
+	abort();
+	exit(EXIT_FAILURE);  // shouldn't get here
 }
 
 
@@ -71,6 +107,81 @@ error_msg(const char *fmt, ...)
 	va_list	va;
 
 	va_start(va, fmt);
-	error_common(0, 0, fmt, va);
+	error_common(1, LOG_ERR, fmt, va);
 	va_end(va);
+}
+
+
+/*
+ * print error message and return
+ */
+void
+error_msg_return(const char *fmt, ...)
+{
+	va_list	va;
+
+	va_start(va, fmt);
+	error_common(0, LOG_ERR, fmt, va);
+	va_end(va);
+
+	return;
+}
+
+
+/*
+ * print info message
+ */
+void
+info_msg(const char *fmt, ...)
+{
+	va_list	va;
+
+	va_start(va, fmt);
+	error_common(0, LOG_INFO, fmt, va);
+	va_end(va);
+}
+
+
+/*
+ * print info message and return
+ */
+void
+info_msg_return(const char *fmt, ...)
+{
+	va_list	va;
+
+	va_start(va, fmt);
+	error_common(0, LOG_INFO, fmt, va);
+	va_end(va);
+
+	return;
+}
+
+
+/*
+ * print debug message
+ */
+void
+debug_msg(const char *fmt, ...)
+{
+	va_list	va;
+
+	va_start(va, fmt);
+	error_common(0, LOG_DEBUG, fmt, va);
+	va_end(va);
+}
+
+/*
+ * print debug message and return
+ */
+void
+debug_msg_return(const char *fmt, ...)
+{
+	va_list	va;
+
+	va_start(va, fmt);
+	error_common(0, LOG_DEBUG, fmt, va);
+	va_end(va);
+
+	return;
 }

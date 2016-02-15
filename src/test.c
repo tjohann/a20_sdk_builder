@@ -32,7 +32,7 @@ test_sdk(void *args)
 	 */
 	enter_sdk_thread();
 
-	write_to_textfield(_("--INFO_MSG--: in test_sdk\n"), INFO_MSG);
+	write_info_msg(_("--INFO_MSG--: in test_sdk"));
 
 	sleep(5);
 
@@ -54,7 +54,7 @@ check_test_env()
 	 */
 	int ret = get_state_of_gui_element(DOWNLOAD_B);
 	if (ret < 0) {
-		fprintf(stderr, _("Something went wrong ret == -1"));
+		write_error_msg(_("Something went wrong ret == -1"));
 	} else {
 		if (ret == 0)
 			unlock_button(TEST_B);

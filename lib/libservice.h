@@ -80,6 +80,8 @@
  * -------------
  */
 #define MAXLINE 254
+#define MAX_SUPPORTED_DEVICES 4
+#define MAX_SUPPORTED_EXTERNAL_REPOS 10
 
 
 /*
@@ -135,6 +137,11 @@ typedef struct conf_path {
  */
 #define _(string) gettext(string)
 
+#define PRINT_LOCATION() do {			      \
+		info_msg(_("Your're in %s of %s"),    \
+			 __FUNCTION__, __FILE__);     \
+	} while (0)
+
 
 /*
  * helper.c
@@ -159,6 +166,7 @@ is_this_a_dir(const char *dir_name);
 char *
 alloc_string(const char *tmp_str);
 
+
 /*
  * network.c
  * =========
@@ -173,18 +181,91 @@ init_network(void);
  * =======
  */
 
+/*
+ * +------------------+------------+------------+--------------------------+
+ * |     function     | use errno? | terminate? | log_level (man 3 syslog) |
+ * +------------------+------------+------------+--------------------------+
+ * | error_exit       |     yes    |   exit()   |         LOG_ERR          |
+ * | dump_exit        |     yes    |  abort()   |         LOG_ERR          |
+ * | error_msg        |     yes    |    no      |         LOG_ERR          |
+ * | error_msg_return |     no     |   return   |         LOG_ERR          |
+ * | info_msg         |     no     |    no      |         LOG_INFO         |
+ * | info_msg_return  |     no     |   return   |         LOG_INFO         |
+ * | debug_msg        |     no     |    no      |         LOG_DEBUG        |
+ * | debug_msg_return |     no     |    no      |         LOG_DEBUG        |
+ * +------------------+------------+------------+--------------------------+
+ */
+
 // print error message and exit
 void
 __attribute__((noreturn)) error_exit(const char *fmt, ...);
 
+// print error message and dump/exit
+void
+__attribute__((noreturn)) dump_exit(const char *fmt, ...);
+
+// print error message
 void
 error_msg(const char *fmt, ...);
+
+// print error message and return
+void
+error_msg_return(const char *fmt, ...);
+
+// print info message
+void
+info_msg(const char *fmt, ...);
+
+// print info message and return
+void
+info_msg_return(const char *fmt, ...);
+
+// print debug message
+void
+debug_msg(const char *fmt, ...);
+
+// print debug message and return
+void
+debug_msg_return(const char *fmt, ...);
 
 
 /*
  * config.c
  * ========
  */
+
+int
+set_conf_location(char *conf_file, char *conf_dir);
+
+char *
+get_conf_location_dir();
+
+char *
+get_conf_location_file();
+
+int
+init_main_config(char *conf_file, char *conf_dir);
+
+int
+init_common_config();
+
+int
+init_repo_config();
+
+int
+init_toolchain_config();
+
+int
+init_device_config();
+
+int
+init_external_config();
+
+int
+init_kernel_config();
+
+void
+show_config();
 
 /*
  * Scheme:
@@ -225,7 +306,6 @@ get_toolchain_path();
 
 download_tupel_t *
 get_toolchain();
-
 
 
 /*

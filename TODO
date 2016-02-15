@@ -2,6 +2,17 @@
 # TODO with date and progress
 #
 
+
+#
+# -------------- 2016-02-14 ----------------------------------------------------
+#
+download of toolchain only should be possible -> check handling if host == NULL
+extract workdir of toolchain->path (extract.c uses $workdir for that, wich is
+inconsistent!)
+move git_error_handling macro to "other location" -> its git specific and
+not common
+
+
 #
 # -------------- 2016-02-07 ----------------------------------------------------
 #

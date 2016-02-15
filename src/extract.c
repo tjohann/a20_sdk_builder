@@ -24,61 +24,16 @@
  * module specific macros
  * ======================
  */
-#define report_error_read_next_header() do {				\
-		fprintf(stderr, "archive_read_next_header() %s \n",	\
-			archive_error_string(archive));			\
-		write_to_textfield("archive_read_next_header():\n",	\
-				   ERROR_MSG);				\
-		write_to_textfield(archive_error_string(archive),	\
-				   NONE);				\
-		write_to_textfield("\n", NONE);				\
-	} while (0)
 
-
-#define report_error_archive_write_header() do {			\
-		fprintf(stderr, "archive_write_header() %s \n",		\
-			archive_error_string(ext));			\
-		write_to_textfield("archive_write_header(): \n",	\
-				   ERROR_MSG);				\
-		write_to_textfield(archive_error_string(archive),	\
-				   NONE);				\
-		write_to_textfield("\n", NONE);				\
-	} while (0)
-
-
-#define report_error_archive_write_finish_entry() do {			\
-		fprintf(stderr, "archive_write_finish_entry() %s \n",	\
-			archive_error_string(ext));			\
-		write_to_textfield("archive_write_finish_entry():\n",	\
-				   ERROR_MSG);				\
-		write_to_textfield(archive_error_string(archive),	\
-				   NONE);				\
-		write_to_textfield("\n", NONE);				\
-	} while (0)
 
 
 #define handle_error_archive_read_open_filename() do {			\
-		fprintf(stderr, "archive_read_open_filename() %s \n",	\
-			archive_error_string(archive));			\
-		write_to_textfield("archive_read_open_filename():\n",	\
-				   ERROR_MSG);				\
-		write_to_textfield(archive_error_string(archive),	\
-				   NONE);				\
-		write_to_textfield("\n", NONE);				\
+		write_error_msg("archive_read_open_filename() %s",	\
+				archive_error_string(archive));		\
 		goto error;						\
 	} while (0)
 
 
-#define report_error_archive_write_data_block() do {			\
-		fprintf(stderr, "archive_write_data_block() %s \n",	\
-			archive_error_string(a_write));			\
-		write_to_textfield("archive_write_data_block(): \n",	\
-				   ERROR_MSG);				\
-		write_to_textfield(archive_error_string(a_write),	\
-				   NONE);				\
-		write_to_textfield("\n", NONE);				\
-		return (error);						\
-	} while (0)
 
 
 /*
@@ -102,8 +57,11 @@ copy_data(struct archive *a_read, struct archive *a_write)
 			return (error);
 
 		error = archive_write_data_block(a_write, buff, size, offset);
-		if (error != ARCHIVE_OK)
-			report_error_archive_write_data_block();
+		if (error != ARCHIVE_OK) {
+			write_error_msg("archive_write_data_block() %s",
+					archive_error_string(a_write));
+			return error;
+		}
 	}
 }
 
@@ -133,8 +91,11 @@ extract_toolchain(char *filename)
 	archive_read_support_format_tar(archive);
 
 	int error = archive_read_open_filename(archive, filename, block_size);
-	if (error)
-		handle_error_archive_read_open_filename();
+	if (error) {
+		write_error_msg("archive_read_open_filename() %s",
+				archive_error_string(archive));
+		goto error;
+	}
 
 	for (;;) {
 		error = archive_read_next_header(archive, &entry);
@@ -143,24 +104,26 @@ extract_toolchain(char *filename)
 			break;
 
 		if (error != ARCHIVE_OK)
-			report_error_read_next_header();
-
+			write_error_msg("archive_read_next_header() %s",
+					archive_error_string(archive));
 
 		error = archive_write_header(ext, entry);
 		if (error != ARCHIVE_OK) {
-			report_error_archive_write_header();
+			write_error_msg("archive_write_header() %s",
+					archive_error_string(ext));
 		} else {
 			error = copy_data(archive, ext);
 			if (error)
-				fprintf(stderr, "ERROR in copy_data\n");
+				write_error_msg(_("ERROR in copy_data"));
 
 			error = archive_write_finish_entry(ext);
 			if (error != ARCHIVE_OK)
-				report_error_archive_write_finish_entry();
+				write_error_msg("archive_write_finish_entry() %s",
+						 archive_error_string(ext));
 		}
 	}
 
-	write_to_textfield(_("Uncompress archive finished\n"), INFO_MSG);
+	write_info_msg(_("Uncompress archive finished"));
 
 	archive_read_close(archive);
 	archive_read_free(archive);

@@ -104,18 +104,18 @@ GtkTooltips *tooltips;
 void
 show_gtk_version_info()
 {
-	fprintf(stdout, _("Show verion of used gui libs: \n"));
-	fprintf(stdout, _("----------------------------- \n"));
-	g_print("Glib version: %d.%d.%d\n",
+	info_msg(_("Show verion of used gui libs: "));
+	info_msg(_("----------------------------- "));
+	info_msg("Glib version: %d.%d.%d",
 		glib_major_version,
 		glib_minor_version,
 		glib_micro_version);
 
-	g_print("GTK+ version: %d.%d.%d\n",
+	info_msg("GTK+ version: %d.%d.%d",
 		gtk_major_version,
 		gtk_minor_version,
 		gtk_micro_version);
-	fprintf(stdout, _("---------------------------- \n"));
+	info_msg(_("----------------------------- "));
 }
 
 
@@ -136,7 +136,7 @@ create_pixbuf(const gchar *filename)
 	pixbuf = gdk_pixbuf_new_from_file(filename, &error);
 
 	if (!pixbuf) {
-		fprintf(stderr, "%s\n", error->message);
+		error_msg("%s", error->message);
 		g_error_free(error);
 	}
 
@@ -181,11 +181,7 @@ set_progressbar_value(int statusbar_percent, char *statusbar_percent_string)
 						      0.0);
 		gdk_threads_leave();
 	} else {
-		fprintf(stderr,
-			_("ERROR: progressbar == NULL -> progressbar_window destroyed?\n"));
-		write_to_textfield(
-			_("progressbar == NULL -> progressbar_window destroyed?\n"),
-			ERROR_MSG);
+		write_warning_msg(_("ERROR: progressbar == NULL -> progressbar_window destroyed?"));
 	}
 }
 
@@ -196,7 +192,7 @@ set_progressbar_window_title(char *title)
 	if (progressbar_window != NULL)
 		gtk_window_set_title(GTK_WINDOW(progressbar_window), title);
 	else
-		g_print(_("Possible ERROR: progressbar_window != NULL\n"));
+		write_warning_msg(_("Possible ERROR: progressbar_window != NULL"));
 }
 
 
@@ -219,11 +215,8 @@ create_progressbar_window(char *name)
 	*/
 
 
-	if (progressbar != NULL) {
-		fprintf(stderr, _("ERROR: Progressbar != NULL\n"));
-		write_to_textfield(_("Progressbar != NULL\n"), ERROR_MSG);
-		return -1;
-	}
+	if (progressbar != NULL)
+		write_error_msg_return(_("Progressbar != NULL"));
 
 	progressbar_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	g_signal_connect(progressbar_window,
@@ -310,7 +303,7 @@ clone_button(GtkWidget *widget, gpointer data)
 	(void) data;
 
 	if (!g_thread_create(&clone_sdk_repo, NULL, FALSE, NULL) != 0)
-		fprintf(stderr, _("Can't create the thread"));
+		write_error_msg(_("Can't create the thread"));
 }
 
 
@@ -323,7 +316,7 @@ update_button(GtkWidget *widget, gpointer data)
 	(void) data;
 
 	if (!g_thread_create(&update_sdk_repo, NULL, FALSE, NULL) != 0)
-		fprintf(stderr, _("Can't create the thread"));
+		write_error_msg(_("Can't create the thread"));
 }
 
 
@@ -336,7 +329,7 @@ download_button(GtkWidget *widget, gpointer data)
 	(void) data;
 
 	if (!g_thread_create(&download_toolchain, NULL, FALSE, NULL) != 0)
-		fprintf(stderr, _("Can't create the thread"));
+		write_error_msg(_("Can't create the thread"));
 }
 
 
@@ -349,7 +342,7 @@ test_button(GtkWidget *widget, gpointer data)
 	(void) data;
 
 	if (!g_thread_create(&test_sdk, NULL, FALSE, NULL) != 0)
-		fprintf(stderr, _("Can't create the thread"));
+		write_error_msg(_("Can't create the thread"));
 }
 
 
@@ -365,7 +358,7 @@ show_help(GtkWidget *widget, gpointer data)
 	(void) data;
 
 	if (!g_thread_create(&help, NULL, FALSE, NULL) != 0)
-		fprintf(stderr, _("Can't create the thread"));
+		write_error_msg(_("Can't create the thread"));
 }
 
 
@@ -381,7 +374,7 @@ new_config(GtkWidget *widget, gpointer data)
 	(void) data;
 
 	if (!g_thread_create(&config_sdk, NULL, FALSE, NULL) != 0)
-		fprintf(stderr, _("Can't create the thread"));
+		write_error_msg(_("Can't create the thread"));
 }
 
 
@@ -490,7 +483,7 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 			gtk_widget_set_sensitive(progressbar_button, FALSE);
 		break;
 	default:
-		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
+		write_error_msg(_("Unknown GUI element"));
 	}
 }
 
@@ -545,7 +538,7 @@ get_state_of_gui_element(gui_element_t button)
 			return false;
 		break;
 	default:
-		write_to_textfield(_("Unknown GUI element\n"), ERROR_MSG);
+		write_error_msg(_("Unknown GUI element"));
 	}
 
 	return -1;
@@ -921,10 +914,10 @@ write_to_textfield(const char *message, message_types_t type)
 			gdk_threads_leave();
 			break;
 		default:
-			fprintf(stderr,_("ERROR: Message type not supported\n"));
+			error_msg(_("ERROR: Message type not supported"));
 		}
 	} else {
-		fprintf(stderr, _("ERROR: textfield_buffer == NULL!\n"));
+		error_msg(_("ERROR: textfield_buffer == NULL!"));
 	}
 }
 

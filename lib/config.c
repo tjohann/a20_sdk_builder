@@ -22,14 +22,180 @@
 #include "global.h"
 
 
-/*
- * common
- */
+static int
+read_conf_string(config_t *cfg, char *conf_name, char **write_to)
+{
+	const char *str;
+
+	int error = config_lookup_string(cfg, conf_name, &str);
+	if (error == CONFIG_FALSE) {
+                error_msg(_("No '%s' setting in config file!"),	conf_name);
+		return -1;
+	}
+
+	*write_to = alloc_string(str);
+	if (*write_to == NULL)
+		return -1;
+
+	return 0;
+}
+
+
+static int
+read_conf_download_tupel(config_t *cfg,
+			 char *url,
+			 char *path,
+			 download_tupel_t  **write_to)
+{
+	const char *str;
+	char *tmp_url = NULL;
+	char *tmp_path = NULL;
+	download_tupel_t *repo = NULL;
+
+	repo = malloc(sizeof(download_tupel_t));
+	if (repo == NULL)
+		goto error;
+
+	int error = config_lookup_string(cfg, url, &str);
+	if (error == CONFIG_FALSE) {
+                error_msg(_("No '%s' setting in config file!"), url);
+		goto error;;
+	}
+
+	tmp_url = alloc_string(str);;
+	if (tmp_url == NULL)
+		goto error;
+
+
+	error = config_lookup_string(cfg, path, &str);
+	if (error == CONFIG_FALSE) {
+                error_msg(_("No '%s' setting in config file!"), path);
+		goto error;;
+	}
+
+	tmp_path = alloc_string(str);;
+	if (tmp_path == NULL)
+		goto error;
+
+	repo->url = tmp_url;
+	repo->path = tmp_path;
+	*write_to = repo;
+
+	return 0;
+
+error:
+	if (tmp_url != NULL)
+		free(tmp_url);
+	if (tmp_path != NULL)
+		free(tmp_path);
+	if (repo != NULL)
+		free(repo);
+
+	return -1;
+}
+
+
+int
+set_conf_location(char *conf_file, char *conf_dir)
+{
+	conf_path_t *tmp = NULL;
+	char *conf_f = NULL;
+	char *conf_d = NULL;
+
+	// the default sysconfdir (see FHS)
+	char *usr_local_etc = "/usr/local/etc/sdk_builder";
+	char *etc = "/etc/sdk_builder";
+
+	tmp = malloc(sizeof(conf_path_t));
+	if (tmp == NULL)
+		return -1;
+
+	memset(tmp, 0, sizeof(conf_path_t));
+
+	if (conf_dir == NULL) {
+		info_msg(_("Argument conf_dir == NULL in %s"), __FUNCTION__);
+
+		if (!is_this_a_dir(usr_local_etc) && !(is_this_a_dir(etc))) {
+			error_msg(
+				_("No valid config dir in /etc or /usr/local/etc"));
+			goto error;
+		}
+
+		if (is_this_a_dir(etc))
+			conf_dir = etc;
+		else
+			conf_dir = usr_local_etc;
+	}
+
+	conf_d = alloc_string(conf_dir);
+	if (conf_d == NULL)
+		goto error;
+
+	conf_f = alloc_string(conf_file);
+	if (conf_f == NULL)
+		goto error;
+
+	tmp->conf_file = conf_f;
+	tmp->conf_dir = conf_d;
+	conf_location = tmp;
+
+	return 0;
+
+error:
+	if (tmp != NULL)
+		free(tmp);
+	if (conf_f != NULL)
+		free(conf_f);
+	if (conf_d != NULL)
+		free(conf_d);
+
+	return -1;
+}
+
+
+static int
+get_config_object(config_t **cfg)
+{
+	char *conf_f = get_conf_location_file();
+	char *conf_d = get_conf_location_dir();
+
+	// read config
+	if (chdir(conf_d) == -1)
+		error_exit(_("can't change to dir %s"), conf_d);
+
+        config_init(*cfg);
+	if (config_read_file(*cfg, conf_f) != CONFIG_TRUE)
+	{
+                error_msg("%s:%d - %s", config_error_file(*cfg),
+			  config_error_line(*cfg), config_error_text(*cfg));
+		config_destroy(*cfg);
+		return -1;
+        }
+
+	return 0;
+}
+
+
+char *
+get_conf_location_dir()
+{
+	return conf_location->conf_dir;
+}
+
+
+char *
+get_conf_location_file()
+{
+	return conf_location->conf_file;
+}
+
+
 char *
 get_common_gui_name()
 {
 	return gui_name;
 }
+
 
 char *
 get_common_workdir()
@@ -37,20 +203,20 @@ get_common_workdir()
 	return workdir;
 }
 
+
 char *
 get_common_runtimedir()
 {
 	return runtimedir;
 }
 
-/*
- * sdk_repo
- */
+
 char *
 get_sdk_repo_url()
 {
 	return sdk_repo->url;
 }
+
 
 char *
 get_sdk_repo_path()
@@ -58,20 +224,20 @@ get_sdk_repo_path()
 	return sdk_repo->path;
 }
 
-/*
- * toolchain
- */
+
 char *
 get_toolchain_url()
 {
 	return toolchain->url;
 }
 
+
 char *
 get_toolchain_path()
 {
 	return toolchain->path;
 }
+
 
 download_tupel_t *
 get_toolchain()
@@ -80,20 +246,19 @@ get_toolchain()
 }
 
 
-/*
- * host
- */
 char *
 get_host_url()
 {
 	return host->url;
 }
 
+
 char *
 get_host_path()
 {
 	return host->path;
 }
+
 
 download_tupel_t *
 get_host()
@@ -102,19 +267,235 @@ get_host()
 }
 
 
-
-
-/*
- * download_tupel_t
- */
 char *
 get_download_tupel_url(download_tupel_t *t)
 {
 	return t->url;
 }
 
+
 char *
 get_download_tupel_path(download_tupel_t *t)
 {
 	return t->path;
+}
+
+
+int
+init_main_config(char *conf_file, char *conf_dir)
+{
+	config_t cfg;
+	config_t *cfg_p = &cfg;
+	const char *sdk_name = "SDK-Builder";
+
+	if (conf_file == NULL)
+		return -1;
+
+	int error = set_conf_location(conf_file, conf_dir);
+	if (error != 0)
+		goto error;
+
+	if (get_config_object(&cfg_p) != 0)
+		return -1;
+
+	// sdk_config_name
+	error = read_conf_string(&cfg, "sdk_config_name", &sdk_config_name);
+	if (error != 0)
+		goto error;
+
+	// check for correct config type (a minimal check only)
+	if (strncmp(sdk_config_name, sdk_name, strlen(sdk_name)) != 0) {
+		error_msg(_("Not a valid configuration type!"));
+		goto error;
+	}
+
+	config_destroy(&cfg);
+
+	return 0;
+
+error:
+	config_destroy(&cfg);
+	return -1;
+}
+
+
+int
+init_common_config()
+{
+	config_t cfg;
+	config_t *cfg_p = &cfg;
+
+	if (get_config_object(&cfg_p) != 0)
+		return -1;
+
+	// workdir
+	int error = read_conf_string(&cfg, "common.workdir", &workdir);
+	if (error != 0)
+		goto error;
+
+	// runtimedir
+	error = read_conf_string(&cfg, "common.runtimedir", &runtimedir);
+	if (error != 0)
+		goto error;
+
+	// gui_name
+	error = read_conf_string(&cfg, "common.gui_name", &gui_name);
+	if (error != 0)
+		goto error;
+
+	config_destroy(&cfg);
+	return 0;
+
+error:
+	config_destroy(&cfg);
+	return -1;
+}
+
+
+int
+init_repo_config()
+{
+	config_t cfg;
+	config_t *cfg_p = &cfg;
+
+	if (get_config_object(&cfg_p) != 0)
+		return -1;
+
+	// repo
+	int error = read_conf_download_tupel(&cfg, "sdk_repo.url",
+					     "sdk_repo.path", &sdk_repo);
+	if (error != 0)
+		goto error;
+
+	config_destroy(&cfg);
+	return 0;
+
+error:
+	config_destroy(&cfg);
+	return -1;
+}
+
+
+int
+init_toolchain_config()
+{
+	config_t cfg;
+	config_t *cfg_p = &cfg;
+
+	if (get_config_object(&cfg_p) != 0)
+		return -1;
+
+	// toolchain
+	int error = read_conf_download_tupel(&cfg, "toolchain.url", "toolchain.path",
+					 &toolchain);
+	if (error != 0)
+		goto error;
+
+	// host
+	error = read_conf_download_tupel(&cfg, "host.url", "host.path",
+					 &host);
+	if (error != 0)
+		goto error;
+
+	config_destroy(&cfg);
+	return 0;
+
+error:
+	config_destroy(&cfg);
+	return -1;
+}
+
+
+int
+init_device_config()
+{
+	config_t cfg;
+	config_t *cfg_p = &cfg;
+
+	if (get_config_object(&cfg_p) != 0)
+		return -1;
+
+	PRINT_LOCATION();
+
+	config_destroy(&cfg);
+	return 0;
+
+error:
+	config_destroy(&cfg);
+	return -1;
+}
+
+
+int
+init_external_config()
+{
+	config_t cfg;
+	config_t *cfg_p = &cfg;
+
+	if (get_config_object(&cfg_p) != 0)
+		return -1;
+
+	PRINT_LOCATION();
+
+	config_destroy(&cfg);
+	return 0;
+
+error:
+	config_destroy(&cfg);
+	return -1;
+}
+
+
+int
+init_kernel_config()
+{
+
+	PRINT_LOCATION();
+
+        // do something
+	return 0;
+}
+
+
+void
+show_config()
+{
+	putchar('\n');
+	info_msg(_("Show content of internal configuration: "));
+	info_msg("--------------------------------------- ");
+	info_msg(_("Global: conf_location->conf_file: %s    "),	conf_location->conf_file);
+	info_msg(_("Global: conf_location->conf_dir: %s     "), conf_location->conf_dir);
+	info_msg(_("Global: sdk_config_name: %s             "),	sdk_config_name);
+	info_msg(_("Global: gui_name: %s                    "), gui_name);
+
+	// repo
+	if (sdk_repo != NULL) {
+		info_msg(_("Global: sdk_repo->url %s        "), sdk_repo->url);
+		info_msg(_("Global: sdk_repo->path %s       "), sdk_repo->path);
+	} else {
+		info_msg(_("Global: sdk_repo == NULL "));
+	}
+
+	// toolchain
+	if (toolchain != NULL) {
+		info_msg(_("Global: toolchain->url %s       "),	toolchain->url);
+		info_msg(_("Global: toolchain->path %s      "), toolchain->path);
+	} else {
+		info_msg(_("Global: toolchain == NULL"));
+	}
+
+	// host
+	if (host != NULL) {
+		info_msg(_("Global: host->url %s            "),	host->url);
+		info_msg(_("Global: host->path %s           "), host->path);
+	} else {
+		info_msg(_("Global: host == NULL     "));
+	}
+
+
+
+
+
+	fprintf(stdout, _("--------------------------------------- \n"));
+	putchar('\n');
 }

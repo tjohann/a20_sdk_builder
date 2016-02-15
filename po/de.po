@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-11 14:01+0100\n"
+"POT-Creation-Date: 2016-02-15 15:39+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -21,12 +21,16 @@ msgstr ""
 
 #: src/clone.c:36
 #, c-format
-msgid "Checkout: %3d%% (%d/%d) %s \n"
+msgid "Checkout: %3d%% (%d/%d) %s"
 msgstr ""
 
-#: src/clone.c:84 src/download.c:144 src/update.c:148
+#: src/clone.c:84 src/download.c:137 src/update.c:145
+msgid "ERROR: create_progress_bar_window != 0"
+msgstr ""
+
+#: src/message_handler.c:68
 #, c-format
-msgid "ERROR: create_progress_bar_window != 0\n"
+msgid "ERROR: Message type not supported\n"
 msgstr ""
 
 #: src/common_git.c:32
@@ -35,326 +39,321 @@ msgid "Remote: %.*s"
 msgstr ""
 
 #: src/config.c:31
-msgid "--INFO_MSG--: in config_sdk\n"
+msgid "--INFO_MSG--: in config_sdk"
 msgstr ""
 
 #: src/download.c:55
 #, c-format
-msgid "Download: %3d%% (%llu/%llu)\n"
+msgid "Download: %3d%% (%llu/%llu)"
 msgstr ""
 
-#: src/download.c:78
-msgid "(url == NULL) || (path == NULL) \n"
+#: src/download.c:75
+msgid "(url == NULL) || (path == NULL)"
 msgstr ""
 
-#: src/download.c:90
-msgid "fd == NULL \n"
+#: src/download.c:84
+msgid "fd == NULL"
 msgstr ""
 
-#: src/download.c:111
-#, c-format
-msgid "ERROR: curl_easy_init == NULL \n"
+#: src/download.c:105
+msgid "curl_easy_init == NULL"
 msgstr ""
 
-#: src/download.c:112
-msgid "curl_easy_init == NULL \n"
-msgstr ""
-
-#: src/download.c:143 src/download.c:168
+#: src/download.c:136 src/download.c:161
 msgid "Download toolchain/host"
 msgstr ""
 
 #: src/gui.c:107
-#, c-format
-msgid "Show verion of used gui libs: \n"
+msgid "Show verion of used gui libs: "
 msgstr ""
 
-#: src/gui.c:108
-#, c-format
-msgid "----------------------------- \n"
+#: src/gui.c:108 src/gui.c:118
+msgid "----------------------------- "
 msgstr ""
 
-#: src/gui.c:118
-#, c-format
-msgid "---------------------------- \n"
+#: src/gui.c:184
+msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?"
 msgstr ""
 
-#: src/gui.c:185
-#, c-format
-msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?\n"
+#: src/gui.c:195
+msgid "Possible ERROR: progressbar_window != NULL"
 msgstr ""
 
-#: src/gui.c:187
-msgid "progressbar == NULL -> progressbar_window destroyed?\n"
+#: src/gui.c:219
+msgid "Progressbar != NULL"
 msgstr ""
 
-#: src/gui.c:199
-msgid "Possible ERROR: progressbar_window != NULL\n"
-msgstr ""
-
-#: src/gui.c:223
-#, c-format
-msgid "ERROR: Progressbar != NULL\n"
-msgstr ""
-
-#: src/gui.c:224
-msgid "Progressbar != NULL\n"
-msgstr ""
-
-#: src/gui.c:249
+#: src/gui.c:242
 msgid "Close"
 msgstr ""
 
-#: src/gui.c:313 src/gui.c:326 src/gui.c:339 src/gui.c:352 src/gui.c:368
-#: src/gui.c:384
-#, c-format
+#: src/gui.c:306 src/gui.c:319 src/gui.c:332 src/gui.c:345 src/gui.c:361
+#: src/gui.c:377
 msgid "Can't create the thread"
 msgstr ""
 
-#: src/gui.c:493 src/gui.c:548
-msgid "Unknown GUI element\n"
+#: src/gui.c:486 src/gui.c:541
+msgid "Unknown GUI element"
 msgstr ""
 
-#: src/gui.c:598
+#: src/gui.c:591
 msgid "Are you sure to quit (without saving)?"
 msgstr ""
 
-#: src/gui.c:618
+#: src/gui.c:611
 msgid "Open Default"
 msgstr ""
 
-#: src/gui.c:622
+#: src/gui.c:615
 msgid "Load default configuration for this tool (*sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:626 src/gui.c:781
+#: src/gui.c:619 src/gui.c:774
 msgid "Clone SDK"
 msgstr ""
 
-#: src/gui.c:630 src/gui.c:784
+#: src/gui.c:623 src/gui.c:777
 msgid "Clone SDK repository"
 msgstr ""
 
-#: src/gui.c:634 src/gui.c:790
+#: src/gui.c:627 src/gui.c:783
 msgid "Update Repo"
 msgstr ""
 
-#: src/gui.c:638
+#: src/gui.c:631
 msgid "Update SDK repository"
 msgstr ""
 
-#: src/gui.c:642 src/gui.c:799
+#: src/gui.c:635 src/gui.c:792
 msgid "Download toolchain"
 msgstr ""
 
-#: src/gui.c:646 src/gui.c:802
+#: src/gui.c:639 src/gui.c:795
 msgid "Download toolchain binarys"
 msgstr ""
 
-#: src/gui.c:650
+#: src/gui.c:643
 msgid "Test SDK"
 msgstr ""
 
-#: src/gui.c:654
+#: src/gui.c:647
 msgid "Run basic test/check on the sdk/toolchain"
 msgstr ""
 
-#: src/gui.c:658
+#: src/gui.c:651
 msgid "Help"
 msgstr ""
 
-#: src/gui.c:662
+#: src/gui.c:655
 msgid "Open help window"
 msgstr ""
 
-#: src/gui.c:666
+#: src/gui.c:659
 msgid "Quit"
 msgstr ""
 
-#: src/gui.c:674
+#: src/gui.c:667
 msgid "Quit/Exit"
 msgstr ""
 
-#: src/gui.c:699
+#: src/gui.c:692
 msgid "Create default toolconfig"
 msgstr ""
 
-#: src/gui.c:708
+#: src/gui.c:701
 msgid "Open new toolconfig "
 msgstr ""
 
-#: src/gui.c:718
+#: src/gui.c:711
 msgid "Save toolconfig "
 msgstr ""
 
-#: src/gui.c:727
+#: src/gui.c:720
 msgid "Save toolconfig under a new name"
 msgstr ""
 
-#: src/gui.c:740
+#: src/gui.c:733
 msgid "Quit/Exit with autosave of toolconfig"
 msgstr ""
 
-#: src/gui.c:767
+#: src/gui.c:760
 msgid "Init /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:770
+#: src/gui.c:763
 msgid "Init workdir of *_sdk -> /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:793
+#: src/gui.c:786
 msgid "Update SDK repositor"
 msgstr ""
 
-#: src/gui.c:924
-#, c-format
-msgid "ERROR: Message type not supported\n"
+#: src/gui.c:917
+msgid "ERROR: Message type not supported"
 msgstr ""
 
-#: src/gui.c:927
-#, c-format
-msgid "ERROR: textfield_buffer == NULL!\n"
+#: src/gui.c:920
+msgid "ERROR: textfield_buffer == NULL!"
 msgstr ""
 
 #: src/help.c:31
-msgid "--INFO_MSG--: in help\n"
+msgid "--INFO_MSG--: in help"
 msgstr ""
 
-#: src/main.c:31
+#: src/main.c:30
 #, c-format
 msgid "Usage: %s [options]              \n"
 msgstr ""
 
-#: src/main.c:32
+#: src/main.c:31
 #, c-format
 msgid "Options:                                       \n"
 msgstr ""
 
-#: src/main.c:34
+#: src/main.c:33
 #, c-format
 msgid ""
 "        -f filename.conf   give a name for a configuration file "
 "[mandatory]      \n"
 msgstr ""
 
-#: src/main.c:36
+#: src/main.c:35
 #, c-format
 msgid ""
 "        -d directory       give a directory name to search for configuration "
 "file\n"
 msgstr ""
 
-#: src/main.c:38
+#: src/main.c:37
 #, c-format
 msgid ""
 "        -h                 show "
 "help                                             \n"
 msgstr ""
 
-#: src/main.c:41
+#: src/main.c:40
 #, c-format
 msgid "Examples:                                      \n"
 msgstr ""
 
-#: src/main.c:42
+#: src/main.c:41
 #, c-format
 msgid "Normal usage (via desktop.entry):                   a20_sdk_builder \n"
 msgstr ""
 
-#: src/main.c:44
+#: src/main.c:43
 #, c-format
 msgid ""
 "Give configuration as argument:                     sdk_builder -f "
 "a20_sdk_builder.conf                   \n"
 msgstr ""
 
-#: src/main.c:46
+#: src/main.c:45
 #, c-format
 msgid "-> check path /etc/sdk_builder                 \n"
 msgstr ""
 
-#: src/main.c:47
+#: src/main.c:46
 #, c-format
 msgid "-> check path /usr/local/etc/sdk_builder       \n"
 msgstr ""
 
-#: src/main.c:48
+#: src/main.c:47
 #, c-format
 msgid ""
 "Give both as argument:                              sdk_builder -f "
 "a20_sdk_builder.conf -d $HOME/etc/sdk-builder/ \n"
 msgstr ""
 
-#: src/main.c:59
+#: src/main.c:58
 #, c-format
 msgid "Finalize cleanup -> cheers %s\n"
 msgstr ""
 
-#: src/main.c:133
-#, c-format
-msgid "ERROR: no valid argument\n"
-msgstr ""
-
-#: src/main.c:152
+#: src/main.c:98 src/main.c:200
 #, fuzzy
 msgid "Init main sdk_config done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/main.c:154
-msgid "Possible problem: init_main_config() != 0\n"
+#: src/main.c:103
+#, fuzzy
+msgid "Init common sdk_config done\n"
+msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/main.c:108
+#, fuzzy
+msgid "Init repo sdk_config done\n"
+msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/main.c:113 src/main.c:118
+#, fuzzy
+msgid "Init toolchain sdk_config done\n"
+msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/main.c:123
+#, fuzzy
+msgid "Init device sdk_config done\n"
+msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/main.c:128
+#, fuzzy
+msgid "Init external sdk_config done\n"
+msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/main.c:133
+#, fuzzy
+msgid "Init kernel sdk_config done\n"
+msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/main.c:182
+#, c-format
+msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/main.c:159
+#: src/main.c:202
+msgid "Possible init problem: read_complete_config != 0\n"
+msgstr ""
+
+#: src/main.c:207
 msgid "Init network code: done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
 #: src/test.c:35
-msgid "--INFO_MSG--: in test_sdk\n"
+msgid "--INFO_MSG--: in test_sdk"
 msgstr ""
 
 #: src/test.c:57
-#, c-format
 msgid "Something went wrong ret == -1"
 msgstr ""
 
 #: src/update.c:55
 #, c-format
-msgid "[new] %.20s %s\n"
+msgid "[new] %.20s %s"
 msgstr ""
 
-#: src/update.c:64
+#: src/update.c:63
 #, c-format
-msgid "[updated] %.10s..%.10s %s\n"
+msgid "[updated] %.10s..%.10s %s"
 msgstr ""
 
-#: src/update.c:108
+#: src/update.c:107
 #, c-format
-msgid "Fetched: (%d/%d) %d kB (used %d local objects)\n"
+msgid "Fetched: (%d/%d) %d kB (used %d local objects)"
 msgstr ""
 
-#: src/update.c:118
+#: src/update.c:116
 #, c-format
-msgid "Fetched: (%d/%d) %d kB \n"
+msgid "Fetched: (%d/%d) %d kB"
 msgstr ""
 
-#: src/common.h:80
-#, fuzzy, c-format
-msgid "Your're in %s of %s\n"
-msgstr "Du bist in %s von %s\n"
-
-#: src/common.h:91
+#: src/common.h:83
 #, c-format
-msgid "ERROR %d: %s\n"
+msgid "GIT: %d: %s"
 msgstr ""
 
-#: src/common.h:98
+#: src/common.h:86
 #, c-format
-msgid "ERROR %d: no detailed info\n"
-msgstr ""
-
-#: src/common.h:100
-msgid "Unclassified error occured\n"
+msgid "GIT: %d: no detailed info"
 msgstr ""
 
 #: lib/network.c:27
@@ -397,6 +396,105 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Program name is %s\n"
 msgstr "Packet name ist %s\n"
+
+#: lib/config.c:32 lib/config.c:61 lib/config.c:72
+#, c-format
+msgid "No '%s' setting in config file!"
+msgstr ""
+
+#: lib/config.c:116
+#, c-format
+msgid "Argument conf_dir == NULL in %s"
+msgstr ""
+
+#: lib/config.c:120
+msgid "No valid config dir in /etc or /usr/local/etc"
+msgstr ""
+
+#: lib/config.c:164
+#, c-format
+msgid "can't change to dir %s"
+msgstr ""
+
+#: lib/config.c:308
+msgid "Not a valid configuration type!"
+msgstr ""
+
+#: lib/config.c:464
+msgid "Show content of internal configuration: "
+msgstr ""
+
+#: lib/config.c:466
+#, c-format
+msgid "Global: conf_location->conf_file: %s    "
+msgstr ""
+
+#: lib/config.c:467
+#, c-format
+msgid "Global: conf_location->conf_dir: %s     "
+msgstr ""
+
+#: lib/config.c:468
+#, c-format
+msgid "Global: sdk_config_name: %s             "
+msgstr ""
+
+#: lib/config.c:469
+#, c-format
+msgid "Global: gui_name: %s                    "
+msgstr ""
+
+#: lib/config.c:473
+#, c-format
+msgid "Global: sdk_repo->url %s        "
+msgstr ""
+
+#: lib/config.c:474
+#, c-format
+msgid "Global: sdk_repo->path %s       "
+msgstr ""
+
+#: lib/config.c:476
+msgid "Global: sdk_repo == NULL "
+msgstr ""
+
+#: lib/config.c:481
+#, c-format
+msgid "Global: toolchain->url %s       "
+msgstr ""
+
+#: lib/config.c:482
+#, c-format
+msgid "Global: toolchain->path %s      "
+msgstr ""
+
+#: lib/config.c:484
+msgid "Global: toolchain == NULL"
+msgstr ""
+
+#: lib/config.c:489
+#, c-format
+msgid "Global: host->url %s            "
+msgstr ""
+
+#: lib/config.c:490
+#, c-format
+msgid "Global: host->path %s           "
+msgstr ""
+
+#: lib/config.c:492
+msgid "Global: host == NULL     "
+msgstr ""
+
+#: lib/config.c:499
+#, c-format
+msgid "--------------------------------------- \n"
+msgstr ""
+
+#: lib/libservice.h:141
+#, fuzzy, c-format
+msgid "Your're in %s of %s"
+msgstr "Du bist in %s von %s\n"
 
 #~ msgid "Leave (only for testing)"
 #~ msgstr "Ende (nur zum testen)"

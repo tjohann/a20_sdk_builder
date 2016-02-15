@@ -6,6 +6,7 @@ sdk_builder_SOURCES =             \
 	main.c                    \
 	gui.c                     \
 	init.c                    \
+	message_handler.c         \
 	common_git.c              \
 	config.c                  \
 	clone.c                   \

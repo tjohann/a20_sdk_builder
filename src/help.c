@@ -28,7 +28,7 @@ help(void *args)
 
 	(void) args;
 
-	write_to_textfield(_("--INFO_MSG--: in help\n"), INFO_MSG);
+	write_info_msg(_("--INFO_MSG--: in help"));
 
 	return NULL;
 }

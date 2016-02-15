@@ -33,10 +33,10 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 
 	(void) payload; // not used
 
-	fprintf(stdout, _("Checkout: %3d%% (%d/%d) %s \n"),
-		checkout_percent,
-		(int) cur, (int) tot,
-		path);
+	info_msg(_("Checkout: %3d%% (%d/%d) %s"),
+		 checkout_percent,
+		 (int) cur, (int) tot,
+		 path);
 
 	set_progressbar_value(statusbar_percent, statusbar_percent_string);
 }
@@ -81,7 +81,7 @@ clone_sdk_repo(void *args)
 	enter_sdk_thread();
 
 	if (create_progressbar_window(path) != 0)
-		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
+		write_error_msg(_("ERROR: create_progress_bar_window != 0"));
 
 	do_clone_repo(url, path);
 

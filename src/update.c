@@ -52,18 +52,17 @@ update_tips(const char *refname,
 
 	if (git_oid_iszero(first)) {
 		snprintf(textfield_update_string, sizeof(textfield_update_string),
-			 _("[new] %.20s %s\n"), second_oid_s, refname);
+			 _("[new] %.20s %s"), second_oid_s, refname);
 
-		write_to_textfield(textfield_update_string, INFO_MSG);
-		fprintf(stdout, textfield_update_string);
+		write_info_msg(textfield_update_string);
 	} else {
 		git_oid_fmt(first_oid_s, first);
 		first_oid_s[GIT_OID_HEXSZ] = '\0';
 
 		snprintf(textfield_update_string, sizeof(textfield_update_string),
-			 _("[updated] %.10s..%.10s %s\n"),
+			 _("[updated] %.10s..%.10s %s"),
 			 first_oid_s, second_oid_s, refname);
-		fprintf(stdout, textfield_update_string);
+		write_info_msg(textfield_update_string);
 	}
 
 	return 0;
@@ -105,22 +104,20 @@ do_update_repo(char *url, char *path)
 	if (stats->local_objects > 0) {
 		snprintf(textfield_final_string,
 			 sizeof(textfield_final_string),
-			 _("Fetched: (%d/%d) %d kB (used %d local objects)\n"),
+			 _("Fetched: (%d/%d) %d kB (used %d local objects)"),
 			 stats->indexed_objects, stats->total_objects,
 			 receive_kbyte,
 			 stats->local_objects);
 
-		write_to_textfield(textfield_final_string, INFO_MSG);
-		fprintf(stdout, textfield_final_string);
+		write_info_msg(textfield_final_string);
 	} else {
 		snprintf(textfield_final_string,
 			 sizeof(textfield_final_string),
-			 _("Fetched: (%d/%d) %d kB \n"),
+			 _("Fetched: (%d/%d) %d kB"),
 			 stats->indexed_objects, stats->total_objects,
 			 receive_kbyte);
 
-		write_to_textfield(textfield_final_string, INFO_MSG);
-		fprintf(stdout, textfield_final_string);
+		write_info_msg(textfield_final_string);
 	}
 
 out:
@@ -145,7 +142,7 @@ update_sdk_repo(void *args)
 	enter_sdk_thread();
 
 	if (create_progressbar_window(path) != 0)
-		fprintf(stderr, _("ERROR: create_progress_bar_window != 0\n"));
+		write_error_msg(_("ERROR: create_progress_bar_window != 0"));
 
 	do_update_repo(url, path);
 

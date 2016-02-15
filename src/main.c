@@ -19,7 +19,6 @@
 */
 
 #include "common.h"
-#include "global.h"
 
 static char *program_name;
 
@@ -80,10 +79,60 @@ check_all_states()
 	/*
 	 * check for some defaults to control the gui
 	 */
+	if (check_sdk_runtimedir() != 0)
+		info_msg("%s isn't available", get_common_workdir());
+
+	if (check_sdk_workdir() != 0)
+		info_msg("%s isn't available", get_common_workdir());
+
 	check_sdk_git_path();
-	check_sdk_workdir();
 	check_toolchain();
 	check_test_env();
+}
+
+
+static int
+read_complete_config(char *conf_file, char *conf_dir)
+{
+	if (init_main_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init main sdk_config done\n"));
+	else
+		return 0;
+
+	if (init_common_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init common sdk_config done\n"));
+	else
+		return 0;
+
+	if (init_repo_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init repo sdk_config done\n"));
+	else
+		return 0;
+
+	if (init_toolchain_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init toolchain sdk_config done\n"));
+	else
+		return 0;
+
+	if (init_toolchain_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init toolchain sdk_config done\n"));
+	else
+		return 0;
+
+	if (init_device_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init device sdk_config done\n"));
+	else
+		return 0;
+
+	if (init_external_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init external sdk_config done\n"));
+	else
+		return 0;
+
+	if (init_kernel_config(conf_file, conf_dir) == 0)
+		error_msg(_("Init kernel sdk_config done\n"));
+	else
+		return 0;
 }
 
 
@@ -147,17 +196,15 @@ main(int argc, char *argv[])
 	git_libgit2_init();
 	curl_global_init(CURL_GLOBAL_ALL);
 
-
-	if (init_main_config(conf_file, conf_dir) == 0) {
+	if (read_complete_config(conf_file, conf_dir) == 0) {
 		g_print(_("Init main sdk_config done\n"));
 	} else {
-		g_print(_("Possible problem: init_main_config() != 0\n"));
+		g_print(_("Possible init problem: read_complete_config != 0\n"));
 		usage(EXIT_FAILURE);
 	}
 
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
-
 
 	/*
 	 * init gtk stuff

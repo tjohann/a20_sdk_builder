@@ -31,8 +31,7 @@ sideband_progress(const char *str, int len, void *payload)
 	snprintf(textfield_update_string, sizeof(textfield_update_string),
 		 _("Remote: %.*s"), len, str);
 
-	write_to_textfield(textfield_update_string, INFO_MSG);
-	fprintf(stdout, textfield_update_string);
+	write_info_msg(textfield_update_string);
 
 	return 0;
 }
@@ -57,13 +56,13 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	(void) payload; // not used
 
 	if (stats->received_objects == stats->total_objects) {
-		fprintf(stdout,	"Resolving deltas %d/%d\r",
-			stats->indexed_deltas, stats->total_deltas);
+		info_msg("Resolving deltas %d/%d",
+			 stats->indexed_deltas, stats->total_deltas);
 	} else if (stats->total_objects > 0) {
-		fprintf(stdout,	"Fetched: %3d%% (%d/%d) %d kB \n",
-			fetch_percent,
-			stats->received_objects, stats->total_objects,
-			receive_kbyte);
+		info_msg("Fetched: %3d%% (%d/%d) %d kB",
+			 fetch_percent,
+			 stats->received_objects, stats->total_objects,
+			 receive_kbyte);
 	}
 
 	set_progressbar_value(statusbar_percent, statusbar_percent_string);

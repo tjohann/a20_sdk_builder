@@ -1,6 +1,7 @@
 # List of source files which contain translatable strings.
 
 src/clone.c
+src/message_handler.c
 src/common_git.c
 src/config.c
 src/download.c
