@@ -504,144 +504,58 @@ clone_all_button(GtkWidget *widget, gpointer data)
 
 
 static void
-external1_button(GtkWidget *widget, gpointer data)
+external_button(GtkWidget *widget, gpointer data)
 {
 	PRINT_LOCATION();
 
 	(void) data;
 
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external1_m)))
 		info_msg("external 1 selected");
 	else
 		info_msg("external 1 DE-selected");
 
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external1_m)))
-		info_msg("external .... gedöööeeens 1 selected");
-	else
-		info_msg("external .... gedooooess 1 DE-selected");
-}
-
-
-static void
-external2_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external2_m)))
 		info_msg("external 2 selected");
 	else
 		info_msg("external 2 DE-selected");
-}
 
-
-static void
-external3_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external3_m)))
 		info_msg("external 3 selected");
 	else
 		info_msg("external 3 DE-selected");
-}
 
-
-static void
-external4_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external4_m)))
 		info_msg("external 4 selected");
 	else
 		info_msg("external 4 DE-selected");
-}
 
-
-static void
-external5_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external5_m)))
 		info_msg("external 5 selected");
 	else
 		info_msg("external 5 DE-selected");
-}
 
-
-static void
-external6_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external6_m)))
 		info_msg("external 6 selected");
 	else
 		info_msg("external 6 DE-selected");
-}
 
-
-static void
-external7_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external7_m)))
 		info_msg("external 7 selected");
 	else
 		info_msg("external 7 DE-selected");
-}
 
-
-static void
-external8_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external8_m)))
 		info_msg("external 8 selected");
 	else
 		info_msg("external 8 DE-selected");
-}
 
-
-static void
-external9_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external9_m)))
 		info_msg("external 9 selected");
 	else
 		info_msg("external 9 DE-selected");
-}
 
-
-static void
-external10_button(GtkWidget *widget, gpointer data)
-{
-	PRINT_LOCATION();
-
-	(void) data;
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external10_m)))
 		info_msg("external 10 selected");
 	else
 		info_msg("external 10 DE-selected");
@@ -1014,31 +928,31 @@ unlock_button(gui_element_t button)
 void
 lock_unused_buttons()
 {
-//	lock_button(OPEN_M);
-//	lock_button(OPEN_B);
-//	lock_button(NEW_M);
-//	lock_button(SAVE_M);
-//	lock_button(SAVE_AS_M);
+	lock_button(OPEN_M);
+	lock_button(OPEN_B);
+	lock_button(NEW_M);
+	lock_button(SAVE_M);
+	lock_button(SAVE_AS_M);
 
-//	lock_button(PARTITION_M);
-//	lock_button(ROOT_M);
-//	lock_button(HOME_M);
-//	lock_button(KERNEL_M);
-//	lock_button(UBOOT_M);
-//	lock_button(DO_ALL_M);
+	lock_button(PARTITION_M);
+	lock_button(ROOT_M);
+	lock_button(HOME_M);
+	lock_button(KERNEL_M);
+	lock_button(UBOOT_M);
+	lock_button(DO_ALL_M);
 
-//	lock_button(CLONE_ALL_M);
-//	lock_button(EXTERNAL1_M);
-//	lock_button(EXTERNAL2_M);
-//	lock_button(EXTERNAL3_M);
-//	lock_button(EXTERNAL4_M);
-//	lock_button(EXTERNAL5_M);
-//	lock_button(EXTERNAL6_M);
-//	lock_button(EXTERNAL7_M);
-//	lock_button(EXTERNAL8_M);
-//	lock_button(EXTERNAL9_M);
-//	lock_button(EXTERNAL10_M);
-//	lock_button(CLONE_SELECTED_M);
+	lock_button(CLONE_ALL_M);
+	lock_button(EXTERNAL1_M);
+	lock_button(EXTERNAL2_M);
+	lock_button(EXTERNAL3_M);
+	lock_button(EXTERNAL4_M);
+	lock_button(EXTERNAL5_M);
+	lock_button(EXTERNAL6_M);
+	lock_button(EXTERNAL7_M);
+	lock_button(EXTERNAL8_M);
+	lock_button(EXTERNAL9_M);
+	lock_button(EXTERNAL10_M);
+	lock_button(CLONE_SELECTED_M);
 }
 
 
@@ -1237,7 +1151,7 @@ build_external_menubar_entry()
 			     external1_m,
 			     _("Clone externel 1 repository"),
 			     NULL);
-	g_signal_connect(external1_m, "activate", G_CALLBACK(external1_button), NULL);
+	g_signal_connect(external1_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external1_m);
 
 	// external 2 menuentry
@@ -1247,7 +1161,7 @@ build_external_menubar_entry()
 			     external2_m,
 			     _("Clone externel 2 repository"),
 			     NULL);
-	g_signal_connect(external2_m, "activate", G_CALLBACK(external2_button), NULL);
+	g_signal_connect(external2_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external2_m);
 
 	// external 3 menuentry
@@ -1257,7 +1171,7 @@ build_external_menubar_entry()
 			     external3_m,
 			     _("Clone externel 3 repository"),
 			     NULL);
-	g_signal_connect(external3_m, "activate", G_CALLBACK(external3_button), NULL);
+	g_signal_connect(external3_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external3_m);
 
 	// external 4 menuentry
@@ -1267,7 +1181,7 @@ build_external_menubar_entry()
 			     external4_m,
 			     _("Clone externel 4 repository"),
 			     NULL);
-	g_signal_connect(external4_m, "activate", G_CALLBACK(external4_button), NULL);
+	g_signal_connect(external4_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external4_m);
 
 	// external 5 menuentry
@@ -1277,7 +1191,7 @@ build_external_menubar_entry()
 			     external5_m,
 			     _("Clone externel 5 repository"),
 			     NULL);
-	g_signal_connect(external5_m, "activate", G_CALLBACK(external5_button), NULL);
+	g_signal_connect(external5_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external5_m);
 
 	// external 6 menuentry
@@ -1287,7 +1201,7 @@ build_external_menubar_entry()
 			     external6_m,
 			     _("Clone externel 6 repository"),
 			     NULL);
-	g_signal_connect(external6_m, "activate", G_CALLBACK(external6_button), NULL);
+	g_signal_connect(external6_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external6_m);
 
 	// external 7 menuentry
@@ -1297,7 +1211,7 @@ build_external_menubar_entry()
 			     external7_m,
 			     _("Clone externel 7 repository"),
 			     NULL);
-	g_signal_connect(external7_m, "activate", G_CALLBACK(external7_button), NULL);
+	g_signal_connect(external7_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external7_m);
 
 	// external 8 menuentry
@@ -1307,7 +1221,7 @@ build_external_menubar_entry()
 			     external8_m,
 			     _("Clone externel 8 repository"),
 			     NULL);
-	g_signal_connect(external8_m, "activate", G_CALLBACK(external8_button), NULL);
+	g_signal_connect(external8_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external8_m);
 
 	// external 9 menuentry
@@ -1317,7 +1231,7 @@ build_external_menubar_entry()
 			     external9_m,
 			     _("Clone externel 9 repository"),
 			     NULL);
-	g_signal_connect(external9_m, "activate", G_CALLBACK(external9_button), NULL);
+	g_signal_connect(external9_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external9_m);
 
 	// external 10 menuentry
@@ -1327,7 +1241,7 @@ build_external_menubar_entry()
 			     external1_m,
 			     _("Clone externel 1o repository"),
 			     NULL);
-	g_signal_connect(external10_m, "activate", G_CALLBACK(external10_button), NULL);
+	g_signal_connect(external10_m, "activate", G_CALLBACK(external_button), NULL);
 	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external10_m);
 
 	// SEPERATOR

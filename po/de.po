@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-17 17:54+0100\n"
+"POT-Creation-Date: 2016-02-17 18:09+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -96,211 +96,211 @@ msgstr ""
 msgid "Can't create the thread"
 msgstr ""
 
-#: src/gui.c:862 src/gui.c:980
+#: src/gui.c:776 src/gui.c:894
 msgid "Unknown GUI element"
 msgstr ""
 
-#: src/gui.c:1064
+#: src/gui.c:978
 msgid "Are you sure to quit (without saving)?"
 msgstr ""
 
-#: src/gui.c:1084
+#: src/gui.c:998
 msgid "Open Default"
 msgstr ""
 
-#: src/gui.c:1088
+#: src/gui.c:1002
 msgid "Load default configuration for this tool (*sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:1092 src/gui.c:1366
+#: src/gui.c:1006 src/gui.c:1280
 msgid "Clone SDK"
 msgstr ""
 
-#: src/gui.c:1096 src/gui.c:1369
+#: src/gui.c:1010 src/gui.c:1283
 msgid "Clone SDK repository"
 msgstr ""
 
-#: src/gui.c:1100 src/gui.c:1375
+#: src/gui.c:1014 src/gui.c:1289
 msgid "Update Repo"
 msgstr ""
 
-#: src/gui.c:1104
+#: src/gui.c:1018
 msgid "Update SDK repository"
 msgstr ""
 
-#: src/gui.c:1108 src/gui.c:1384
+#: src/gui.c:1022 src/gui.c:1298
 msgid "Download toolchain"
 msgstr ""
 
-#: src/gui.c:1112 src/gui.c:1387
+#: src/gui.c:1026 src/gui.c:1301
 msgid "Download toolchain binarys"
 msgstr ""
 
-#: src/gui.c:1116
+#: src/gui.c:1030
 msgid "Test SDK"
 msgstr ""
 
-#: src/gui.c:1120
+#: src/gui.c:1034
 msgid "Run basic test/check on the sdk/toolchain"
 msgstr ""
 
-#: src/gui.c:1124
+#: src/gui.c:1038
 msgid "Help"
 msgstr ""
 
-#: src/gui.c:1128
+#: src/gui.c:1042
 msgid "Open help window"
 msgstr ""
 
-#: src/gui.c:1132
+#: src/gui.c:1046
 msgid "Quit"
 msgstr ""
 
-#: src/gui.c:1140
+#: src/gui.c:1054
 msgid "Quit/Exit"
 msgstr ""
 
-#: src/gui.c:1150
+#: src/gui.c:1064
 msgid "Partition SD-Card"
 msgstr ""
 
-#: src/gui.c:1153
+#: src/gui.c:1067
 msgid "Partition a new SD-Card for target devices"
 msgstr ""
 
-#: src/gui.c:1163
+#: src/gui.c:1077
 msgid "Install Kernel-FS"
 msgstr ""
 
-#: src/gui.c:1166
+#: src/gui.c:1080
 msgid "Install kernel image to SD-Card"
 msgstr ""
 
-#: src/gui.c:1172
+#: src/gui.c:1086
 msgid "Install Root-FS"
 msgstr ""
 
-#: src/gui.c:1175
+#: src/gui.c:1089
 msgid "Install rootfs image to SD-Card"
 msgstr ""
 
-#: src/gui.c:1181
+#: src/gui.c:1095
 msgid "Install Home-FS"
 msgstr ""
 
-#: src/gui.c:1184
+#: src/gui.c:1098
 msgid "Install home image to SD-Card"
 msgstr ""
 
-#: src/gui.c:1194
+#: src/gui.c:1108
 msgid "Install U-Boot"
 msgstr ""
 
-#: src/gui.c:1197
+#: src/gui.c:1111
 msgid "Install U-Boot to SD-Card"
 msgstr ""
 
-#: src/gui.c:1207
+#: src/gui.c:1121
 msgid "Do ALL"
 msgstr ""
 
-#: src/gui.c:1210
+#: src/gui.c:1124
 msgid "Do all in one step"
 msgstr ""
 
-#: src/gui.c:1221
+#: src/gui.c:1135
 msgid "Clone ALL"
 msgstr ""
 
-#: src/gui.c:1224
+#: src/gui.c:1138
 msgid "Clone all external repositorys"
 msgstr ""
 
-#: src/gui.c:1238
+#: src/gui.c:1152
 msgid "Clone externel 1 repository"
 msgstr ""
 
-#: src/gui.c:1248
+#: src/gui.c:1162
 msgid "Clone externel 2 repository"
 msgstr ""
 
-#: src/gui.c:1258
+#: src/gui.c:1172
 msgid "Clone externel 3 repository"
 msgstr ""
 
-#: src/gui.c:1268
+#: src/gui.c:1182
 msgid "Clone externel 4 repository"
 msgstr ""
 
-#: src/gui.c:1278
+#: src/gui.c:1192
 msgid "Clone externel 5 repository"
 msgstr ""
 
-#: src/gui.c:1288
+#: src/gui.c:1202
 msgid "Clone externel 6 repository"
 msgstr ""
 
-#: src/gui.c:1298
+#: src/gui.c:1212
 msgid "Clone externel 7 repository"
 msgstr ""
 
-#: src/gui.c:1308
+#: src/gui.c:1222
 msgid "Clone externel 8 repository"
 msgstr ""
 
-#: src/gui.c:1318
+#: src/gui.c:1232
 msgid "Clone externel 9 repository"
 msgstr ""
 
-#: src/gui.c:1328
+#: src/gui.c:1242
 msgid "Clone externel 1o repository"
 msgstr ""
 
-#: src/gui.c:1338
+#: src/gui.c:1252
 msgid "Clone selected"
 msgstr ""
 
-#: src/gui.c:1341
+#: src/gui.c:1255
 msgid "Clone selected external repositorys"
 msgstr ""
 
-#: src/gui.c:1352
+#: src/gui.c:1266
 msgid "Init /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:1355
+#: src/gui.c:1269
 msgid "Init workdir -> /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:1378
+#: src/gui.c:1292
 msgid "Update SDK repositor"
 msgstr ""
 
-#: src/gui.c:1401
+#: src/gui.c:1315
 msgid "Create default toolconfig"
 msgstr ""
 
-#: src/gui.c:1410
+#: src/gui.c:1324
 msgid "Open new toolconfig "
 msgstr ""
 
-#: src/gui.c:1420
+#: src/gui.c:1334
 msgid "Save toolconfig "
 msgstr ""
 
-#: src/gui.c:1429
+#: src/gui.c:1343
 msgid "Save toolconfig under a new name"
 msgstr ""
 
-#: src/gui.c:1442
+#: src/gui.c:1356
 msgid "Quit/Exit with autosave of toolconfig"
 msgstr ""
 
-#: src/gui.c:1607
+#: src/gui.c:1521
 msgid "ERROR: Message type not supported"
 msgstr ""
 
-#: src/gui.c:1610
+#: src/gui.c:1524
 msgid "ERROR: textfield_buffer == NULL!"
 msgstr ""
 
