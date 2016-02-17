@@ -23,73 +23,98 @@
 /*
  * main window
  */
-GtkWidget *window;
-GtkWidget *vbox;
-GtkWidget *hbox;
-GtkWidget *menubar;
-GtkWidget *statusbar;
-GtkWidget *filemenu;
+static GtkWidget *window;
+static GtkWidget *vbox;
+static GtkWidget *hbox;
+static GtkWidget *menubar;
+static GtkWidget *statusbar;
+static GtkWidget *filemenu;
 
 /*
  * buttonbox on the left of main window
  */
-GtkWidget *buttonbox;
-GtkWidget *open_b;
-GtkWidget *test_b;
-GtkWidget *exit_b;
-GtkWidget *clone_b;
-GtkWidget *help_b;
-GtkWidget *update_b;
-GtkWidget *download_b;
+static GtkWidget *buttonbox;
+static GtkWidget *open_b;
+static GtkWidget *test_b;
+static GtkWidget *exit_b;
+static GtkWidget *clone_b;
+static GtkWidget *help_b;
+static GtkWidget *update_b;
+static GtkWidget *download_b;
 
 /*
  * filemenu
  */
-GtkWidget *file;
-GtkWidget *sep;
-GtkWidget *quit_m;
-GtkWidget *sep_m;
-GtkWidget *new_m;
-GtkWidget *open_m;
-GtkWidget *save_m;
-GtkWidget *save_as_m;
+static GtkWidget *file;
+static GtkWidget *quit_m;
+static GtkWidget *sep_m;
+static GtkWidget *new_m;
+static GtkWidget *open_m;
+static GtkWidget *save_m;
+static GtkWidget *save_as_m;
 
-GtkWidget *sdk_menu;
-GtkWidget *sdk;
-GtkWidget *init_m;
-GtkWidget *sep2_m;
-GtkWidget *clone_m;
-GtkWidget *update_m;
-GtkWidget *download_m;
+static GtkWidget *sdk_menu;
+static GtkWidget *sdk;
+static GtkWidget *init_m;
+static GtkWidget *sep2_m;
+static GtkWidget *clone_m;
+static GtkWidget *update_m;
+static GtkWidget *download_m;
 
-GtkAccelGroup *accel_group;
+static GtkWidget *sd_card_menu;
+static GtkWidget *sdcard;
+static GtkWidget *sep3_m;
+static GtkWidget *partition_m;
+static GtkWidget *kernel_m;
+static GtkWidget *home_m;
+static GtkWidget *root_m;
+static GtkWidget *sep4_m;
+static GtkWidget *uboot_m;
+static GtkWidget *sep5_m;
+static GtkWidget *do_all_m;
+
+static GtkWidget *external_menu;
+static GtkWidget *external;
+static GtkWidget *clone_all_m;
+static GtkWidget *sep6_m;
+static GtkWidget *external1_m;
+static GtkWidget *external2_m;
+static GtkWidget *external3_m;
+static GtkWidget *external4_m;
+static GtkWidget *external5_m;
+static GtkWidget *external6_m;
+static GtkWidget *external7_m;
+static GtkWidget *external8_m;
+static GtkWidget *external9_m;
+static GtkWidget *external10_m;
+static GtkWidget *sep7_m;
+static GtkWidget *clone_selected_m;
+
+static GtkAccelGroup *accel_group;
 
 /*
  * clone/download progressbar
  */
-GtkWidget *progressbar;
-GtkWidget *progressbar_button;
-GtkWidget *progressbar_window;
-GtkWidget *progressbar_vbox;
-GtkWidget *progressbar_sep;
-GtkWidget *progressbar_frame;
-GtkWidget *progressbar_frame2;
-GtkAdjustment *progressbar_adj;
+static GtkWidget *progressbar;
+static GtkWidget *progressbar_button;
+static GtkWidget *progressbar_window;
+static GtkWidget *progressbar_vbox;
+static GtkWidget *progressbar_sep;
+static GtkAdjustment *progressbar_adj;
 
 /*
  * textfield
  */
-GtkWidget *textfield;
-GtkWidget *textfield_scrolled;
-GtkWidget *textfield_entry;
-GtkWidget *textfield_table;
-GtkTextBuffer *textfield_buffer;
+static GtkWidget *textfield;
+static GtkWidget *textfield_scrolled;
+static GtkWidget *textfield_entry;
+static GtkWidget *textfield_table;
+static GtkTextBuffer *textfield_buffer;
 
 /*
  * the "rest"
  */
-GdkPixbuf *icon;
-GtkTooltips *tooltips;
+static GtkTooltips *tooltips;
 
 
 /*
@@ -408,6 +433,231 @@ save_as_menu(GtkWidget *widget, gpointer data)
 }
 
 
+static void
+partition_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+static void
+kernel_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+static void
+root_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+static void
+home_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+static void
+uboot_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+static void
+do_all_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+static void
+clone_all_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
+static void
+external1_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 1 selected");
+	else
+		info_msg("external 1 DE-selected");
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(external1_m)))
+		info_msg("external .... gedöööeeens 1 selected");
+	else
+		info_msg("external .... gedooooess 1 DE-selected");
+}
+
+
+static void
+external2_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 2 selected");
+	else
+		info_msg("external 2 DE-selected");
+}
+
+
+static void
+external3_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 3 selected");
+	else
+		info_msg("external 3 DE-selected");
+}
+
+
+static void
+external4_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 4 selected");
+	else
+		info_msg("external 4 DE-selected");
+}
+
+
+static void
+external5_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 5 selected");
+	else
+		info_msg("external 5 DE-selected");
+}
+
+
+static void
+external6_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 6 selected");
+	else
+		info_msg("external 6 DE-selected");
+}
+
+
+static void
+external7_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 7 selected");
+	else
+		info_msg("external 7 DE-selected");
+}
+
+
+static void
+external8_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 8 selected");
+	else
+		info_msg("external 8 DE-selected");
+}
+
+
+static void
+external9_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 9 selected");
+	else
+		info_msg("external 9 DE-selected");
+}
+
+
+static void
+external10_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) data;
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
+		info_msg("external 10 selected");
+	else
+		info_msg("external 10 DE-selected");
+}
+
+
+static void
+clone_selected_button(GtkWidget *widget, gpointer data)
+{
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
+
+
 /*
  * button and menu
  */
@@ -464,10 +714,10 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 	case OPEN_M:
 		if (what_to_do == UNLOCK_ELEMENT) {
 			gtk_widget_set_sensitive(open_b, TRUE);
-			gtk_widget_set_sensitive(new_m, TRUE);
+			gtk_widget_set_sensitive(open_m, TRUE);
 		} else {
 			gtk_widget_set_sensitive(open_b, FALSE);
-			gtk_widget_set_sensitive(new_m, FALSE);
+			gtk_widget_set_sensitive(open_m, FALSE);
 		}
 		break;
 	case INIT_M:
@@ -476,11 +726,137 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 		else
 			gtk_widget_set_sensitive(init_m, FALSE);
 		break;
+	case NEW_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(new_m, TRUE);
+		else
+			gtk_widget_set_sensitive(new_m, FALSE);
+		break;
+	case SAVE_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(save_m, TRUE);
+		else
+			gtk_widget_set_sensitive(save_m, FALSE);
+		break;
+	case SAVE_AS_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(save_as_m, TRUE);
+		else
+			gtk_widget_set_sensitive(save_as_m, FALSE);
+		break;
+	case PARTITION_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(partition_m, TRUE);
+		else
+			gtk_widget_set_sensitive(partition_m, FALSE);
+		break;
+	case HOME_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(home_m, TRUE);
+		else
+			gtk_widget_set_sensitive(home_m, FALSE);
+		break;
+	case ROOT_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(root_m, TRUE);
+		else
+			gtk_widget_set_sensitive(root_m, FALSE);
+		break;
+	case KERNEL_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(kernel_m, TRUE);
+		else
+			gtk_widget_set_sensitive(kernel_m, FALSE);
+		break;
+	case UBOOT_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(uboot_m, TRUE);
+		else
+			gtk_widget_set_sensitive(uboot_m, FALSE);
+		break;
+	case DO_ALL_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(do_all_m, TRUE);
+		else
+			gtk_widget_set_sensitive(do_all_m, FALSE);
+		break;
+	case CLONE_ALL_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(clone_all_m, TRUE);
+		else
+			gtk_widget_set_sensitive(clone_all_m, FALSE);
+		break;
 	case PROGRESSBAR_B:
 		if (what_to_do == UNLOCK_ELEMENT)
 			gtk_widget_set_sensitive(progressbar_button, TRUE);
 		else
 			gtk_widget_set_sensitive(progressbar_button, FALSE);
+		break;
+	case EXTERNAL1_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external1_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external1_m, FALSE);
+		break;
+	case EXTERNAL2_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external2_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external2_m, FALSE);
+		break;
+	case EXTERNAL3_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external3_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external3_m, FALSE);
+		break;
+	case EXTERNAL4_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external4_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external4_m, FALSE);
+		break;
+	case EXTERNAL5_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external5_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external5_m, FALSE);
+		break;
+	case EXTERNAL6_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external6_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external6_m, FALSE);
+		break;
+	case EXTERNAL7_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external7_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external7_m, FALSE);
+		break;
+	case EXTERNAL8_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external8_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external8_m, FALSE);
+		break;
+	case EXTERNAL9_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external9_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external9_m, FALSE);
+		break;
+	case EXTERNAL10_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(external10_m, TRUE);
+		else
+			gtk_widget_set_sensitive(external10_m, FALSE);
+		break;
+	case CLONE_SELECTED_M:
+		if (what_to_do == UNLOCK_ELEMENT)
+			gtk_widget_set_sensitive(clone_selected_m, TRUE);
+		else
+			gtk_widget_set_sensitive(clone_selected_m, FALSE);
 		break;
 	default:
 		write_error_msg(_("Unknown GUI element"));
@@ -531,11 +907,74 @@ get_state_of_gui_element(gui_element_t button)
 	case INIT_M:
 		return gtk_widget_get_sensitive(init_m);
 		break;
+	case NEW_M:
+		return gtk_widget_get_sensitive(new_m);
+		break;
+	case SAVE_M:
+		return gtk_widget_get_sensitive(save_m);
+		break;
+	case SAVE_AS_M:
+		return gtk_widget_get_sensitive(save_as_m);
+		break;
+	case PARTITION_M:
+		return gtk_widget_get_sensitive(partition_m);
+		break;
+	case HOME_M:
+		return gtk_widget_get_sensitive(home_m);
+		break;
+	case KERNEL_M:
+		return gtk_widget_get_sensitive(kernel_m);
+		break;
+	case ROOT_M:
+		return gtk_widget_get_sensitive(root_m);
+		break;
+	case UBOOT_M:
+		return gtk_widget_get_sensitive(uboot_m);
+		break;
+	case DO_ALL_M:
+		return gtk_widget_get_sensitive(do_all_m);
+		break;
+	case CLONE_ALL_M:
+		return gtk_widget_get_sensitive(clone_all_m);
+		break;
 	case PROGRESSBAR_B:
 		if (progressbar_button != NULL)
 			return gtk_widget_get_sensitive(progressbar_button);
 		else
 			return false;
+		break;
+	case EXTERNAL1_M:
+		return gtk_widget_get_sensitive(external1_m);
+		break;
+	case EXTERNAL2_M:
+		return gtk_widget_get_sensitive(external2_m);
+		break;
+	case EXTERNAL3_M:
+		return gtk_widget_get_sensitive(external3_m);
+		break;
+	case EXTERNAL4_M:
+		return gtk_widget_get_sensitive(external4_m);
+		break;
+	case EXTERNAL5_M:
+		return gtk_widget_get_sensitive(external5_m);
+		break;
+	case EXTERNAL6_M:
+		return gtk_widget_get_sensitive(external6_m);
+		break;
+	case EXTERNAL7_M:
+		return gtk_widget_get_sensitive(external7_m);
+		break;
+	case EXTERNAL8_M:
+		return gtk_widget_get_sensitive(external8_m);
+		break;
+	case EXTERNAL9_M:
+		return gtk_widget_get_sensitive(external9_m);
+		break;
+	case EXTERNAL10_M:
+		return gtk_widget_get_sensitive(external10_m);
+		break;
+	case CLONE_SELECTED_M:
+		return gtk_widget_get_sensitive(clone_selected_m);
 		break;
 	default:
 		write_error_msg(_("Unknown GUI element"));
@@ -566,6 +1005,40 @@ unlock_button(gui_element_t button)
 	PRINT_LOCATION();
 
 	handle_gui_element(button, UNLOCK_ELEMENT);
+}
+
+
+/*
+ * button and menu
+ */
+void
+lock_unused_buttons()
+{
+//	lock_button(OPEN_M);
+//	lock_button(OPEN_B);
+//	lock_button(NEW_M);
+//	lock_button(SAVE_M);
+//	lock_button(SAVE_AS_M);
+
+//	lock_button(PARTITION_M);
+//	lock_button(ROOT_M);
+//	lock_button(HOME_M);
+//	lock_button(KERNEL_M);
+//	lock_button(UBOOT_M);
+//	lock_button(DO_ALL_M);
+
+//	lock_button(CLONE_ALL_M);
+//	lock_button(EXTERNAL1_M);
+//	lock_button(EXTERNAL2_M);
+//	lock_button(EXTERNAL3_M);
+//	lock_button(EXTERNAL4_M);
+//	lock_button(EXTERNAL5_M);
+//	lock_button(EXTERNAL6_M);
+//	lock_button(EXTERNAL7_M);
+//	lock_button(EXTERNAL8_M);
+//	lock_button(EXTERNAL9_M);
+//	lock_button(EXTERNAL10_M);
+//	lock_button(CLONE_SELECTED_M);
 }
 
 
@@ -671,20 +1144,256 @@ build_button_box()
 
 
 static void
-build_menu_bar()
+build_sdcard_menubar_entry()
 {
-	PRINT_LOCATION();
+        // Partition menuentry
+	partition_m = gtk_menu_item_new_with_label(_("Partition SD-Card"));
+	gtk_tooltips_set_tip(tooltips,
+			     partition_m,
+			     _("Partition a new SD-Card for target devices"),
+			     NULL);
+	g_signal_connect(partition_m, "activate", G_CALLBACK(partition_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), partition_m);
 
-	filemenu = gtk_menu_new();
+	// SEPERATOR
+	sep3_m = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), sep3_m);
 
-	accel_group = gtk_accel_group_new();
-	gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
+	// Kernel menuentry
+	kernel_m = gtk_menu_item_new_with_label(_("Install Kernel-FS"));
+	gtk_tooltips_set_tip(tooltips,
+			     kernel_m,
+			     _("Install kernel image to SD-Card"),
+			     NULL);
+	g_signal_connect(kernel_m, "activate", G_CALLBACK(kernel_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), kernel_m);
+
+	// Root menuentry
+	root_m = gtk_menu_item_new_with_label(_("Install Root-FS"));
+	gtk_tooltips_set_tip(tooltips,
+			     root_m,
+			     _("Install rootfs image to SD-Card"),
+			     NULL);
+	g_signal_connect(root_m, "activate", G_CALLBACK(root_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), root_m);
+
+	// home menuentry
+	home_m = gtk_menu_item_new_with_label(_("Install Home-FS"));
+	gtk_tooltips_set_tip(tooltips,
+			     home_m,
+			     _("Install home image to SD-Card"),
+			     NULL);
+	g_signal_connect(home_m, "activate", G_CALLBACK(home_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), home_m);
+
+	// SEPERATOR
+	sep4_m = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), sep4_m);
+
+	// U-Boot menuentry
+	uboot_m = gtk_menu_item_new_with_label(_("Install U-Boot"));
+	gtk_tooltips_set_tip(tooltips,
+			     uboot_m,
+			     _("Install U-Boot to SD-Card"),
+			     NULL);
+	g_signal_connect(uboot_m, "activate", G_CALLBACK(uboot_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), uboot_m);
+
+	// SEPERATOR
+	sep5_m = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), sep5_m);
+
+        // Do-All menuentry
+	do_all_m = gtk_menu_item_new_with_label(_("Do ALL"));
+	gtk_tooltips_set_tip(tooltips,
+			     do_all_m,
+			     _("Do all in one step"),
+			     NULL);
+	g_signal_connect(do_all_m, "activate", G_CALLBACK(do_all_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sd_card_menu), do_all_m);
+}
 
 
-	// ---------------------- build FILE-MENU ------------------------------
-	file = gtk_menu_item_new_with_mnemonic("_File");
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
+static void
+build_external_menubar_entry()
+{
+	// clone_all menuentry
+	clone_all_m = gtk_menu_item_new_with_label(_("Clone ALL"));
+	gtk_tooltips_set_tip(tooltips,
+			     clone_all_m,
+			     _("Clone all external repositorys"),
+			     NULL);
+	g_signal_connect(clone_all_m, "activate", G_CALLBACK(clone_all_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), clone_all_m);
 
+	// SEPERATOR
+	sep6_m = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), sep6_m);
+
+	// external 1 menuentry
+	external1_m = gtk_check_menu_item_new_with_label("External 1");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external1_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external1_m,
+			     _("Clone externel 1 repository"),
+			     NULL);
+	g_signal_connect(external1_m, "activate", G_CALLBACK(external1_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external1_m);
+
+	// external 2 menuentry
+	external2_m = gtk_check_menu_item_new_with_label("External 2");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external2_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external2_m,
+			     _("Clone externel 2 repository"),
+			     NULL);
+	g_signal_connect(external2_m, "activate", G_CALLBACK(external2_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external2_m);
+
+	// external 3 menuentry
+	external3_m = gtk_check_menu_item_new_with_label("External 3");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external3_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external3_m,
+			     _("Clone externel 3 repository"),
+			     NULL);
+	g_signal_connect(external3_m, "activate", G_CALLBACK(external3_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external3_m);
+
+	// external 4 menuentry
+	external4_m = gtk_check_menu_item_new_with_label("External 4");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external4_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external4_m,
+			     _("Clone externel 4 repository"),
+			     NULL);
+	g_signal_connect(external4_m, "activate", G_CALLBACK(external4_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external4_m);
+
+	// external 5 menuentry
+	external5_m = gtk_check_menu_item_new_with_label("External 5");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external5_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external5_m,
+			     _("Clone externel 5 repository"),
+			     NULL);
+	g_signal_connect(external5_m, "activate", G_CALLBACK(external5_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external5_m);
+
+	// external 6 menuentry
+	external6_m = gtk_check_menu_item_new_with_label("External 6");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external6_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external6_m,
+			     _("Clone externel 6 repository"),
+			     NULL);
+	g_signal_connect(external6_m, "activate", G_CALLBACK(external6_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external6_m);
+
+	// external 7 menuentry
+	external7_m = gtk_check_menu_item_new_with_label("External 7");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external7_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external7_m,
+			     _("Clone externel 7 repository"),
+			     NULL);
+	g_signal_connect(external7_m, "activate", G_CALLBACK(external7_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external7_m);
+
+	// external 8 menuentry
+	external8_m = gtk_check_menu_item_new_with_label("External 8");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external8_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external8_m,
+			     _("Clone externel 8 repository"),
+			     NULL);
+	g_signal_connect(external8_m, "activate", G_CALLBACK(external8_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external8_m);
+
+	// external 9 menuentry
+	external9_m = gtk_check_menu_item_new_with_label("External 9");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external9_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external9_m,
+			     _("Clone externel 9 repository"),
+			     NULL);
+	g_signal_connect(external9_m, "activate", G_CALLBACK(external9_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external9_m);
+
+	// external 10 menuentry
+	external10_m = gtk_check_menu_item_new_with_label("External 10");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(external10_m), TRUE);
+	gtk_tooltips_set_tip(tooltips,
+			     external1_m,
+			     _("Clone externel 1o repository"),
+			     NULL);
+	g_signal_connect(external10_m, "activate", G_CALLBACK(external10_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), external10_m);
+
+	// SEPERATOR
+	sep7_m = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), sep7_m);
+
+	// clone_selected menuentry
+	clone_selected_m = gtk_menu_item_new_with_label(_("Clone selected"));
+	gtk_tooltips_set_tip(tooltips,
+			     clone_selected_m,
+			     _("Clone selected external repositorys"),
+			     NULL);
+	g_signal_connect(clone_selected_m, "activate", G_CALLBACK(clone_selected_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(external_menu), clone_selected_m);
+}
+
+
+static void
+build_sdk_menubar_entry()
+{
+	// CLONE menuentry
+	init_m = gtk_menu_item_new_with_label(_("Init /opt/*_sdk"));
+	gtk_tooltips_set_tip(tooltips,
+			     init_m,
+			     _("Init workdir -> /opt/*_sdk"),
+			     NULL);
+	g_signal_connect(init_m, "activate", G_CALLBACK(init_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), init_m);
+
+
+	// SEPERATOR
+	sep2_m = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), sep2_m);
+
+	// CLONE menuentry
+	clone_m = gtk_menu_item_new_with_label(_("Clone SDK"));
+	gtk_tooltips_set_tip(tooltips,
+			     clone_m,
+			     _("Clone SDK repository"),
+			     NULL);
+	g_signal_connect(clone_m, "activate", G_CALLBACK(clone_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), clone_m);
+
+	// UPDATE menuentry
+	update_m = gtk_menu_item_new_with_label(_("Update Repo"));
+	gtk_tooltips_set_tip(tooltips,
+			     update_m,
+			     _("Update SDK repositor"),
+			     NULL);
+	g_signal_connect(update_m, "activate", G_CALLBACK(update_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), update_m);
+
+	// DOWNLOAD menuentry
+	download_m = gtk_menu_item_new_with_label(_("Download toolchain"));
+	gtk_tooltips_set_tip(tooltips,
+			     download_m,
+			     _("Download toolchain binarys"),
+			     NULL);
+	g_signal_connect(download_m, "activate", G_CALLBACK(download_button), NULL);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), download_m);
+}
+
+
+static void
+build_file_menubar_entry()
+{
 	// NEW menuentry
 	new_m = gtk_image_menu_item_new_from_stock(GTK_STOCK_NEW, NULL);
 	gtk_tooltips_set_tip(tooltips,
@@ -744,62 +1453,43 @@ build_menu_bar()
 				   GDK_CONTROL_MASK,
 				   GTK_ACCEL_VISIBLE);
 	gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit_m);
+}
 
-	// finish FILE-MENU
+
+static void
+build_menu_bar()
+{
+	accel_group = gtk_accel_group_new();
+	gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
+
+	// ---------------------- build FILE-MENU ------------------------------
+	filemenu = gtk_menu_new();
+	file = gtk_menu_item_new_with_mnemonic("_File");
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
+	build_file_menubar_entry();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
-
 
 	// ---------------------- build SDK-MENU ------------------------------
 	sdk_menu = gtk_menu_new();
-
 	sdk = gtk_menu_item_new_with_mnemonic("_SDK");
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sdk), sdk_menu);
-
-
-	// CLONE menuentry
-	init_m = gtk_menu_item_new_with_label(_("Init /opt/*_sdk"));
-	gtk_tooltips_set_tip(tooltips,
-			     init_m,
-			     _("Init workdir of *_sdk -> /opt/*_sdk"),
-			     NULL);
-	g_signal_connect(init_m, "activate", G_CALLBACK(init_button), NULL);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), init_m);
-
-
-	// SEPERATOR
-	sep2_m = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), sep2_m);
-
-	// CLONE menuentry
-	clone_m = gtk_menu_item_new_with_label(_("Clone SDK"));
-	gtk_tooltips_set_tip(tooltips,
-			     clone_m,
-			     _("Clone SDK repository"),
-			     NULL);
-	g_signal_connect(clone_m, "activate", G_CALLBACK(clone_button), NULL);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), clone_m);
-
-	// UPDATE menuentry
-	update_m = gtk_menu_item_new_with_label(_("Update Repo"));
-	gtk_tooltips_set_tip(tooltips,
-			     update_m,
-			     _("Update SDK repositor"),
-			     NULL);
-	g_signal_connect(update_m, "activate", G_CALLBACK(update_button), NULL);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), update_m);
-
-	// DOWNLOAD menuentry
-	download_m = gtk_menu_item_new_with_label(_("Download toolchain"));
-	gtk_tooltips_set_tip(tooltips,
-			     download_m,
-			     _("Download toolchain binarys"),
-			     NULL);
-	g_signal_connect(download_m, "activate", G_CALLBACK(download_button), NULL);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sdk_menu), download_m);
-
-
-	// finish SDK-MENU
+	build_sdk_menubar_entry();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), sdk);
+
+	// ---------------------- build SD-Card-MENU ---------------------------
+	sd_card_menu = gtk_menu_new();
+	sdcard = gtk_menu_item_new_with_mnemonic("SD-_Card");
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sdcard), sd_card_menu);
+	build_sdcard_menubar_entry();
+	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), sdcard);
+
+	// ---------------------- build external-MENU ---------------------------
+	external_menu = gtk_menu_new();
+	external = gtk_menu_item_new_with_mnemonic("_External");
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(external), external_menu);
+	build_external_menubar_entry();
+	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), external);
+
 }
 
 
@@ -991,7 +1681,6 @@ build_main_window()
 	build_menu_bar();
 	gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 1);
 
-
 	// ------------------ hbox ------------------------
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(vbox), hbox);
@@ -1001,7 +1690,6 @@ build_main_window()
 	buttonbox = gtk_vbutton_box_new();
 	build_button_box();
 	gtk_box_pack_start(GTK_BOX(hbox), buttonbox, FALSE, FALSE, 1);
-
 
 	// ------------------ textarea --------------------
 
@@ -1035,7 +1723,6 @@ build_main_window()
 				  textfield_entry, 0, 1, 1, 2);
 
 	gtk_box_pack_end(GTK_BOX(hbox), textfield_table, TRUE, TRUE, 1);
-
 
 	// ------------------ statusbar -------------------
 	statusbar = gtk_statusbar_new();

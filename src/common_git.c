@@ -44,9 +44,8 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 		stats->total_objects;
 	//int index_percent = (100 * stats->indexed_objects) /
 	//      stats->total_objects;
-	int receive_kbyte = stats->received_bytes / 1024;
 
-	// simple weight function add
+	// simple weight function
 	int statusbar_percent = (fetch_percent * 5) / 6;
 	char statusbar_percent_string[5];
 
@@ -56,6 +55,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 	(void) payload; // not used
 
 #ifdef DEBUG
+	int receive_kbyte = stats->received_bytes / 1024;
 	if (stats->received_objects == stats->total_objects) {
 		info_msg("Resolving deltas %d/%d",
 			 stats->indexed_deltas, stats->total_deltas);
@@ -81,18 +81,21 @@ check_sdk_git_path()
 	git_repository *repo = NULL;
 
 	const char *path = get_sdk_repo_path();
-
-	int error = git_repository_open_ext(&repo, path, 0, NULL);
-	if (error == 0) {
-		lock_button(CLONE_B);
-		lock_button(CLONE_M);
-		unlock_button(UPDATE_B);
-		unlock_button(UPDATE_M);
+	if (path != NULL) {
+		int error = git_repository_open_ext(&repo, path, 0, NULL);
+		if (error == 0) {
+			lock_button(CLONE_B);
+			lock_button(CLONE_M);
+			unlock_button(UPDATE_B);
+			unlock_button(UPDATE_M);
+		} else {
+			lock_button(UPDATE_B);
+			lock_button(UPDATE_M);
+			unlock_button(CLONE_B);
+			unlock_button(CLONE_M);
+		}
 	} else {
-		lock_button(UPDATE_B);
-		lock_button(UPDATE_M);
-		unlock_button(CLONE_B);
-		unlock_button(CLONE_M);
+		error_msg("get_sdk_repo_path() == NULL");
 	}
 
 	if (repo)

@@ -48,6 +48,8 @@ checkout_progress(void *p,
 	char statusbar_percent_string[5];
 
 	(void) p;
+	(void) u_tot;
+	(void) u_cur;
 
 	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
 	snprintf(statusbar_percent_string, 5, "%3d%%", statusbar_percent);
@@ -65,7 +67,7 @@ checkout_progress(void *p,
 static
 int do_download(download_tupel_t *download)
 {
-	CURL *curl;
+	CURL *curl = NULL;
 	CURLcode res;
 	FILE *fd;
 
@@ -99,6 +101,8 @@ int do_download(download_tupel_t *download)
 
 		// TODO: check value
 		res = curl_easy_perform(curl);
+		if (res != CURLE_OK)
+			write_error_msg(_("curl_easy_perform(curl) != CURLE_OK"));
 
 		fclose(fd);
 		curl_easy_cleanup(curl);
@@ -155,7 +159,6 @@ download_toolchain(void *args)
 		i++;
 	}
 
-out:
 	leave_sdk_thread();
 
 	set_progressbar_value(100, "100%");

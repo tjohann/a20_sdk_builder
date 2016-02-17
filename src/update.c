@@ -139,6 +139,9 @@ update_sdk_repo(void *args)
 
 	(void) args; // not used
 
+	if (url == NULL || path == NULL)
+		return NULL;
+
 	enter_sdk_thread();
 
 	if (create_progressbar_window(path) != 0)

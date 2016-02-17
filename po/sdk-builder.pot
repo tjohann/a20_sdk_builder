@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-15 20:17+0100\n"
+"POT-Creation-Date: 2016-02-16 18:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Checkout: %3d%% (%d/%d) %s"
 msgstr ""
 
-#: src/clone.c:86 src/download.c:138 src/update.c:145
+#: src/clone.c:91 src/download.c:142 src/update.c:148
 msgid "ERROR: create_progress_bar_window != 0"
 msgstr ""
 
@@ -40,157 +40,265 @@ msgstr ""
 msgid "--INFO_MSG--: in config_sdk"
 msgstr ""
 
-#: src/download.c:56
+#: src/download.c:58
 #, c-format
 msgid "Download: %3d%% (%llu/%llu)"
 msgstr ""
 
-#: src/download.c:76
+#: src/download.c:78
 msgid "(url == NULL) || (path == NULL)"
 msgstr ""
 
-#: src/download.c:85
+#: src/download.c:87
 msgid "fd == NULL"
 msgstr ""
 
-#: src/download.c:106
+#: src/download.c:105
+msgid "curl_easy_perform(curl) != CURLE_OK"
+msgstr ""
+
+#: src/download.c:110
 msgid "curl_easy_init == NULL"
 msgstr ""
 
-#: src/download.c:137 src/download.c:162
+#: src/download.c:141 src/download.c:165
 msgid "Download toolchain/host"
 msgstr ""
 
-#: src/gui.c:107
+#: src/gui.c:132
 msgid "Show verion of used gui libs: "
 msgstr ""
 
-#: src/gui.c:108 src/gui.c:118
+#: src/gui.c:133 src/gui.c:143
 msgid "----------------------------- "
 msgstr ""
 
-#: src/gui.c:184
+#: src/gui.c:209
 msgid "ERROR: progressbar == NULL -> progressbar_window destroyed?"
 msgstr ""
 
-#: src/gui.c:195
+#: src/gui.c:220
 msgid "Possible ERROR: progressbar_window != NULL"
 msgstr ""
 
-#: src/gui.c:219
+#: src/gui.c:244
 msgid "Progressbar != NULL"
 msgstr ""
 
-#: src/gui.c:242
+#: src/gui.c:267
 msgid "Close"
 msgstr ""
 
-#: src/gui.c:306 src/gui.c:319 src/gui.c:332 src/gui.c:345 src/gui.c:361
-#: src/gui.c:377
+#: src/gui.c:331 src/gui.c:344 src/gui.c:357 src/gui.c:370 src/gui.c:386
+#: src/gui.c:402
 msgid "Can't create the thread"
 msgstr ""
 
-#: src/gui.c:486 src/gui.c:541
+#: src/gui.c:862 src/gui.c:980
 msgid "Unknown GUI element"
 msgstr ""
 
-#: src/gui.c:591
+#: src/gui.c:1064
 msgid "Are you sure to quit (without saving)?"
 msgstr ""
 
-#: src/gui.c:611
+#: src/gui.c:1084
 msgid "Open Default"
 msgstr ""
 
-#: src/gui.c:615
+#: src/gui.c:1088
 msgid "Load default configuration for this tool (*sdk_build.conf)"
 msgstr ""
 
-#: src/gui.c:619 src/gui.c:774
+#: src/gui.c:1092 src/gui.c:1366
 msgid "Clone SDK"
 msgstr ""
 
-#: src/gui.c:623 src/gui.c:777
+#: src/gui.c:1096 src/gui.c:1369
 msgid "Clone SDK repository"
 msgstr ""
 
-#: src/gui.c:627 src/gui.c:783
+#: src/gui.c:1100 src/gui.c:1375
 msgid "Update Repo"
 msgstr ""
 
-#: src/gui.c:631
+#: src/gui.c:1104
 msgid "Update SDK repository"
 msgstr ""
 
-#: src/gui.c:635 src/gui.c:792
+#: src/gui.c:1108 src/gui.c:1384
 msgid "Download toolchain"
 msgstr ""
 
-#: src/gui.c:639 src/gui.c:795
+#: src/gui.c:1112 src/gui.c:1387
 msgid "Download toolchain binarys"
 msgstr ""
 
-#: src/gui.c:643
+#: src/gui.c:1116
 msgid "Test SDK"
 msgstr ""
 
-#: src/gui.c:647
+#: src/gui.c:1120
 msgid "Run basic test/check on the sdk/toolchain"
 msgstr ""
 
-#: src/gui.c:651
+#: src/gui.c:1124
 msgid "Help"
 msgstr ""
 
-#: src/gui.c:655
+#: src/gui.c:1128
 msgid "Open help window"
 msgstr ""
 
-#: src/gui.c:659
+#: src/gui.c:1132
 msgid "Quit"
 msgstr ""
 
-#: src/gui.c:667
+#: src/gui.c:1140
 msgid "Quit/Exit"
 msgstr ""
 
-#: src/gui.c:692
-msgid "Create default toolconfig"
+#: src/gui.c:1150
+msgid "Partition SD-Card"
 msgstr ""
 
-#: src/gui.c:701
-msgid "Open new toolconfig "
+#: src/gui.c:1153
+msgid "Partition a new SD-Card for target devices"
 msgstr ""
 
-#: src/gui.c:711
-msgid "Save toolconfig "
+#: src/gui.c:1163
+msgid "Install Kernel-FS"
 msgstr ""
 
-#: src/gui.c:720
-msgid "Save toolconfig under a new name"
+#: src/gui.c:1166
+msgid "Install kernel image to SD-Card"
 msgstr ""
 
-#: src/gui.c:733
-msgid "Quit/Exit with autosave of toolconfig"
+#: src/gui.c:1172
+msgid "Install Root-FS"
 msgstr ""
 
-#: src/gui.c:760
+#: src/gui.c:1175
+msgid "Install rootfs image to SD-Card"
+msgstr ""
+
+#: src/gui.c:1181
+msgid "Install Home-FS"
+msgstr ""
+
+#: src/gui.c:1184
+msgid "Install home image to SD-Card"
+msgstr ""
+
+#: src/gui.c:1194
+msgid "Install U-Boot"
+msgstr ""
+
+#: src/gui.c:1197
+msgid "Install U-Boot to SD-Card"
+msgstr ""
+
+#: src/gui.c:1207
+msgid "Do ALL"
+msgstr ""
+
+#: src/gui.c:1210
+msgid "Do all in one step"
+msgstr ""
+
+#: src/gui.c:1221
+msgid "Clone ALL"
+msgstr ""
+
+#: src/gui.c:1224
+msgid "Clone all external repositorys"
+msgstr ""
+
+#: src/gui.c:1238
+msgid "Clone externel 1 repository"
+msgstr ""
+
+#: src/gui.c:1248
+msgid "Clone externel 2 repository"
+msgstr ""
+
+#: src/gui.c:1258
+msgid "Clone externel 3 repository"
+msgstr ""
+
+#: src/gui.c:1268
+msgid "Clone externel 4 repository"
+msgstr ""
+
+#: src/gui.c:1278
+msgid "Clone externel 5 repository"
+msgstr ""
+
+#: src/gui.c:1288
+msgid "Clone externel 6 repository"
+msgstr ""
+
+#: src/gui.c:1298
+msgid "Clone externel 7 repository"
+msgstr ""
+
+#: src/gui.c:1308
+msgid "Clone externel 8 repository"
+msgstr ""
+
+#: src/gui.c:1318
+msgid "Clone externel 9 repository"
+msgstr ""
+
+#: src/gui.c:1328
+msgid "Clone externel 1o repository"
+msgstr ""
+
+#: src/gui.c:1338
+msgid "Clone selected"
+msgstr ""
+
+#: src/gui.c:1341
+msgid "Clone selected external repositorys"
+msgstr ""
+
+#: src/gui.c:1352
 msgid "Init /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:763
-msgid "Init workdir of *_sdk -> /opt/*_sdk"
+#: src/gui.c:1355
+msgid "Init workdir -> /opt/*_sdk"
 msgstr ""
 
-#: src/gui.c:786
+#: src/gui.c:1378
 msgid "Update SDK repositor"
 msgstr ""
 
-#: src/gui.c:917
+#: src/gui.c:1401
+msgid "Create default toolconfig"
+msgstr ""
+
+#: src/gui.c:1410
+msgid "Open new toolconfig "
+msgstr ""
+
+#: src/gui.c:1420
+msgid "Save toolconfig "
+msgstr ""
+
+#: src/gui.c:1429
+msgid "Save toolconfig under a new name"
+msgstr ""
+
+#: src/gui.c:1442
+msgid "Quit/Exit with autosave of toolconfig"
+msgstr ""
+
+#: src/gui.c:1607
 msgid "ERROR: Message type not supported"
 msgstr ""
 
-#: src/gui.c:920
+#: src/gui.c:1610
 msgid "ERROR: textfield_buffer == NULL!"
 msgstr ""
 
@@ -268,44 +376,48 @@ msgstr ""
 msgid "Finalize cleanup -> cheers %s\n"
 msgstr ""
 
-#: src/main.c:98 src/main.c:200
-msgid "Init main sdk_config done\n"
+#: src/main.c:98
+msgid "ERROR main sdk_config"
 msgstr ""
 
 #: src/main.c:103
-msgid "Init common sdk_config done\n"
+msgid "ERROR common sdk_config done"
 msgstr ""
 
-#: src/main.c:108
-msgid "Init repo sdk_config done\n"
+#: src/main.c:107
+msgid "ERROR repo sdk_config"
 msgstr ""
 
-#: src/main.c:113 src/main.c:118
-msgid "Init toolchain sdk_config done\n"
+#: src/main.c:111
+msgid "ERROR toolchain sdk_config"
+msgstr ""
+
+#: src/main.c:115
+msgid "ERROR device sdk_config"
+msgstr ""
+
+#: src/main.c:119
+msgid "ERROR external sdk_config"
 msgstr ""
 
 #: src/main.c:123
-msgid "Init device sdk_config done\n"
+msgid "ERROR kernel sdk_config"
 msgstr ""
 
-#: src/main.c:128
-msgid "Init external sdk_config done\n"
-msgstr ""
-
-#: src/main.c:133
-msgid "Init kernel sdk_config done\n"
-msgstr ""
-
-#: src/main.c:182
+#: src/main.c:172
 #, c-format
 msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/main.c:202
-msgid "Possible init problem: read_complete_config != 0\n"
+#: src/main.c:190
+msgid "Init main sdk_config done"
 msgstr ""
 
-#: src/main.c:207
+#: src/main.c:192
+msgid "Possible init problem: read_complete_config != 0"
+msgstr ""
+
+#: src/main.c:197
 msgid "Init network code: done\n"
 msgstr ""
 
@@ -337,12 +449,12 @@ msgstr ""
 msgid "Fetched: (%d/%d) %d kB"
 msgstr ""
 
-#: src/common.h:83
+#: src/common.h:100
 #, c-format
 msgid "GIT: %d: %s"
 msgstr ""
 
-#: src/common.h:86
+#: src/common.h:103
 #, c-format
 msgid "GIT: %d: no detailed info"
 msgstr ""
@@ -407,82 +519,82 @@ msgstr ""
 msgid "can't change to dir %s"
 msgstr ""
 
-#: lib/config.c:308
+#: lib/config.c:389
 msgid "Not a valid configuration type!"
 msgstr ""
 
-#: lib/config.c:464
+#: lib/config.c:544
 msgid "Show content of internal configuration: "
 msgstr ""
 
-#: lib/config.c:466
+#: lib/config.c:546
 #, c-format
 msgid "Global: conf_location->conf_file: %s    "
 msgstr ""
 
-#: lib/config.c:467
+#: lib/config.c:547
 #, c-format
 msgid "Global: conf_location->conf_dir: %s     "
 msgstr ""
 
-#: lib/config.c:468
+#: lib/config.c:548
 #, c-format
 msgid "Global: sdk_config_name: %s             "
 msgstr ""
 
-#: lib/config.c:469
+#: lib/config.c:549
 #, c-format
 msgid "Global: gui_name: %s                    "
 msgstr ""
 
-#: lib/config.c:473
+#: lib/config.c:553
 #, c-format
 msgid "Global: sdk_repo->url %s        "
 msgstr ""
 
-#: lib/config.c:474
+#: lib/config.c:554
 #, c-format
 msgid "Global: sdk_repo->path %s       "
 msgstr ""
 
-#: lib/config.c:476
+#: lib/config.c:556
 msgid "Global: sdk_repo == NULL "
 msgstr ""
 
-#: lib/config.c:481
+#: lib/config.c:561
 #, c-format
 msgid "Global: toolchain->url %s       "
 msgstr ""
 
-#: lib/config.c:482
+#: lib/config.c:562
 #, c-format
 msgid "Global: toolchain->path %s      "
 msgstr ""
 
-#: lib/config.c:484
+#: lib/config.c:564
 msgid "Global: toolchain == NULL"
 msgstr ""
 
-#: lib/config.c:489
+#: lib/config.c:569
 #, c-format
 msgid "Global: host->url %s            "
 msgstr ""
 
-#: lib/config.c:490
+#: lib/config.c:570
 #, c-format
 msgid "Global: host->path %s           "
 msgstr ""
 
-#: lib/config.c:492
+#: lib/config.c:572
 msgid "Global: host == NULL     "
 msgstr ""
 
-#: lib/config.c:499
+#: lib/config.c:576
 #, c-format
 msgid "--------------------------------------- \n"
 msgstr ""
 
-#: lib/libservice.h:141
+#: lib/libservice.h:146
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""

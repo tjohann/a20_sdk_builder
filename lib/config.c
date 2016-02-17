@@ -179,105 +179,186 @@ get_config_object(config_t **cfg)
 char *
 get_conf_location_dir()
 {
-	return conf_location->conf_dir;
+	if (conf_location->conf_dir == NULL)
+		error_msg("conf_location->conf_dir == NULL");
+	else
+		return conf_location->conf_dir;
+
+	return NULL;
 }
 
 
 char *
 get_conf_location_file()
 {
-	return conf_location->conf_file;
+	if (conf_location->conf_file == NULL)
+		error_msg("conf_location->conf_file == NULL");
+	else
+		return conf_location->conf_file;
+
+	return NULL;
 }
 
 
 char *
 get_common_gui_name()
 {
-	return gui_name;
+	if (gui_name == NULL)
+		error_msg("gui_name == NULL");
+	else
+		return gui_name;
+
+	return NULL;
 }
 
 
 char *
 get_common_workdir()
 {
-	return workdir;
+	if (workdir == NULL)
+		error_msg("workdir == NULL");
+	else
+		return workdir;
+
+	return NULL;
 }
 
 
 char *
 get_common_runtimedir()
 {
-	return runtimedir;
+	if (runtimedir == NULL)
+		error_msg("runtimedir == NULL");
+	else
+		return runtimedir;
+
+	return NULL;
 }
 
 
 char *
 get_sdk_repo_url()
 {
-	return sdk_repo->url;
+	if (sdk_repo->url == NULL)
+		error_msg("sdk_repo->url == NULL");
+	else
+		return sdk_repo->url;
+
+	return NULL;
 }
 
 
 char *
 get_sdk_repo_path()
 {
-	return sdk_repo->path;
+	if (sdk_repo->path == NULL)
+		error_msg("sdk_repo->path == NULL");
+	else
+		return sdk_repo->path;
+
+	return NULL;
 }
 
 
 char *
 get_toolchain_url()
 {
-	return toolchain->url;
+	if (toolchain->url == NULL)
+		error_msg("toolchain->url == NULL");
+	else
+		return toolchain->url;
+
+	return NULL;
 }
 
 
 char *
 get_toolchain_path()
 {
-	return toolchain->path;
+	if (toolchain->path == NULL)
+		error_msg("toolchain->path == NULL");
+	else
+		return toolchain->path;
+
+	return NULL;
 }
 
 
 download_tupel_t *
 get_toolchain()
 {
-	return toolchain;
+	if (toolchain == NULL)
+		error_msg("toolchain == NULL");
+	else
+		return toolchain;
+
+	return NULL;
 }
 
 
 char *
 get_host_url()
 {
-	return host->url;
+	if (host->url == NULL)
+		error_msg("host->url == NULL");
+	else
+		return host->url;
+
+	return NULL;
 }
 
 
 char *
 get_host_path()
 {
-	return host->path;
+	if (host->path == NULL)
+		error_msg("host->path == NULL");
+	else
+		return host->path;
+
+	return NULL;
 }
 
 
 download_tupel_t *
 get_host()
 {
-	return host;
+	if (host == NULL)
+		error_msg("host == NULL");
+	else
+		return host;
+
+	return NULL;
 }
 
 
 char *
 get_download_tupel_url(download_tupel_t *t)
 {
-	return t->url;
+	if (t == NULL)
+		return NULL;
+
+	if (t->url == NULL)
+		error_msg("t->url == NULL");
+	else
+		return t->url;
+
+	return NULL;
 }
 
 
 char *
 get_download_tupel_path(download_tupel_t *t)
 {
-	return t->path;
+	if (t == NULL)
+		return NULL;
+
+	if (t->path == NULL)
+		error_msg("t->path == NULL");
+	else
+		return t->path;
+
+	return NULL;
 }
 
 
@@ -310,7 +391,6 @@ init_main_config(char *conf_file, char *conf_dir)
 	}
 
 	config_destroy(&cfg);
-
 	return 0;
 
 error:
@@ -491,9 +571,6 @@ show_config()
 	} else {
 		info_msg(_("Global: host == NULL     "));
 	}
-
-
-
 
 
 	fprintf(stdout, _("--------------------------------------- \n"));

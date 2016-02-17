@@ -36,10 +36,6 @@
 
 #include "libservice.h"
 
-/*
- * global objects
- * --------------
- */
 
 // attribute for write_to_textfield
 typedef enum message_types {
@@ -68,6 +64,27 @@ typedef enum gui_element {
 		HELP_B,
 		OPEN_B,
 		OPEN_M,
+		NEW_M,
+		SAVE_M,
+		SAVE_AS_M,
+		PARTITION_M,
+		HOME_M,
+		ROOT_M,
+		KERNEL_M,
+		UBOOT_M,
+		DO_ALL_M,
+		CLONE_ALL_M,
+	        EXTERNAL1_M,
+		EXTERNAL2_M,
+		EXTERNAL3_M,
+		EXTERNAL4_M,
+		EXTERNAL5_M,
+		EXTERNAL6_M,
+		EXTERNAL7_M,
+		EXTERNAL8_M,
+		EXTERNAL9_M,
+		EXTERNAL10_M,
+		CLONE_SELECTED_M,
 		PROGRESSBAR_B
 } gui_element_t;
 
@@ -131,6 +148,10 @@ enter_sdk_thread(void);
 
 void
 leave_sdk_thread(void);
+
+// lock unused buttons/menus -> not yet implemented
+void
+lock_unused_buttons();
 
 
 /*

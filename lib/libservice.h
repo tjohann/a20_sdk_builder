@@ -83,6 +83,11 @@
 #define MAX_SUPPORTED_DEVICES 4
 #define MAX_SUPPORTED_EXTERNAL_REPOS 10
 
+#define TMP_DIR "/tmp/"
+#define TMP_FILE "/tmp/sdk_builder.trash"
+
+#define DUMMY_STRING "dummy"
+
 
 /*
  * common types
@@ -306,6 +311,9 @@ get_toolchain_path();
 
 download_tupel_t *
 get_toolchain();
+
+download_tupel_t *
+get_host();
 
 
 /*

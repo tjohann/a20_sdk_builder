@@ -38,6 +38,8 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 		checkout_percent,
 		(int) cur, (int) tot,
 		path);
+#else
+	(void) path;
 #endif
 
 	set_progressbar_value(statusbar_percent, statusbar_percent_string);
@@ -79,6 +81,9 @@ clone_sdk_repo(void *args)
 	char *path = get_sdk_repo_path();
 
 	(void) args; // not used
+
+	if (url == NULL || path == NULL)
+		return NULL;
 
 	enter_sdk_thread();
 
