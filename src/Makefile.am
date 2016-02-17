@@ -13,7 +13,6 @@ sdk_builder_SOURCES =             \
 	update.c                  \
 	download.c                \
 	extract.c                 \
-	checksum.c                \
 	test.c                    \
 	common.h                  \
 	help.c                    \

@@ -65,7 +65,7 @@
 // libconfig
 #include <libconfig.h>
 
-// autotools genrated config
+// autotools generated config
 #include <config.h>
 
 // getopt and locale realted inc
@@ -73,6 +73,21 @@
 #include <libintl.h>
 #include <locale.h>
 #include "gettext.h"
+
+// libgit2
+#include <git2.h>
+#include <git2/clone.h>
+
+// libcurl
+#include <curl/curl.h>
+
+// libarchive
+#include <archive.h>
+#include <archive_entry.h>
+
+// libressl
+#include <openssl/sha.h>
+
 
 
 /*
@@ -324,6 +339,14 @@ get_download_tupel_url(download_tupel_t *t);
 
 char *
 get_download_tupel_path(download_tupel_t *t);
+
+
+/*
+ * checksum.c
+ * ==========
+ */
+int
+calc_checksum(char *filename);
 
 
 

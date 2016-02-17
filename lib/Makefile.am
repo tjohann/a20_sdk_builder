@@ -7,6 +7,7 @@ libservice_a_SOURCES =  \
 	global.h 	\
 	error.c 	\
 	network.c 	\
+	checksum.c 	\
 	helper.c 	\
 	config.c 	\
 	gettext.h

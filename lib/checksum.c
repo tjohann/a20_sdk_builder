@@ -18,11 +18,11 @@
 
 */
 
-#include "common.h"
+#include "libservice.h"
 
 
-void
-calc_checksum()
+int
+calc_checksum(char *filename)
 {
 	unsigned char buffer[BUFSIZ];
 	FILE *f;
@@ -50,5 +50,5 @@ calc_checksum()
 		printf("%02x", buffer[len]);
 	putchar('\n');
 
-	//return 0;
+	return 0;
 }

@@ -6,6 +6,7 @@ gtk
 ---
 https://developer.gnome.org/gtk2/stable/
 https://developer.gnome.org/gtk-tutorial/stable/book1.html
+https://developer.gnome.org/gtk3/stable/
 
 http://zetcode.com/gui/gtk2/firstprograms/
 http://zetcode.com/gui/gtk2/gtklayoutmanagement/
@@ -14,15 +15,23 @@ http://zetcode.com/gui/gtk2/
 http://stackoverflow.com/questions/8403731/gtk-and-scrolling-text-view
 https://developer.gnome.org/gtk-tutorial/stable/x829.html
 
+
 gtktextview
 -----------
 http://www.gtkforums.com/viewtopic.php?t=1307
 http://www.compsci.hunter.cuny.edu/~sweiss/course_materials/csci493.70/lecture_notes/GTK_textview.pdf
 
 
+gtk-menu/toolbar
+----------------
+http://zetcode.com/gui/gtk2/menusandtoolbars/
+
+
 libcurl
 -------
-http://curl.haxx.se/libcurl/c/curlgtk.html
+https://curl.haxx.se/libcurl/c/curlgtk.html
+https://curl.haxx.se/libcurl/c/libcurl.html
+https://curl.haxx.se/libcurl/c/curl_easy_perform.html
 
 
 gthreads
@@ -48,6 +57,29 @@ http://www.trilithium.com/johan/2005/08/linux-gate/
 http://man7.org/linux/man-pages/man7/vdso.7.html
 
 
+libarchive
+----------
+https://github.com/libarchive/libarchive/wiki/Examples#A_Universal_Decompressor
+https://github.com/libarchive/libarchive/blob/master/examples/untar.c
+
+
+libconfig
+---------
+http://www.hyperrealm.com/libconfig/libconfig_manual.html
+
+
 procps/libproc
 --------------
 http://codingrelic.geekhold.com/2011/02/listing-processes-with-libproc.html
+
+
+libressl (sha256)
+-----------------
+http://stackoverflow.com/questions/7853156/calculate-sha256-of-a-file-using-openssl-libcrypto-in-c
+http://stackoverflow.com/questions/2262386/generate-sha256-with-openssl-and-c?rq=1
+
+
+others
+------
+http://damienradtke.com/message-passing-in-c/
+https://matt.sh/howto-c

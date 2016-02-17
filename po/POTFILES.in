@@ -10,9 +10,9 @@ src/help.c
 src/main.c
 src/test.c
 src/update.c
-src/checksum.c
 src/common.h
 lib/global.h
+lib/checksum.c
 lib/network.c
 lib/helper.c
 lib/config.c

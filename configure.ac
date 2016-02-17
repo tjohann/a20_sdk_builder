@@ -6,13 +6,13 @@ AC_COPYRIGHT([Copyright 2016, Thorsten Johannvorderbrueggen])
 AC_CONFIG_AUX_DIR([build-aux/autoconf])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([	  \
-	Makefile	  \
-	src/Makefile 	  \
-	lib/Makefile 	  \
-	etc/Makefile	  \
-	desktop/Makefile  \
-	po/Makefile.in 	  \
+AC_CONFIG_FILES([		\
+	Makefile		\
+	lib/Makefile		\
+	src/Makefile		\
+	etc/Makefile	  	\
+	desktop/Makefile  	\
+	po/Makefile.in 	  	\
 	pixmaps/Makefile])
 
 AM_GNU_GETTEXT_VERSION([0.19.4])

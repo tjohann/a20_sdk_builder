@@ -24,15 +24,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <git2.h>
-#include <git2/clone.h>
-
-#include <curl/curl.h>
-
-#include <archive.h>
-#include <archive_entry.h>
-
-#include <openssl/sha.h>
 
 #include "libservice.h"
 

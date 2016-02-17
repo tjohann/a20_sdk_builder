@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-16 18:11+0100\n"
+"POT-Creation-Date: 2016-02-17 17:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -449,12 +449,12 @@ msgstr ""
 msgid "Fetched: (%d/%d) %d kB"
 msgstr ""
 
-#: src/common.h:100
+#: src/common.h:91
 #, c-format
 msgid "GIT: %d: %s"
 msgstr ""
 
-#: src/common.h:103
+#: src/common.h:94
 #, c-format
 msgid "GIT: %d: no detailed info"
 msgstr ""
@@ -594,7 +594,7 @@ msgstr ""
 msgid "--------------------------------------- \n"
 msgstr ""
 
-#: lib/libservice.h:146
+#: lib/libservice.h:161
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
