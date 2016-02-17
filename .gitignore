@@ -35,7 +35,7 @@ Makefile.in
 /po/Makefile
 /po/POTFILES
 /src/Makefile
-/src/a20_sdk_builder
+/src/sdk_builder
 
 # my build-aux stuff
 /build-aux/autoconf/
