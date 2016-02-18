@@ -1,16 +1,16 @@
 # List of source files which contain translatable strings.
 
-src/clone.c
-src/message_handler.c
-src/common_git.c
-src/config.c
-src/download.c
-src/gui.c
-src/help.c
-src/main.c
-src/test.c
-src/update.c
-src/common.h
+src/gui/clone.c
+src/gui/message_handler.c
+src/gui/common_git.c
+src/gui/config.c
+src/gui/download.c
+src/gui/gui.c
+src/gui/help.c
+src/gui/main.c
+src/gui/test.c
+src/gui/update.c
+src/gui/common.h
 lib/global.h
 lib/checksum.c
 lib/network.c

@@ -26,7 +26,7 @@ sdk_builder_CFLAGS =              \
 	$(LIBCURL_CFLAGS)         \
 	$(LIBARCHIVE_CFLAGS)      \
 	$(LIBCRYPTO_CFLAGS)       \
-	-DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../lib
+	-DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../../lib
 
 
 sdk_builder_LDADD =               \
@@ -36,7 +36,7 @@ sdk_builder_LDADD =               \
 	$(LIBCURL_LIBS)           \
 	$(LIBARCHIVE_LIBS)        \
 	$(LIBCRYPTO_LIBS)         \
-	$(LIBINTL) ../lib/libservice.a
+	$(LIBINTL) ../../lib/libservice.a
 
 
 #

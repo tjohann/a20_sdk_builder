@@ -12,30 +12,44 @@ Makefile.in
 /stamp-h1
 
 # packages
-*.bz
-*.gz
-*.tgz
-*.bz2
-*.xz
+/*.tar.bz2
+/*.tar.gz
+/*.tar.xz
+/*.tar.bz
 
 # my stuff
 *~
 .*~
 *.o
 *.la
+*.a
+*.cache
+*.lo
+*.log
+*.plist
+*.stamp
+*.swp
+*.trs
 .deps/
 .libs/
-/config.*
-/configure
+config.h
+config.h.in
+config.log
+config.status
+configure
 /libtool
 /Makefile
 /lib/Makefile
 /pixmaps/Makefile
+/desktop/Makefile
+/etc/Makefile
 /lib/libservice.a
 /po/Makefile
 /po/POTFILES
-/src/Makefile
-/src/sdk_builder
+/src/gui/Makefile
+/src/gui/sdk_builder
+/src/conf_d/Makefile
+/src/conf_d/sdk_confd
 
 # my build-aux stuff
 /build-aux/autoconf/
@@ -77,6 +91,21 @@ Makefile.in
 /build-aux/m4/wint_t.m4
 /build-aux/m4/xsize.m4
 
-
-
-
+# po
+po/*.gmo
+po/*.header
+po/*.mo
+po/*.sed
+po/*.sin
+po/.intltool-merge-cache
+po/boldquot.sed
+po/Makefile
+po/Makefile.in
+po/Makefile.in.in
+po/Makevars.template
+po/POTFILES
+po/Rules-quot
+po/stamp-it
+po/stamp-po
+po/sdk-builder.pot
+po/sdk-confd.pot

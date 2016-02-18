@@ -38,14 +38,12 @@ give a directory name to search for configuration file\n"));
 show help                                             \n"));
 	putchar('\n');
 	fprintf(stdout, _("Examples:                                      \n"));
-	fprintf(stdout, _("Normal usage (via desktop.entry):                   \
-a20_sdk_builder \n"));
 	fprintf(stdout, _("Give configuration as argument:                     \
-sdk_builder -f a20_sdk_builder.conf                   \n"));
+%s -f a20_sdk_builder.conf                   \n"), program_name);
 	fprintf(stdout, _("-> check path /etc/sdk_builder                 \n"));
 	fprintf(stdout, _("-> check path /usr/local/etc/sdk_builder       \n"));
 	fprintf(stdout, _("Give both as argument:                              \
-sdk_builder -f a20_sdk_builder.conf -d $HOME/etc/sdk-builder/ \n"));
+%s -f a20_sdk_builder.conf -d $HOME/etc/sdk-builder/ \n"), program_name);
 	putchar('\n');
 
 	exit(status);
@@ -56,38 +54,6 @@ static void
 cleanup(void)
 {
 	fprintf(stdout, _("Finalize cleanup -> cheers %s\n"), getenv("USER"));
-}
-
-
-static void
-show_all_infos()
-{
-	/*
-	 * show some useful info
-	 */
-	show_program_name(program_name);
-	show_package_name();
-	show_version_info();
-	show_gtk_version_info();
-	show_config();
-}
-
-
-static void
-check_all_states()
-{
-	/*
-	 * check for some defaults to control the gui
-	 */
-	if (check_sdk_runtimedir() != 0)
-		info_msg("%s isn't available", get_common_runtimedir());
-
-	if (check_sdk_workdir() != 0)
-		info_msg("%s isn't available", get_common_workdir());
-
-	check_sdk_git_path();
-	check_toolchain();
-	check_test_env();
 }
 
 
@@ -123,24 +89,6 @@ read_complete_config(char *conf_file, char *conf_dir)
 		error_msg(_("ERROR kernel sdk_config"));
 
 	return 0;
-}
-
-
-void
-exit_function(GtkWidget *widget, gpointer data)
-{
-	/*
-	  For autosave ...
-
-	  Quit-Button and Quit-Function do autosave
-	  via "X" of the wm-window will send "delete-event" which will be handeld
-	  dialog box (see on_delete_event@gui.c)
-	 */
-
-	PRINT_LOCATION();
-
-	(void) widget;
-	(void) data;
 }
 
 
@@ -183,9 +131,6 @@ main(int argc, char *argv[])
         /*
 	 * init non-gtk stuff
 	 */
-	git_libgit2_init();
-	curl_global_init(CURL_GLOBAL_ALL);
-
 	if (read_complete_config(conf_file, conf_dir) == 0) {
 		info_msg(_("Init main sdk_config done"));
 	} else {
@@ -194,37 +139,13 @@ main(int argc, char *argv[])
 	}
 
 	if (init_network() != -1)
-		g_print(_("Init network code: done\n"));
+		info_msg(_("Init network code: done\n"));
+
 
 	/*
-	 * init gtk stuff
+	 * daemon stuff
 	 */
-	if (!g_thread_supported())
-		g_thread_init(NULL);
 
-	gdk_threads_init();
-	gdk_threads_enter();
-
-	gtk_init(&argc, &argv);
-	build_main_window();
-
-	// lock unused buttons/menus -> not yet implemented
-	lock_unused_buttons();
-
-	/*
-	 * check for some defaults to control the gui
-	 */
-	check_all_states();
-
-	/*
-	 * show some useful info
-	 */
-	show_all_infos();
-
-	gtk_main();
-	gdk_threads_leave();
-
-	git_libgit2_shutdown();
 
 	return EXIT_SUCCESS;
 }

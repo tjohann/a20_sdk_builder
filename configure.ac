@@ -9,7 +9,8 @@ AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([		\
 	Makefile		\
 	lib/Makefile		\
-	src/Makefile		\
+	src/conf_d/Makefile	\
+	src/gui/Makefile	\
 	etc/Makefile	  	\
 	desktop/Makefile  	\
 	po/Makefile.in 	  	\
