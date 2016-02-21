@@ -13,6 +13,7 @@ AC_CONFIG_FILES([		\
 	src/gui/Makefile	\
 	etc/Makefile	  	\
 	desktop/Makefile  	\
+	Documentation/Makefile  \
 	po/Makefile.in 	  	\
 	pixmaps/Makefile])
 

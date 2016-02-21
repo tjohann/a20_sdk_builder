@@ -1,0 +1,21 @@
+#
+# some info about the gui
+#
+
+
+
+main.c								lib/config.c
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+main()
+
+-> read_complete_config(char *conf_file, char *conf_dir);
+				|
+				|
+				|-----------------------------> init_main_config(conf_file, conf_dir)
+				|-----------------------------> init_common_config(conf_file, conf_dir)
+				|-----------------------------> init_repo_config(conf_file, conf_dir)
+				|-----------------------------> init_toolchain_config(conf_file, conf_dir)
+				|-----------------------------> init_device_config(conf_file, conf_dir)
+				|-----------------------------> init_external_config(conf_file, conf_dir)
+				|-----------------------------> init_kernel_config(conf_file, conf_dir)

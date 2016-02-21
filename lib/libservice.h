@@ -103,6 +103,8 @@
 
 #define DUMMY_STRING "dummy"
 
+#define FILE_EMPTY -2
+
 
 /*
  * common types
@@ -185,6 +187,9 @@ is_this_a_dir(const char *dir_name);
 
 char *
 alloc_string(const char *tmp_str);
+
+ssize_t
+read_line(int fd, void *buf, size_t n_bytes);
 
 
 /*
@@ -288,14 +293,11 @@ void
 show_config();
 
 /*
- * Scheme:
+ * Scheme of config file handling
  *
  * get/set_STRUCTURE_VARIABLE  -> sdk_repo.url -> get_sdk_repo_url()
  */
 
-/*
- * common
- */
 char *
 get_common_gui_name();
 
@@ -305,9 +307,6 @@ get_common_workdir();
 char *
 get_common_runtimedir();
 
-/*
- * sdk_repo
- */
 char *
 get_sdk_repo_url();
 
@@ -315,9 +314,6 @@ char *
 get_sdk_repo_path();
 
 
-/*
- * toolchain
- */
 char *
 get_toolchain_url();
 
@@ -330,10 +326,6 @@ get_toolchain();
 download_tupel_t *
 get_host();
 
-
-/*
- * download_tupel_t
- */
 char *
 get_download_tupel_url(download_tupel_t *t);
 

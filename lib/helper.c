@@ -121,3 +121,37 @@ alloc_string(const char *tmp_str)
 
 	return str;
 }
+
+
+ssize_t
+read_line(int fd, void *buf, size_t n_bytes)
+{
+	ssize_t n = 0;
+	size_t count = 0;
+	char *tmp_buf = buf;
+	char ch = 0;
+
+read_cmd:
+	n = read(fd, &ch, 1);
+	if (n == -1) {
+		if (errno == EINTR)
+			goto read_cmd;
+		else {
+			error_msg_return("read_line() -> read");
+		}
+	} else {
+		if (n == 0 && count == 0)
+			return FILE_EMPTY;
+
+		if (count < n_bytes - 1) {
+			count++;
+			*tmp_buf++ = ch;
+		}
+
+		if ((ch != '\n') && (n != 0))        // NEWLINE or EOF
+			goto read_cmd;
+	}
+	*tmp_buf = '\0';
+
+	return count;
+}
