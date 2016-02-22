@@ -7,9 +7,11 @@ libservice_a_SOURCES =  \
 	global.h 	\
 	error.c 	\
 	network.c 	\
-	checksum.c 	\
+	download.c 	\
 	helper.c 	\
+	extract.c 	\
 	config.c 	\
+	git.c 		\
 	gettext.h
 
 libservice_a_CFLAGS = -DLOCALDIR=\"$(localedir)\"

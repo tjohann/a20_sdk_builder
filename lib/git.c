@@ -18,14 +18,115 @@
 
 */
 
-#include "common.h"
+#include "libservice.h"
+
 
 
 static int
-update_tips(const char *refname,
-	    const git_oid *first,
-	    const git_oid *second,
-	    void *payload)
+sideband_progress(const char *str, int len, void *payload)
+{
+	char textfield_update_string[MAXLINE];
+	memset(textfield_update_string, 0, sizeof(textfield_update_string));
+
+	(void) payload; // not used
+
+	snprintf(textfield_update_string, sizeof(textfield_update_string),
+		 _("Remote: %.*s"), len, str);
+
+	write_info_msg(textfield_update_string);
+
+	return 0;
+}
+
+
+static int
+fetch_progress(const git_transfer_progress *stats, void *payload)
+{
+	int fetch_percent = (100 * stats->received_objects) /
+		stats->total_objects;
+	//int index_percent = (100 * stats->indexed_objects) /
+	//      stats->total_objects;
+
+	// simple weight function
+	int statusbar_percent = (fetch_percent * 5) / 6;
+	char statusbar_percent_string[5];
+
+	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
+	snprintf(statusbar_percent_string, 5, "%3d%%", statusbar_percent);
+
+	(void) payload; // not used
+
+#ifdef DEBUG
+	int receive_kbyte = stats->received_bytes / 1024;
+	if (stats->received_objects == stats->total_objects) {
+		info_msg("Resolving deltas %d/%d",
+			 stats->indexed_deltas, stats->total_deltas);
+	} else if (stats->total_objects > 0) {
+		info_msg("Fetched: %3d%% (%d/%d) %d kB",
+			 fetch_percent,
+			 stats->received_objects, stats->total_objects,
+			 receive_kbyte);
+	}
+#endif
+
+	set_progressbar_value(statusbar_percent, statusbar_percent_string);
+
+	return 0;
+}
+
+
+static void
+checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
+{
+	int checkout_percent = (100 * cur) / tot;
+
+	int statusbar_percent = (checkout_percent / 6 ) + 84;
+	char statusbar_percent_string[5];
+
+	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
+	snprintf(statusbar_percent_string, 5, "%3d%%", statusbar_percent);
+
+	(void) payload; // not used
+
+#ifdef DEBUG
+	info_msg(_("Checkout: %3d%% (%d/%d) %s"),
+		checkout_percent,
+		(int) cur, (int) tot,
+		path);
+#else
+	(void) path;
+#endif
+
+	set_progressbar_value(statusbar_percent, statusbar_percent_string);
+}
+
+
+void
+do_clone_repo(char *url, char *path)
+{
+	git_repository *repo = NULL;
+	git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
+	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
+
+	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+	checkout_opts.progress_cb = checkout_progress;
+	clone_opts.checkout_opts = checkout_opts;
+	clone_opts.fetch_opts.callbacks.sideband_progress = sideband_progress;
+	clone_opts.fetch_opts.callbacks.transfer_progress = &fetch_progress;
+
+	int error = git_clone(&repo, url, path, &clone_opts);
+	if (error != 0)
+		git_error_handling();
+
+out:
+	if (repo)
+		git_repository_free(repo);
+}
+
+
+static int
+update_tips(const char *refname, const git_oid *first,
+	    const git_oid *second, void *payload)
 {
 	char first_oid_s[GIT_OID_HEXSZ+1];
 	char second_oid_s[GIT_OID_HEXSZ+1];
@@ -69,7 +170,7 @@ update_tips(const char *refname,
 }
 
 
-static void
+void
 do_update_repo(char *url, char *path)
 {
 	git_repository *repo;
@@ -126,33 +227,4 @@ out:
 	if (repo)
 		git_repository_free(repo);
 
-}
-
-
-
-void *
-update_sdk_repo(void *args)
-{
-
-	char *url = get_sdk_repo_url();
-	char *path = get_sdk_repo_path();
-
-	(void) args; // not used
-
-	if (url == NULL || path == NULL)
-		return NULL;
-
-	enter_sdk_thread();
-
-	if (create_progressbar_window(path) != 0)
-		write_error_msg(_("ERROR: create_progress_bar_window != 0"));
-
-	do_update_repo(url, path);
-
-	set_progressbar_value(100, "100%");
-	unlock_button(PROGRESSBAR_B);
-
-	leave_sdk_thread();
-
-	return NULL;
 }

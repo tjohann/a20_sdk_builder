@@ -21,28 +21,83 @@
 #include "common.h"
 
 
-void *
-test_sdk(void *args)
+void
+check_sdk_git_path()
 {
+	PRINT_LOCATION();
 
-	(void) args;
+	git_repository *repo = NULL;
+
+	const char *path = get_sdk_repo_path();
+	if (path != NULL) {
+		int error = git_repository_open_ext(&repo, path, 0, NULL);
+		if (error == 0) {
+			lock_button(CLONE_B);
+			lock_button(CLONE_M);
+			unlock_button(UPDATE_B);
+			unlock_button(UPDATE_M);
+		} else {
+			lock_button(UPDATE_B);
+			lock_button(UPDATE_M);
+			unlock_button(CLONE_B);
+			unlock_button(CLONE_M);
+		}
+	} else {
+		error_msg("get_sdk_repo_path() == NULL");
+	}
+
+	if (repo)
+		git_repository_free(repo);
+}
+
+
+void
+check_toolchain()
+{
+	PRINT_LOCATION();
 
 	/*
-	 * only one thread could be active
+	 * check checksum.sha256 and tgz are in sync
 	 */
-	enter_sdk_thread();
-
-	write_info_msg(_("--INFO_MSG--: in test_sdk"));
-
-	sleep(5);
-
-        /*
-	 * check for correct state
-	 */
-	leave_sdk_thread();
-
-	return NULL;
+	int state = 1;
+	if (state == 0) {
+		lock_button(DOWNLOAD_B);
+		lock_button(DOWNLOAD_M);
+	} else {
+		unlock_button(DOWNLOAD_B);
+		unlock_button(DOWNLOAD_M);
+	}
 }
+
+
+int
+check_sdk_workdir()
+{
+
+/*
+ * check if /opt/..._sdk is available
+ */
+
+
+	// check for workdir
+	return 0;
+}
+
+
+int
+check_sdk_runtimedir()
+{
+
+/*
+ * check if /var/lib..._sdk is available
+ * Note: to check if it's a git repo use check_sdk_git_path()
+ */
+
+
+	// check runtimedir!
+	return 0;
+}
+
 
 void
 check_test_env()

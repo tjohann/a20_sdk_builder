@@ -155,3 +155,55 @@ read_cmd:
 
 	return count;
 }
+
+
+int
+calc_checksum(download_tupel_t *t)
+{
+	char *checksum_s = NULL;
+	unsigned char *hash = NULL;
+	FILE *f;
+	SHA256_CTX ctx;
+	size_t len;
+
+	hash = malloc(SHA256_DIGEST_LENGTH);
+	if (hash == NULL)
+		error_msg_return("Possible ERROR: hash == NULL");
+
+	// hash * 2 -> hash as string -> + 1 for \0
+	checksum_s = malloc((SHA256_DIGEST_LENGTH * 2) + 1);
+	if (checksum_s == NULL)
+		error_msg_return("Possible ERROR: checksum_s == NULL");
+
+	memset(checksum_s, 0, SHA256_DIGEST_LENGTH + 1);
+	memset(hash, 0, SHA256_DIGEST_LENGTH);
+
+	f = fopen(t->path, "r");
+	if (f == NULL)
+		error_msg_return("Possible ERROR: couldn't open %s\n", t->path);
+
+	SHA256_Init(&ctx);
+
+	do {
+		len = fread(hash, 1, SHA256_DIGEST_LENGTH, f);
+		SHA256_Update(&ctx, hash, len);
+	} while (len == SHA256_DIGEST_LENGTH);
+
+	SHA256_Final(hash, &ctx);
+	fclose(f);
+
+	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+		sprintf(checksum_s + (i * 2), "%02x", hash[i]);
+
+	t->hash = hash;
+	t->checksum_s = checksum_s;
+
+#ifdef DEBUG
+	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+		fprintf(stdout, "%02x", hash[i]);
+	putchar('\n');
+	info_msg(t->checksum_s);
+#endif
+
+	return 0;
+}

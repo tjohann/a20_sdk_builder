@@ -18,13 +18,7 @@
 
 */
 
-#include "common.h"
-
-/*
- * module specific macros
- * ======================
- */
-
+#include "libservice.h"
 
 
 #define handle_error_archive_read_open_filename() do {			\
@@ -34,12 +28,6 @@
 	} while (0)
 
 
-
-
-/*
- * content
- * =======
- */
 static int
 copy_data(struct archive *a_read, struct archive *a_write)
 {

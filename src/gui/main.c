@@ -126,24 +126,6 @@ read_complete_config(char *conf_file, char *conf_dir)
 }
 
 
-void
-exit_function(GtkWidget *widget, gpointer data)
-{
-	/*
-	  For autosave ...
-
-	  Quit-Button and Quit-Function do autosave
-	  via "X" of the wm-window will send "delete-event" which will be handeld
-	  dialog box (see on_delete_event@gui.c)
-	 */
-
-	PRINT_LOCATION();
-
-	(void) widget;
-	(void) data;
-}
-
-
 int
 main(int argc, char *argv[])
 {

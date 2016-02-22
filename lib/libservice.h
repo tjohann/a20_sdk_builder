@@ -97,6 +97,7 @@
 #define MAXLINE 254
 #define MAX_SUPPORTED_DEVICES 4
 #define MAX_SUPPORTED_EXTERNAL_REPOS 10
+#define MAX_SIZE_DOWNLOAD_ARRAY 15
 
 #define TMP_DIR "/tmp/"
 #define TMP_FILE "/tmp/sdk_builder.trash"
@@ -115,6 +116,8 @@
 typedef struct download_tupel {
 	char *url;
 	char *path;
+	char *checksum_s;     // sha256sum as string
+	unsigned char *hash;  // sha256sum
 } download_tupel_t;
 
 
@@ -165,6 +168,38 @@ typedef struct conf_path {
 	} while (0)
 
 
+#define git_error_handling() do {					\
+		const git_error *err = giterr_last();			\
+									\
+		if (err) {						\
+			write_error_msg(_("GIT: %d: %s"), err->klass,	\
+					err->message);			\
+		} else {						\
+			write_error_msg(_("GIT: %d: no detailed info"), \
+					error);				\
+		}							\
+		goto out;						\
+	} while (0)
+
+
+// TODO: remove EXTERN it -> use callbacks or sockets ...
+
+/*
+ * EXTERN functions
+ * ================
+ */
+extern void
+set_progressbar_value(int statusbar_percent, char *statusbar_percent_string);
+
+// print info message
+extern void
+write_info_msg(const char *fmt, ...);
+
+// print error message
+void
+write_error_msg(const char *fmt, ...);
+
+
 /*
  * helper.c
  * ========
@@ -185,11 +220,16 @@ set_program_name(char **program_name, char *kdo_arg);
 bool
 is_this_a_dir(const char *dir_name);
 
+// returns a heap object with content of tmp_str
 char *
 alloc_string(const char *tmp_str);
 
 ssize_t
 read_line(int fd, void *buf, size_t n_bytes);
+
+// calc hash and checksum string
+int
+calc_checksum(download_tupel_t *t);
 
 
 /*
@@ -259,6 +299,7 @@ debug_msg_return(const char *fmt, ...);
  * ========
  */
 
+// Note: first set conf file name and directory before init_*
 int
 set_conf_location(char *conf_file, char *conf_dir);
 
@@ -268,6 +309,7 @@ get_conf_location_dir();
 char *
 get_conf_location_file();
 
+// Note: must be called before the other init_*_config functions
 int
 init_main_config(char *conf_file, char *conf_dir);
 
@@ -313,7 +355,6 @@ get_sdk_repo_url();
 char *
 get_sdk_repo_path();
 
-
 char *
 get_toolchain_url();
 
@@ -334,12 +375,24 @@ get_download_tupel_path(download_tupel_t *t);
 
 
 /*
- * checksum.c
+ * git.c
+ * =====
+ */
+
+void
+do_clone_repo(char *url, char *path);
+
+void
+do_update_repo(char *url, char *path);
+
+
+/*
+ * download.c
  * ==========
  */
-int
-calc_checksum(char *filename);
 
+int
+do_download(download_tupel_t *download);
 
 
 #endif

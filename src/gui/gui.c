@@ -125,7 +125,6 @@ static GtkTooltips *tooltips;
 #define UNLOCK_ELEMENT 0x01
 
 
-
 void
 show_gtk_version_info()
 {
@@ -168,6 +167,23 @@ create_pixbuf(const gchar *filename)
 	return pixbuf;
 }
 
+
+static void
+exit_function(GtkWidget *widget, gpointer data)
+{
+	/*
+	  For autosave ...
+
+	  Quit-Button and Quit-Function do autosave
+	  via "X" of the wm-window will send "delete-event" which will be handeld
+	  dialog box (see on_delete_event@gui.c)
+	 */
+
+	PRINT_LOCATION();
+
+	(void) widget;
+	(void) data;
+}
 
 static void
 destroy_progressbar_window()

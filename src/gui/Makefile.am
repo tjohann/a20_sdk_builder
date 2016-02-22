@@ -5,17 +5,10 @@ bin_PROGRAMS = sdk_builder
 sdk_builder_SOURCES =             \
 	main.c                    \
 	gui.c                     \
-	init.c                    \
 	message_handler.c         \
-	common_git.c              \
-	config.c                  \
-	clone.c                   \
-	update.c                  \
-	download.c                \
-	extract.c                 \
-	test.c                    \
-	common.h                  \
-	help.c                    \
+	threads.c                 \
+	common.h  		  \
+	checks.c                  \
 	gettext.h
 
 

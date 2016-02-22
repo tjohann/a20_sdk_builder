@@ -81,25 +81,6 @@ typedef enum gui_element {
 
 
 /*
- * common.h
- * ========
- */
-#define git_error_handling() do {					\
-		const git_error *err = giterr_last();			\
-									\
-		if (err) {						\
-			write_error_msg(_("GIT: %d: %s"), err->klass,	\
-					err->message);			\
-		} else {						\
-			write_error_msg(_("GIT: %d: no detailed info"), \
-					error);				\
-		}							\
-		goto out;						\
-	} while (0)
-
-
-
-/*
  * gui.c
  * =====
  */
@@ -146,15 +127,6 @@ lock_unused_buttons();
 
 
 /*
- * main.c
- * ======
- */
-
-void
-exit_function(GtkWidget *widget, gpointer data);
-
-
-/*
  * message_handler.c
  * =================
  */
@@ -196,12 +168,18 @@ write_warning_msg_return(const char *fmt, ...);
 
 
 /*
- * init.c
- * ======
+ * checks.c
+ * ========
  */
 
-void *
-init_sdk_workdir(void *args);
+void
+check_sdk_git_path(void);
+
+void
+check_toolchain(void);
+
+void
+check_test_env(void);
 
 int
 check_sdk_workdir(void);
@@ -211,88 +189,37 @@ check_sdk_runtimedir(void);
 
 
 /*
- * clone.c
- * =======
+ * threads.c
+ * =========
  */
 
-// clone a20_sdk.git
-void *
-clone_sdk_repo(void *args);
-
-
-/*
- * common_git.c
- * ==========
- */
-
-int
-fetch_progress(const git_transfer_progress *stats, void *payload);
-
-int
-sideband_progress(const char *str, int len, void *payload);
-
-void
-check_sdk_git_path(void);
-
-
-/*
- * update.c
- * ========
- */
-
-// update (git pull) a20_sdk.git
+// update (fetch) git repo
 void *
 update_sdk_repo(void *args);
 
+// clone git repo
+void *
+clone_sdk_repo(void *args);
 
-/*
- * download.c
- * ==========
- */
-
+// dowload tarballs
 void *
 download_toolchain(void *args);
 
-void
-check_toolchain(void);
-
-
-/*
- * extract.c
- * ==========
- */
-
-int
-extract_toolchain(char *filename);
-
-
-/*
- * test.c
- * ======
- */
-
+// start toolchain checks
 void *
 test_sdk(void *args);
 
-void
-check_test_env(void);
-
-
-/*
- * config.c
- * ========
- */
-
+// config
 void *
 config_sdk(void *args);
 
-
-/*
- * help.c
- * ======
- */
-
+// help
 void *
 help(void *args);
+
+// init sdk workdir (/opt)
+void *
+init_sdk_workdir(void *args);
+
 
 #endif
