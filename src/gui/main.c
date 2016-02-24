@@ -175,6 +175,11 @@ main(int argc, char *argv[])
 		usage(EXIT_FAILURE);
 	}
 
+	if ((read_checksum_file()) == 0)
+		info_msg(_("Read checksum file done"));
+	else
+		info_msg(_("checksum.sh256 not available or not valid"));
+
 	if (init_network() != -1)
 		g_print(_("Init network code: done\n"));
 

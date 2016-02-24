@@ -43,6 +43,7 @@ PKG_CHECK_MODULES([LIBCONFIG], [libconfig])
 PKG_CHECK_MODULES([LIBGIT2], [libgit2])
 PKG_CHECK_MODULES([LIBCURL], [libcurl])
 PKG_CHECK_MODULES([LIBARCHIVE], [libarchive])
+PKG_CHECK_MODULES([LIBSSL], [libssl])
 PKG_CHECK_MODULES([LIBCRYPTO], [libcrypto])
 
 # Checks for header files.

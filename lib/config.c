@@ -362,6 +362,90 @@ get_download_tupel_path(download_tupel_t *t)
 }
 
 
+static int
+read_checksum_from_file(char *filename, checksum_tupel_t *checksum_array[])
+{
+	int n = 0, m = 0;
+	int lines = 0;
+	checksum_tupel_t *c = NULL;
+
+	char *elements[2];
+
+	int fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		error_msg_return(_("Possible ERROR: couldn't open %s"),
+				 filename);
+	char tmp_str[MAXLINE];
+	memset(tmp_str, 0, MAXLINE);
+
+read_cmd:
+	n = read_line(fd, tmp_str, MAXLINE);
+	if (n > 1) {
+		c = malloc(n);
+		if (c == NULL)
+			error_msg_return(_("c == NULL in %s"), __FUNCTION__);
+		memset(c, 0, n);
+		lines++;
+
+		printf("tmp_str %s with len %d and count %d\n", tmp_str, n, lines);
+
+		m = read_words(tmp_str, elements, 2);
+		if (m == 2) {
+			// do something
+		} else {
+			error_msg(_("read_words() != 2"));
+		}
+
+		printf("\n\t%d\n", m);
+		printf("\nGEDÖENS !!!%s!!! \n !!!%s!!!\n", elements[0], elements[1]);
+
+		/*
+		 * TODO: alloc_string and put it into checksum_config_t
+		 */
+
+		memset(tmp_str, 0, MAXLINE);
+		if (lines >= LEN_CHECKSUM_ARRAY)
+			debug_msg(_("lines >= LEN_CHECKSUM_ARRAY"));
+		else
+			goto read_cmd;
+	}
+
+
+	close(fd);
+	return 0;
+}
+
+
+int
+read_checksum_file()
+{
+	size_t len = strlen(NAME_CHECKSUM_FILE);
+
+	const char *runtime_s = get_common_runtimedir();
+	if (runtime_s == NULL)
+		error_msg_return("runtime dir == NULL");
+
+	// as always, but with backslash between both
+	len += (strlen(runtime_s) + 2);
+	char tmp_str[len];
+	memset(tmp_str, 0, len);
+
+	strncpy(tmp_str, runtime_s, strlen(runtime_s));
+	strncat(tmp_str, "/", 1);
+	strncat(tmp_str, NAME_CHECKSUM_FILE, strlen(NAME_CHECKSUM_FILE));
+
+#ifndef DEBUG
+	info_msg(_("runtime_s: %s and len %d"), runtime_s, len);
+	info_msg(_("tmp_str: %s"), tmp_str);
+#endif
+
+	if (read_checksum_from_file(tmp_str, checksum_array) != 0)
+		error_msg_return("read_checksum_from_file != 0");
+
+	return 0;
+}
+
+
 int
 init_main_config(char *conf_file, char *conf_dir)
 {

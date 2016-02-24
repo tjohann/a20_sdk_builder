@@ -10,9 +10,13 @@ sdk_confd_SOURCES =             \
 
 sdk_confd_CFLAGS =             	\
 	$(LIBCONFIG_CFLAGS)     \
+	$(LIBSSL_CFLAGS)        \
+	$(LIBCRYPTO_CFLAGS)     \
 	-DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../../lib
 
 
 sdk_confd_LDADD =               \
 	$(LIBCONFIG_LIBS)   	\
+	$(LIBSSL_LIBS)         	\
+	$(LIBCRYPTO_LIBS)      	\
 	$(LIBINTL) ../../lib/libservice.a

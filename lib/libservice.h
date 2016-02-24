@@ -95,12 +95,17 @@
  * -------------
  */
 #define MAXLINE 254
+// toolchain_x86_64.tgz + host_86_64.tgz
+#define MAX_COUNT_TOOLCHAIN 2
+// kernel, root, home
+#define MAX_COUNT_DEVICES 3
 #define MAX_SUPPORTED_DEVICES 4
 #define MAX_SUPPORTED_EXTERNAL_REPOS 10
-#define MAX_SIZE_DOWNLOAD_ARRAY 15
 
 #define TMP_DIR "/tmp/"
 #define TMP_FILE "/tmp/sdk_builder.trash"
+
+#define NAME_CHECKSUM_FILE "checksum.sha256"
 
 #define DUMMY_STRING "dummy"
 
@@ -154,6 +159,14 @@ typedef struct conf_path {
 	char *conf_file;
 	char *conf_dir;
 } conf_path_t;
+
+
+// represent content of one line of checksum.sha256
+typedef struct checksum_tupel {
+	char *name;
+	char *checksum_s;     // sha256sum as string
+	unsigned char *hash;  // sha256sum
+} checksum_tupel_t;
 
 
 /*
@@ -227,9 +240,16 @@ alloc_string(const char *tmp_str);
 ssize_t
 read_line(int fd, void *buf, size_t n_bytes);
 
+size_t
+read_words(char *line, char *word_array[], size_t n_words);
+
 // calc hash and checksum string
 int
 calc_checksum(download_tupel_t *t);
+
+// fill checksum_tupel with content of $RUNTIMEDIR/checksum.sha256
+int
+read_checksum_file(void);
 
 
 /*
@@ -253,7 +273,7 @@ init_network(void);
  * | error_exit       |     yes    |   exit()   |         LOG_ERR          |
  * | dump_exit        |     yes    |  abort()   |         LOG_ERR          |
  * | error_msg        |     yes    |    no      |         LOG_ERR          |
- * | error_msg_return |     no     |   return   |         LOG_ERR          |
+ * | error_msg_return |     yes    |   return   |         LOG_ERR          |
  * | info_msg         |     no     |    no      |         LOG_INFO         |
  * | info_msg_return  |     no     |   return   |         LOG_INFO         |
  * | debug_msg        |     no     |    no      |         LOG_DEBUG        |
@@ -308,6 +328,11 @@ get_conf_location_dir();
 
 char *
 get_conf_location_file();
+
+// fill checksum_tupel with content of $RUNTIMEDIR/checksum.sha256
+int
+read_checksum_file(void);
+
 
 // Note: must be called before the other init_*_config functions
 int

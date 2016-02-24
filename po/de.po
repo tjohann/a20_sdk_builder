@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-22 15:42+0100\n"
+"POT-Creation-Date: 2016-02-24 18:18+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -409,6 +409,14 @@ msgid "Possible init problem: read_complete_config != 0"
 msgstr ""
 
 #: src/gui/main.c:179
+msgid "Read checksum file done"
+msgstr ""
+
+#: src/gui/main.c:181
+msgid "checksum.sh256 not available or not valid"
+msgstr ""
+
+#: src/gui/main.c:184
 msgid "Init network code: done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
@@ -531,92 +539,120 @@ msgstr ""
 msgid "can't change to dir %s"
 msgstr ""
 
-#: lib/config.c:389
+#: lib/config.c:376
+#, c-format
+msgid "Possible ERROR: couldn't open %s"
+msgstr ""
+
+#: lib/config.c:386
+#, c-format
+msgid "c == NULL in %s"
+msgstr ""
+
+#: lib/config.c:396
+msgid "read_words() != 2"
+msgstr ""
+
+#: lib/config.c:405
+msgid "lines >= LEN_CHECKSUM_ARRAY"
+msgstr ""
+
+#: lib/config.c:435
+#, c-format
+msgid "runtime_s: %s and len %d"
+msgstr ""
+
+#: lib/config.c:436
+#, c-format
+msgid "tmp_str: %s"
+msgstr ""
+
+#: lib/config.c:470
 msgid "Not a valid configuration type!"
 msgstr ""
 
-#: lib/config.c:544
+#: lib/config.c:625
 msgid "Show content of internal configuration: "
 msgstr ""
 
-#: lib/config.c:546
+#: lib/config.c:627
 #, c-format
 msgid "Global: conf_location->conf_file: %s    "
 msgstr ""
 
-#: lib/config.c:547
+#: lib/config.c:628
 #, c-format
 msgid "Global: conf_location->conf_dir: %s     "
 msgstr ""
 
-#: lib/config.c:548
+#: lib/config.c:629
 #, c-format
 msgid "Global: sdk_config_name: %s             "
 msgstr ""
 
-#: lib/config.c:549
+#: lib/config.c:630
 #, c-format
 msgid "Global: gui_name: %s                    "
 msgstr ""
 
-#: lib/config.c:553
+#: lib/config.c:634
 #, c-format
 msgid "Global: sdk_repo->url %s        "
 msgstr ""
 
-#: lib/config.c:554
+#: lib/config.c:635
 #, c-format
 msgid "Global: sdk_repo->path %s       "
 msgstr ""
 
-#: lib/config.c:556
+#: lib/config.c:637
 msgid "Global: sdk_repo == NULL "
 msgstr ""
 
-#: lib/config.c:561
+#: lib/config.c:642
 #, c-format
 msgid "Global: toolchain->url %s       "
 msgstr ""
 
-#: lib/config.c:562
+#: lib/config.c:643
 #, c-format
 msgid "Global: toolchain->path %s      "
 msgstr ""
 
-#: lib/config.c:564
+#: lib/config.c:645
 msgid "Global: toolchain == NULL"
 msgstr ""
 
-#: lib/config.c:569
+#: lib/config.c:650
 #, c-format
 msgid "Global: host->url %s            "
 msgstr ""
 
-#: lib/config.c:570
+#: lib/config.c:651
 #, c-format
 msgid "Global: host->path %s           "
 msgstr ""
 
-#: lib/config.c:572
+#: lib/config.c:653
 msgid "Global: host == NULL     "
 msgstr ""
 
-#: lib/config.c:576
+#: lib/config.c:657
 #, c-format
 msgid "--------------------------------------- \n"
 msgstr ""
 
-#: lib/libservice.h:166
+#: lib/libservice.h:179
 #, fuzzy, c-format
 msgid "Your're in %s of %s"
 msgstr "Du bist in %s von %s\n"
 
-#: lib/libservice.h:175
+#: lib/libservice.h:188
 #, c-format
 msgid "GIT: %d: %s"
 msgstr ""
 
-#: lib/libservice.h:178
+#: lib/libservice.h:191
 #, c-format
 msgid "GIT: %d: no detailed info"
 msgstr ""

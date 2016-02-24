@@ -11,16 +11,15 @@ sdk_builder_SOURCES =             \
 	checks.c                  \
 	gettext.h
 
-
 sdk_builder_CFLAGS =              \
 	$(LIBGTK_CFLAGS)          \
 	$(LIBCONFIG_CFLAGS)       \
 	$(LIBGIT2_CFLAGS)         \
 	$(LIBCURL_CFLAGS)         \
 	$(LIBARCHIVE_CFLAGS)      \
+	$(LIBSSL_CFLAGS)          \
 	$(LIBCRYPTO_CFLAGS)       \
 	-DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../../lib
-
 
 sdk_builder_LDADD =               \
 	$(LIBGTK_LIBS)            \
@@ -28,7 +27,8 @@ sdk_builder_LDADD =               \
 	$(LIBGIT2_LIBS)           \
 	$(LIBCURL_LIBS)           \
 	$(LIBARCHIVE_LIBS)        \
-	$(LIBCRYPTO_LIBS)         \
+	$(LIBSSL_LIBS)         	  \
+	$(LIBCRYPTO_LIBS)      	  \
 	$(LIBINTL) ../../lib/libservice.a
 
 

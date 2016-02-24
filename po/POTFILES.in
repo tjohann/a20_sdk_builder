@@ -7,7 +7,6 @@ src/gui/gui.c
 src/gui/main.c
 src/gui/common.h
 lib/global.h
-lib/checksum.c
 lib/download.c
 lib/extract.c
 lib/git.c

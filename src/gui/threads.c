@@ -79,7 +79,7 @@ update_sdk_repo(void *args)
 void *
 download_toolchain(void *args)
 {
-	download_tupel_t *download_array[MAX_SIZE_DOWNLOAD_ARRAY];
+	download_tupel_t *download_array[MAX_COUNT_TOOLCHAIN + 1];
 	memset(download_array, 0, sizeof(download_array));
 
 	(void) args;

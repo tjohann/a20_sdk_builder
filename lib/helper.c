@@ -157,6 +157,38 @@ read_cmd:
 }
 
 
+size_t
+read_words(char *line, char *word_array[], size_t n_words)
+{
+	char *c = line;
+	size_t n = 0;
+
+read_cmd:
+	while (isspace(*c))
+		c++;
+
+	if (*c == '\0')
+		return n;
+
+	word_array[n++] = c;
+
+	while (!isspace(*c) && *c != '\0')
+		c++;
+
+	if (*c == '\0')
+		return n;
+
+	*c++ = '\0';
+
+	if (n >= n_words)
+		info_msg("Line has more than %d words", n_words);
+	else
+		goto read_cmd;
+
+	return n;
+}
+
+
 int
 calc_checksum(download_tupel_t *t)
 {
