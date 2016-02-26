@@ -101,6 +101,7 @@
 #define MAX_COUNT_DEVICES 3
 #define MAX_SUPPORTED_DEVICES 4
 #define MAX_SUPPORTED_EXTERNAL_REPOS 10
+#define MAX_LEN_CHECKSUM_ARRAY (MAX_SUPPORTED_DEVICES * MAX_COUNT_DEVICES + MAX_COUNT_TOOLCHAIN + 1)
 
 #define TMP_DIR "/tmp/"
 #define TMP_FILE "/tmp/sdk_builder.trash"
@@ -165,7 +166,6 @@ typedef struct conf_path {
 typedef struct checksum_tupel {
 	char *name;
 	char *checksum_s;     // sha256sum as string
-	unsigned char *hash;  // sha256sum
 } checksum_tupel_t;
 
 
@@ -221,6 +221,7 @@ write_error_msg(const char *fmt, ...);
 void
 show_version_info(void);
 
+// based on config.h
 void
 show_package_name(void);
 
@@ -237,9 +238,11 @@ is_this_a_dir(const char *dir_name);
 char *
 alloc_string(const char *tmp_str);
 
+// read a line of fd into buf for max n_bytes
 ssize_t
 read_line(int fd, void *buf, size_t n_bytes);
 
+// link words of line into word_array[x] for max n_words
 size_t
 read_words(char *line, char *word_array[], size_t n_words);
 
@@ -247,9 +250,9 @@ read_words(char *line, char *word_array[], size_t n_words);
 int
 calc_checksum(download_tupel_t *t);
 
-// fill checksum_tupel with content of $RUNTIMEDIR/checksum.sha256
-int
-read_checksum_file(void);
+// print content of a checksum tupel
+void
+print_checksum_tupel(checksum_tupel_t *c);
 
 
 /*
@@ -329,33 +332,44 @@ get_conf_location_dir();
 char *
 get_conf_location_file();
 
-// fill checksum_tupel with content of $RUNTIMEDIR/checksum.sha256
+// fill checksum_tupel with content of $RUNTIMEDIR/$NAME_CHECKSUM_FILE
 int
 read_checksum_file(void);
+
+// check if at least checksum_array[0] != NULL
+bool
+is_checksum_array_valid();
 
 
 // Note: must be called before the other init_*_config functions
 int
 init_main_config(char *conf_file, char *conf_dir);
 
+// init globals based on common: { ... } entry of *.conf
 int
 init_common_config();
 
+// init globals based on repo: { ... } entry of *.conf
 int
 init_repo_config();
 
+// init globals based on toolchain: { ... } entry of *.conf
 int
 init_toolchain_config();
 
+// init globals based on device: { ... } entry of *.conf
 int
 init_device_config();
 
+// init globals based on external: { ... } entry of *.conf
 int
 init_external_config();
 
+// init globals based on runtimedir/armhf.env entry
 int
 init_kernel_config();
 
+// print all globals to stdout
 void
 show_config();
 
@@ -364,7 +378,6 @@ show_config();
  *
  * get/set_STRUCTURE_VARIABLE  -> sdk_repo.url -> get_sdk_repo_url()
  */
-
 char *
 get_common_gui_name();
 
@@ -387,16 +400,23 @@ char *
 get_toolchain_path();
 
 download_tupel_t *
-get_toolchain();
+get_toolchain_tupel();
 
 download_tupel_t *
-get_host();
+get_host_tupel();
 
+/*
+ * get type specific content
+ */
 char *
 get_download_tupel_url(download_tupel_t *t);
 
 char *
 get_download_tupel_path(download_tupel_t *t);
+
+checksum_tupel_t *
+get_checksum_tupel(char *name);
+
 
 
 /*

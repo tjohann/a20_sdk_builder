@@ -73,24 +73,6 @@ show_all_infos()
 }
 
 
-static void
-check_all_states()
-{
-	/*
-	 * check for some defaults to control the gui
-	 */
-	if (check_sdk_runtimedir() != 0)
-		info_msg("%s isn't available", get_common_runtimedir());
-
-	if (check_sdk_workdir() != 0)
-		info_msg("%s isn't available", get_common_workdir());
-
-	check_sdk_git_path();
-	check_toolchain();
-	check_test_env();
-}
-
-
 static int
 read_complete_config(char *conf_file, char *conf_dir)
 {
@@ -178,10 +160,10 @@ main(int argc, char *argv[])
 	if ((read_checksum_file()) == 0)
 		info_msg(_("Read checksum file done"));
 	else
-		info_msg(_("checksum.sh256 not available or not valid"));
+		info_msg(_("%s not available or not valid"), NAME_CHECKSUM_FILE);
 
 	if (init_network() != -1)
-		g_print(_("Init network code: done\n"));
+		info_msg(_("Init network code: done\n"));
 
 	/*
 	 * init gtk stuff

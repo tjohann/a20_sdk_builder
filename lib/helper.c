@@ -180,7 +180,7 @@ read_cmd:
 
 	*c++ = '\0';
 
-	if (n >= n_words)
+	if (n > n_words)
 		info_msg("Line has more than %d words", n_words);
 	else
 		goto read_cmd;
@@ -238,4 +238,23 @@ calc_checksum(download_tupel_t *t)
 #endif
 
 	return 0;
+}
+
+
+void
+print_checksum_tupel(checksum_tupel_t *c)
+{
+	if (c == NULL) {
+		debug_msg("c == NULL in %s", __FUNCTION__);
+	} else {
+		if (c->name == NULL)
+			debug_msg("c->name == NULL in %s", __FUNCTION__);
+		else
+			debug_msg("c->name = %s", c->name);
+
+		if (c->checksum_s == NULL)
+			debug_msg("c->checksum_s == NULL in %s", __FUNCTION__);
+		else
+			debug_msg("c->checksum_s = %s", c->checksum_s);
+	}
 }

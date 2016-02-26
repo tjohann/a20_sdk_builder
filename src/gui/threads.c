@@ -79,10 +79,19 @@ update_sdk_repo(void *args)
 void *
 download_toolchain(void *args)
 {
+	checksum_tupel_t *c = NULL;
+
 	download_tupel_t *download_array[MAX_COUNT_TOOLCHAIN + 1];
 	memset(download_array, 0, sizeof(download_array));
 
 	(void) args;
+
+	if (is_checksum_array_valid()) {
+		write_info_msg(_("checksum_array is valid"));
+	} else {
+		write_error_msg(_("Can't init checksum structure"));
+		return NULL;
+	}
 
 	enter_sdk_thread();
 
@@ -90,8 +99,8 @@ download_toolchain(void *args)
 	 * toolchain -> cross-compiler + sysroot
 	 * host -> host related tools like mkimage (source of sysroot)
 	 */
-	download_array[0] = get_toolchain();
-	download_array[1] = get_host();
+	download_array[0] = get_toolchain_tupel();
+	download_array[1] = get_host_tupel();
 
 	if (create_progressbar_window(_("Download toolchain/host")) != 0)
 		write_error_msg(_("ERROR: create_progress_bar_window != 0"));
@@ -111,6 +120,13 @@ download_toolchain(void *args)
 
 		if (calc_checksum(download_array[i]) != 0)
 			write_error_msg("Possible ERROR -> calc_checksum != 0");
+
+		// TODO: fix!!!
+		c = get_checksum_tupel("toolchain_x86_64.tgz");
+		if (c == NULL)
+			write_error_msg("Possible ERROR -> c == NULL");
+		else
+			info_msg("name: %s ... checksum: %s", c->name, c->checksum_s);
 
 		set_progressbar_value(100, "!! extracting !!");
 

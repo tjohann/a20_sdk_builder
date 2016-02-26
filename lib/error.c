@@ -35,7 +35,7 @@ int use_syslog;
  * | error_exit       |     yes    |   exit()   |         LOG_ERR          |
  * | dump_exit        |     yes    |  abort()   |         LOG_ERR          |
  * | error_msg        |     yes    |    no      |         LOG_ERR          |
- * | error_msg_return |     no     |   return   |         LOG_ERR          |
+ * | error_msg_return |     yes    |   return   |         LOG_ERR          |
  * | info_msg         |     no     |    no      |         LOG_INFO         |
  * | info_msg_return  |     no     |   return   |         LOG_INFO         |
  * | debug_msg        |     no     |    no      |         LOG_DEBUG        |
@@ -121,7 +121,7 @@ error_msg_return(const char *fmt, ...)
 	va_list	va;
 
 	va_start(va, fmt);
-	error_common(0, LOG_ERR, fmt, va);
+	error_common(1, LOG_ERR, fmt, va);
 	va_end(va);
 
 	return;

@@ -52,8 +52,6 @@ repo_tupel_t *repo_array[MAX_SUPPORTED_EXTERNAL_REPOS + 1];
 kernel_tupel_t *kernel;
 
 /* content of checksum.sha256 */
-#define LEN_DEVICES (MAX_SUPPORTED_DEVICES * MAX_COUNT_DEVICES)
-#define LEN_CHECKSUM_ARRAY (LEN_DEVICES + MAX_COUNT_TOOLCHAIN + 1)
-checksum_tupel_t *checksum_array[LEN_CHECKSUM_ARRAY];
+checksum_tupel_t *checksum_array[MAX_LEN_CHECKSUM_ARRAY];
 
 #endif

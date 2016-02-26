@@ -317,10 +317,67 @@ void
 leave_sdk_thread()
 {
 	gdk_threads_enter();
-	check_sdk_git_path();
-	check_sdk_workdir();
-	check_toolchain();
-	check_test_env();
+	check_all_sdk_states();
+	gdk_threads_leave();
+}
+
+
+void
+enter_image_thread()
+{
+	PRINT_LOCATION();
+	gdk_threads_enter();
+        // do something
+	gdk_threads_leave();
+}
+
+
+void
+leave_image_thread()
+{
+	PRINT_LOCATION();
+	gdk_threads_enter();
+        // do something
+	gdk_threads_leave();
+}
+
+
+void
+enter_kernel_thread()
+{
+	PRINT_LOCATION();
+	gdk_threads_enter();
+        // do something
+	gdk_threads_leave();
+}
+
+
+void
+leave_kernel_thread()
+{
+	PRINT_LOCATION();
+	gdk_threads_enter();
+        // do something
+	gdk_threads_leave();
+}
+
+
+void
+enter_external_thread()
+{
+	PRINT_LOCATION();
+	gdk_threads_enter();
+        // do something
+	gdk_threads_leave();
+}
+
+
+void
+leave_external_thread()
+{
+	PRINT_LOCATION();
+	gdk_threads_enter();
+        // do something
 	gdk_threads_leave();
 }
 
@@ -345,6 +402,12 @@ clone_button(GtkWidget *widget, gpointer data)
 
 	if (!g_thread_create(&clone_sdk_repo, NULL, FALSE, NULL) != 0)
 		write_error_msg(_("Can't create the thread"));
+
+	if (is_checksum_array_valid())
+		write_info_msg(_("checksum_array is valid"));
+	else
+		if (read_checksum_file() != 0)
+			write_error_msg(_("Can't init checksum structure"));
 }
 
 
@@ -594,8 +657,6 @@ clone_selected_button(GtkWidget *widget, gpointer data)
 static void
 handle_gui_element(gui_element_t button, unsigned char what_to_do)
 {
-	PRINT_LOCATION();
-
 	switch(button)
 	{
 	case CLONE_B:
@@ -797,131 +858,9 @@ handle_gui_element(gui_element_t button, unsigned char what_to_do)
 /*
  * button and menu
  */
-int
-get_state_of_gui_element(gui_element_t button)
-{
-	PRINT_LOCATION();
-
-	switch(button)
-	{
-	case CLONE_B:
-		return gtk_widget_get_sensitive(clone_b);
-		break;
-	case CLONE_M:
-		return gtk_widget_get_sensitive(clone_m);
-		break;
-	case DOWNLOAD_B:
-		return gtk_widget_get_sensitive(download_b);
-		break;
-	case DOWNLOAD_M:
-		return gtk_widget_get_sensitive(download_m);
-		break;
-	case UPDATE_B:
-		return gtk_widget_get_sensitive(update_b);
-		break;
-	case UPDATE_M:
-		return gtk_widget_get_sensitive(update_m);
-		break;
-	case TEST_B:
-		return gtk_widget_get_sensitive(test_b);
-		break;
-	case HELP_B:
-		return gtk_widget_get_sensitive(help_b);
-		break;
-	case OPEN_B:
-		return gtk_widget_get_sensitive(open_b);
-		break;
-	case OPEN_M:
-		return gtk_widget_get_sensitive(open_m);
-		break;
-	case INIT_M:
-		return gtk_widget_get_sensitive(init_m);
-		break;
-	case NEW_M:
-		return gtk_widget_get_sensitive(new_m);
-		break;
-	case SAVE_M:
-		return gtk_widget_get_sensitive(save_m);
-		break;
-	case SAVE_AS_M:
-		return gtk_widget_get_sensitive(save_as_m);
-		break;
-	case PARTITION_M:
-		return gtk_widget_get_sensitive(partition_m);
-		break;
-	case HOME_M:
-		return gtk_widget_get_sensitive(home_m);
-		break;
-	case KERNEL_M:
-		return gtk_widget_get_sensitive(kernel_m);
-		break;
-	case ROOT_M:
-		return gtk_widget_get_sensitive(root_m);
-		break;
-	case UBOOT_M:
-		return gtk_widget_get_sensitive(uboot_m);
-		break;
-	case DO_ALL_M:
-		return gtk_widget_get_sensitive(do_all_m);
-		break;
-	case CLONE_ALL_M:
-		return gtk_widget_get_sensitive(clone_all_m);
-		break;
-	case PROGRESSBAR_B:
-		if (progressbar_button != NULL)
-			return gtk_widget_get_sensitive(progressbar_button);
-		else
-			return false;
-		break;
-	case EXTERNAL1_M:
-		return gtk_widget_get_sensitive(external1_m);
-		break;
-	case EXTERNAL2_M:
-		return gtk_widget_get_sensitive(external2_m);
-		break;
-	case EXTERNAL3_M:
-		return gtk_widget_get_sensitive(external3_m);
-		break;
-	case EXTERNAL4_M:
-		return gtk_widget_get_sensitive(external4_m);
-		break;
-	case EXTERNAL5_M:
-		return gtk_widget_get_sensitive(external5_m);
-		break;
-	case EXTERNAL6_M:
-		return gtk_widget_get_sensitive(external6_m);
-		break;
-	case EXTERNAL7_M:
-		return gtk_widget_get_sensitive(external7_m);
-		break;
-	case EXTERNAL8_M:
-		return gtk_widget_get_sensitive(external8_m);
-		break;
-	case EXTERNAL9_M:
-		return gtk_widget_get_sensitive(external9_m);
-		break;
-	case EXTERNAL10_M:
-		return gtk_widget_get_sensitive(external10_m);
-		break;
-	case CLONE_SELECTED_M:
-		return gtk_widget_get_sensitive(clone_selected_m);
-		break;
-	default:
-		write_error_msg(_("Unknown GUI element"));
-	}
-
-	return -1;
-}
-
-
-/*
- * button and menu
- */
 void
 lock_button(gui_element_t button)
 {
-	PRINT_LOCATION();
-
 	handle_gui_element(button, LOCK_ELEMENT);
 }
 
@@ -932,8 +871,6 @@ lock_button(gui_element_t button)
 void
 unlock_button(gui_element_t button)
 {
-	PRINT_LOCATION();
-
 	handle_gui_element(button, UNLOCK_ELEMENT);
 }
 
@@ -975,8 +912,6 @@ lock_unused_buttons()
 static gboolean
 on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-	PRINT_LOCATION();
-
 	(void) widget;
         (void) event;
 	(void) data;
@@ -1007,8 +942,6 @@ on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 static void
 build_button_box()
 {
-	PRINT_LOCATION();
-
 	gtk_container_set_border_width(GTK_CONTAINER(buttonbox), 5);
 
 	open_b = gtk_button_new_with_label(_("Open Default"));
@@ -1426,8 +1359,6 @@ build_menu_bar()
 static void
 setup_textfield_entry()
 {
-	PRINT_LOCATION();
-
 	/*
 	 * TODO:
 	 * Read value of textfield_entry which should represent some command
@@ -1443,8 +1374,6 @@ setup_textfield_entry()
 static void
 setup_textfield()
 {
-	PRINT_LOCATION();
-
 	gtk_widget_set_size_request(textfield, 600, 240);
 
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(textfield), FALSE);
@@ -1465,8 +1394,6 @@ setup_textfield()
 void
 write_to_textfield(const char *message, message_types_t type)
 {
-	PRINT_LOCATION();
-
 	GtkTextIter iter;
 
 	/*
@@ -1544,8 +1471,6 @@ write_to_textfield(const char *message, message_types_t type)
 void
 build_main_window()
 {
-	PRINT_LOCATION();
-
 	char *gui_name = get_common_gui_name();
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);

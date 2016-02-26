@@ -3,6 +3,13 @@
 #
 
 
+
+#
+# -------------- 2016-02-25 ----------------------------------------------------
+#
+create src dir in $HOME/src/a20_sdk ... or on another place
+
+
 #
 # -------------- 2016-02-14 ----------------------------------------------------
 #
@@ -10,7 +17,7 @@ download of toolchain only should be possible -> check handling if host == NULL
 extract workdir of toolchain->path (extract.c uses $workdir for that, wich is
 inconsistent!)
 move git_error_handling macro to "other location" -> its git specific and
-not common
+not common                                                    [done, 2016-02-25]
 
 
 #
@@ -22,8 +29,8 @@ check correct usage of a20_sdk_builder.desktop
 #
 # -------------- 2016-02-02 ----------------------------------------------------
 #
-Add weight function to fetch_progress (used by
-clone_sdk_repo and update_sdk_repo)
+Add weight function to fetch_progress (used by clone_sdk_repo and
+update_sdk_repo)
 
 
 #

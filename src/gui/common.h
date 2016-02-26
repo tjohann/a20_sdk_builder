@@ -112,14 +112,30 @@ lock_button(gui_element_t button);
 void
 unlock_button(gui_element_t button);
 
-int
-get_state_of_gui_element(gui_element_t button);
-
 void
 enter_sdk_thread(void);
 
 void
 leave_sdk_thread(void);
+
+void
+enter_external_thread(void);
+
+void
+leave_external_thread(void);
+
+void
+enter_image_thread(void);
+
+void
+leave_image_thread(void);
+
+void
+enter_kernel_thread(void);
+
+void
+leave_kernel_thread(void);
+
 
 // lock unused buttons/menus -> not yet implemented
 void
@@ -186,6 +202,22 @@ check_sdk_workdir(void);
 
 int
 check_sdk_runtimedir(void);
+
+void
+check_all_states();
+
+void
+check_all_sdk_states();
+
+void
+check_all_images_states();
+
+void
+check_all_external_states();
+
+void
+check_all_kernel_states();
+
 
 
 /*

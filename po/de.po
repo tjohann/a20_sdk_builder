@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-24 18:18+0100\n"
+"POT-Creation-Date: 2016-02-25 15:23+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -19,37 +19,41 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: src/gui/threads.c:38 src/gui/threads.c:66 src/gui/threads.c:97
+#: src/gui/threads.c:38 src/gui/threads.c:66 src/gui/threads.c:104
 msgid "ERROR: create_progress_bar_window != 0"
 msgstr ""
 
-#: src/gui/threads.c:96 src/gui/threads.c:126
+#: src/gui/threads.c:88 src/gui/gui.c:407
+msgid "checksum_array is valid"
+msgstr ""
+
+#: src/gui/threads.c:90 src/gui/gui.c:410
+msgid "Can't init checksum structure"
+msgstr ""
+
+#: src/gui/threads.c:103 src/gui/threads.c:133
 msgid "Download toolchain/host"
 msgstr ""
 
-#: src/gui/threads.c:140
+#: src/gui/threads.c:147
 msgid "--INFO_MSG--: in init_workdir"
 msgstr ""
 
-#: src/gui/threads.c:169
+#: src/gui/threads.c:176
 msgid "--INFO_MSG--: in config_sdk"
 msgstr ""
 
-#: src/gui/threads.c:186
+#: src/gui/threads.c:193
 msgid "--INFO_MSG--: in test_sdk"
 msgstr ""
 
-#: src/gui/threads.c:206
+#: src/gui/threads.c:213
 msgid "--INFO_MSG--: in help"
 msgstr ""
 
 #: src/gui/message_handler.c:68
 #, c-format
 msgid "ERROR: Message type not supported\n"
-msgstr ""
-
-#: src/gui/checks.c:112
-msgid "Something went wrong ret == -1"
 msgstr ""
 
 #: src/gui/gui.c:131
@@ -76,216 +80,216 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/gui/gui.c:347 src/gui/gui.c:360 src/gui/gui.c:373 src/gui/gui.c:386
-#: src/gui/gui.c:402 src/gui/gui.c:418
+#: src/gui/gui.c:404 src/gui/gui.c:423 src/gui/gui.c:436 src/gui/gui.c:449
+#: src/gui/gui.c:465 src/gui/gui.c:481
 msgid "Can't create the thread"
 msgstr ""
 
-#: src/gui/gui.c:792 src/gui/gui.c:910
+#: src/gui/gui.c:853
 msgid "Unknown GUI element"
 msgstr ""
 
-#: src/gui/gui.c:994
+#: src/gui/gui.c:929
 msgid "Are you sure to quit (without saving)?"
 msgstr ""
 
-#: src/gui/gui.c:1014
+#: src/gui/gui.c:947
 msgid "Open Default"
 msgstr ""
 
-#: src/gui/gui.c:1018
+#: src/gui/gui.c:951
 msgid "Load default configuration for this tool (*sdk_build.conf)"
 msgstr ""
 
-#: src/gui/gui.c:1022 src/gui/gui.c:1296
+#: src/gui/gui.c:955 src/gui/gui.c:1229
 msgid "Clone SDK"
 msgstr ""
 
-#: src/gui/gui.c:1026 src/gui/gui.c:1299
+#: src/gui/gui.c:959 src/gui/gui.c:1232
 msgid "Clone SDK repository"
 msgstr ""
 
-#: src/gui/gui.c:1030 src/gui/gui.c:1305
+#: src/gui/gui.c:963 src/gui/gui.c:1238
 msgid "Update Repo"
 msgstr ""
 
-#: src/gui/gui.c:1034
+#: src/gui/gui.c:967
 msgid "Update SDK repository"
 msgstr ""
 
-#: src/gui/gui.c:1038 src/gui/gui.c:1314
+#: src/gui/gui.c:971 src/gui/gui.c:1247
 msgid "Download toolchain"
 msgstr ""
 
-#: src/gui/gui.c:1042 src/gui/gui.c:1317
+#: src/gui/gui.c:975 src/gui/gui.c:1250
 msgid "Download toolchain binarys"
 msgstr ""
 
-#: src/gui/gui.c:1046
+#: src/gui/gui.c:979
 msgid "Test SDK"
 msgstr ""
 
-#: src/gui/gui.c:1050
+#: src/gui/gui.c:983
 msgid "Run basic test/check on the sdk/toolchain"
 msgstr ""
 
-#: src/gui/gui.c:1054
+#: src/gui/gui.c:987
 msgid "Help"
 msgstr ""
 
-#: src/gui/gui.c:1058
+#: src/gui/gui.c:991
 msgid "Open help window"
 msgstr ""
 
-#: src/gui/gui.c:1062
+#: src/gui/gui.c:995
 msgid "Quit"
 msgstr ""
 
-#: src/gui/gui.c:1070
+#: src/gui/gui.c:1003
 msgid "Quit/Exit"
 msgstr ""
 
-#: src/gui/gui.c:1080
+#: src/gui/gui.c:1013
 msgid "Partition SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1083
+#: src/gui/gui.c:1016
 msgid "Partition a new SD-Card for target devices"
 msgstr ""
 
-#: src/gui/gui.c:1093
+#: src/gui/gui.c:1026
 msgid "Install Kernel-FS"
 msgstr ""
 
-#: src/gui/gui.c:1096
+#: src/gui/gui.c:1029
 msgid "Install kernel image to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1102
+#: src/gui/gui.c:1035
 msgid "Install Root-FS"
 msgstr ""
 
-#: src/gui/gui.c:1105
+#: src/gui/gui.c:1038
 msgid "Install rootfs image to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1111
+#: src/gui/gui.c:1044
 msgid "Install Home-FS"
 msgstr ""
 
-#: src/gui/gui.c:1114
+#: src/gui/gui.c:1047
 msgid "Install home image to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1124
+#: src/gui/gui.c:1057
 msgid "Install U-Boot"
 msgstr ""
 
-#: src/gui/gui.c:1127
+#: src/gui/gui.c:1060
 msgid "Install U-Boot to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1137
+#: src/gui/gui.c:1070
 msgid "Do ALL"
 msgstr ""
 
-#: src/gui/gui.c:1140
+#: src/gui/gui.c:1073
 msgid "Do all in one step"
 msgstr ""
 
-#: src/gui/gui.c:1151
+#: src/gui/gui.c:1084
 msgid "Clone ALL"
 msgstr ""
 
-#: src/gui/gui.c:1154
+#: src/gui/gui.c:1087
 msgid "Clone all external repositorys"
 msgstr ""
 
-#: src/gui/gui.c:1168
+#: src/gui/gui.c:1101
 msgid "Clone externel 1 repository"
 msgstr ""
 
-#: src/gui/gui.c:1178
+#: src/gui/gui.c:1111
 msgid "Clone externel 2 repository"
 msgstr ""
 
-#: src/gui/gui.c:1188
+#: src/gui/gui.c:1121
 msgid "Clone externel 3 repository"
 msgstr ""
 
-#: src/gui/gui.c:1198
+#: src/gui/gui.c:1131
 msgid "Clone externel 4 repository"
 msgstr ""
 
-#: src/gui/gui.c:1208
+#: src/gui/gui.c:1141
 msgid "Clone externel 5 repository"
 msgstr ""
 
-#: src/gui/gui.c:1218
+#: src/gui/gui.c:1151
 msgid "Clone externel 6 repository"
 msgstr ""
 
-#: src/gui/gui.c:1228
+#: src/gui/gui.c:1161
 msgid "Clone externel 7 repository"
 msgstr ""
 
-#: src/gui/gui.c:1238
+#: src/gui/gui.c:1171
 msgid "Clone externel 8 repository"
 msgstr ""
 
-#: src/gui/gui.c:1248
+#: src/gui/gui.c:1181
 msgid "Clone externel 9 repository"
 msgstr ""
 
-#: src/gui/gui.c:1258
+#: src/gui/gui.c:1191
 msgid "Clone externel 1o repository"
 msgstr ""
 
-#: src/gui/gui.c:1268
+#: src/gui/gui.c:1201
 msgid "Clone selected"
 msgstr ""
 
-#: src/gui/gui.c:1271
+#: src/gui/gui.c:1204
 msgid "Clone selected external repositorys"
 msgstr ""
 
-#: src/gui/gui.c:1282
+#: src/gui/gui.c:1215
 msgid "Init /opt/*_sdk"
 msgstr ""
 
-#: src/gui/gui.c:1285
+#: src/gui/gui.c:1218
 msgid "Init workdir -> /opt/*_sdk"
 msgstr ""
 
-#: src/gui/gui.c:1308
+#: src/gui/gui.c:1241
 msgid "Update SDK repositor"
 msgstr ""
 
-#: src/gui/gui.c:1331
+#: src/gui/gui.c:1264
 msgid "Create default toolconfig"
 msgstr ""
 
-#: src/gui/gui.c:1340
+#: src/gui/gui.c:1273
 msgid "Open new toolconfig "
 msgstr ""
 
-#: src/gui/gui.c:1350
+#: src/gui/gui.c:1283
 msgid "Save toolconfig "
 msgstr ""
 
-#: src/gui/gui.c:1359
+#: src/gui/gui.c:1292
 msgid "Save toolconfig under a new name"
 msgstr ""
 
-#: src/gui/gui.c:1372
+#: src/gui/gui.c:1305
 msgid "Quit/Exit with autosave of toolconfig"
 msgstr ""
 
-#: src/gui/gui.c:1537
+#: src/gui/gui.c:1464
 msgid "ERROR: Message type not supported"
 msgstr ""
 
-#: src/gui/gui.c:1540
+#: src/gui/gui.c:1467
 msgid "ERROR: textfield_buffer == NULL!"
 msgstr ""
 
@@ -359,64 +363,65 @@ msgstr ""
 msgid "Finalize cleanup -> cheers %s\n"
 msgstr ""
 
-#: src/gui/main.c:98
+#: src/gui/main.c:80
 #, fuzzy
 msgid "ERROR main sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:103
+#: src/gui/main.c:85
 #, fuzzy
 msgid "ERROR common sdk_config done"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:107
+#: src/gui/main.c:89
 #, fuzzy
 msgid "ERROR repo sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:111
+#: src/gui/main.c:93
 #, fuzzy
 msgid "ERROR toolchain sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:115
+#: src/gui/main.c:97
 #, fuzzy
 msgid "ERROR device sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:119
+#: src/gui/main.c:101
 #, fuzzy
 msgid "ERROR external sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:123
+#: src/gui/main.c:105
 #, fuzzy
 msgid "ERROR kernel sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:154
+#: src/gui/main.c:136
 #, c-format
 msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/gui/main.c:172
+#: src/gui/main.c:154
 #, fuzzy
 msgid "Init main sdk_config done"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:174
+#: src/gui/main.c:156
 msgid "Possible init problem: read_complete_config != 0"
 msgstr ""
 
-#: src/gui/main.c:179
+#: src/gui/main.c:161
 msgid "Read checksum file done"
 msgstr ""
 
-#: src/gui/main.c:181
-msgid "checksum.sh256 not available or not valid"
+#: src/gui/main.c:163
+#, c-format
+msgid "%s not available or not valid"
 msgstr ""
 
-#: src/gui/main.c:184
+#: src/gui/main.c:166
 msgid "Init network code: done\n"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
@@ -520,124 +525,135 @@ msgstr ""
 msgid "Program name is %s\n"
 msgstr "Packet name ist %s\n"
 
-#: lib/config.c:32 lib/config.c:61 lib/config.c:72
+#: lib/config.c:32 lib/config.c:61 lib/config.c:71
 #, c-format
 msgid "No '%s' setting in config file!"
 msgstr ""
 
-#: lib/config.c:116
+#: lib/config.c:115
 #, c-format
 msgid "Argument conf_dir == NULL in %s"
 msgstr ""
 
-#: lib/config.c:120
+#: lib/config.c:119
 msgid "No valid config dir in /etc or /usr/local/etc"
 msgstr ""
 
-#: lib/config.c:164
+#: lib/config.c:195
 #, c-format
 msgid "can't change to dir %s"
 msgstr ""
 
-#: lib/config.c:376
+#: lib/config.c:410
 #, c-format
 msgid "Possible ERROR: couldn't open %s"
 msgstr ""
 
-#: lib/config.c:386
+#: lib/config.c:420
 #, c-format
 msgid "c == NULL in %s"
 msgstr ""
 
-#: lib/config.c:396
-msgid "read_words() != 2"
+#: lib/config.c:429
+#, c-format
+msgid "read_words() != %d"
 msgstr ""
 
-#: lib/config.c:405
-msgid "lines >= LEN_CHECKSUM_ARRAY"
+#: lib/config.c:440
+msgid "lines >= MAX_LEN_CHECKSUM_ARRAY"
 msgstr ""
 
-#: lib/config.c:435
+#: lib/config.c:469
 #, c-format
 msgid "runtime_s: %s and len %d"
 msgstr ""
 
-#: lib/config.c:436
+#: lib/config.c:470
 #, c-format
 msgid "tmp_str: %s"
 msgstr ""
 
-#: lib/config.c:470
+#: lib/config.c:504
 msgid "Not a valid configuration type!"
 msgstr ""
 
-#: lib/config.c:625
+#: lib/config.c:659
 msgid "Show content of internal configuration: "
 msgstr ""
 
-#: lib/config.c:627
+#: lib/config.c:661
 #, c-format
 msgid "Global: conf_location->conf_file: %s    "
 msgstr ""
 
-#: lib/config.c:628
+#: lib/config.c:662
 #, c-format
 msgid "Global: conf_location->conf_dir: %s     "
 msgstr ""
 
-#: lib/config.c:629
+#: lib/config.c:663
 #, c-format
 msgid "Global: sdk_config_name: %s             "
 msgstr ""
 
-#: lib/config.c:630
+#: lib/config.c:664
 #, c-format
 msgid "Global: gui_name: %s                    "
 msgstr ""
 
-#: lib/config.c:634
+#: lib/config.c:668
 #, c-format
 msgid "Global: sdk_repo->url %s        "
 msgstr ""
 
-#: lib/config.c:635
+#: lib/config.c:669
 #, c-format
 msgid "Global: sdk_repo->path %s       "
 msgstr ""
 
-#: lib/config.c:637
+#: lib/config.c:671
 msgid "Global: sdk_repo == NULL "
 msgstr ""
 
-#: lib/config.c:642
+#: lib/config.c:676
 #, c-format
 msgid "Global: toolchain->url %s       "
 msgstr ""
 
-#: lib/config.c:643
+#: lib/config.c:677
 #, c-format
 msgid "Global: toolchain->path %s      "
 msgstr ""
 
-#: lib/config.c:645
+#: lib/config.c:679
 msgid "Global: toolchain == NULL"
 msgstr ""
 
-#: lib/config.c:650
+#: lib/config.c:684
 #, c-format
 msgid "Global: host->url %s            "
 msgstr ""
 
-#: lib/config.c:651
+#: lib/config.c:685
 #, c-format
 msgid "Global: host->path %s           "
 msgstr ""
 
-#: lib/config.c:653
+#: lib/config.c:687
 msgid "Global: host == NULL     "
 msgstr ""
 
-#: lib/config.c:657
+#: lib/config.c:695
+#, c-format
+msgid "Global: checksum for %s is %s"
+msgstr ""
+
+#: lib/config.c:699
+#, c-format
+msgid "Global: checksum_array[%d] is empty"
+msgstr ""
+
+#: lib/config.c:704
 #, c-format
 msgid "--------------------------------------- \n"
 msgstr ""

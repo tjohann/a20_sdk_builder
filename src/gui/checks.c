@@ -24,8 +24,6 @@
 void
 check_sdk_git_path()
 {
-	PRINT_LOCATION();
-
 	git_repository *repo = NULL;
 
 	const char *path = get_sdk_repo_path();
@@ -54,18 +52,30 @@ check_sdk_git_path()
 void
 check_toolchain()
 {
-	PRINT_LOCATION();
+	bool state = false;
+
+	if (is_checksum_array_valid())
+		state = true;
+	else
+		state = false;
 
 	/*
-	 * check checksum.sha256 and tgz are in sync
+	 * TODO: check checksum.sha256 and tgz are in sync
 	 */
-	int state = 1;
-	if (state == 0) {
-		lock_button(DOWNLOAD_B);
-		lock_button(DOWNLOAD_M);
-	} else {
+
+
+	if (state) {
+
+		printf("\n\n\t trueeeeee\n");
+
 		unlock_button(DOWNLOAD_B);
 		unlock_button(DOWNLOAD_M);
+	} else {
+
+		printf("\n\n\t falsssseee\n");
+
+		lock_button(DOWNLOAD_B);
+		lock_button(DOWNLOAD_M);
 	}
 }
 
@@ -73,48 +83,120 @@ check_toolchain()
 int
 check_sdk_workdir()
 {
+	char *workdir = get_common_workdir();
 
-/*
- * check if /opt/..._sdk is available
- */
+	if (workdir == NULL)
+		return -1;
 
+	if (is_this_a_dir(workdir))
+		return 0;
 
-	// check for workdir
-	return 0;
+	return -1;
 }
 
 
 int
 check_sdk_runtimedir()
 {
+	char *runtimedir = get_common_runtimedir();
 
-/*
- * check if /var/lib..._sdk is available
- * Note: to check if it's a git repo use check_sdk_git_path()
- */
+	if (runtimedir == NULL)
+		return -1;
 
+	if (is_this_a_dir(runtimedir))
+		return 0;
 
-	// check runtimedir!
-	return 0;
+	return -1;
 }
 
 
 void
 check_test_env()
 {
-	PRINT_LOCATION();
-
 	/*
-	 * check state of download-button
+	 * TODO: compile a hello world and see if it works and runs
+	 * -> container
+	 * -> check if $HOME/src/a20_sdk/ is valid and available
 	 */
-	int ret = get_state_of_gui_element(DOWNLOAD_B);
-	if (ret < 0) {
-		write_error_msg(_("Something went wrong ret == -1"));
-	} else {
-		if (ret == 0)
-			unlock_button(TEST_B);
-		else
-			lock_button(TEST_B);
 
+	unlock_button(TEST_B);
+}
+
+
+void
+check_all_states()
+{
+	check_all_sdk_states();
+	check_all_images_states();
+	check_all_external_states();
+	check_all_kernel_states();
+}
+
+
+void
+check_all_sdk_states()
+{
+	if (check_sdk_runtimedir() == 0)
+		check_sdk_git_path();
+	else
+		info_msg("%s isn't available", get_common_runtimedir());
+
+
+	if (check_sdk_workdir() == 0) {
+		check_toolchain();
+		check_test_env();
+	} else {
+		info_msg("%s isn't available", get_common_workdir());
+	}
+}
+
+
+void
+check_all_images_states()
+{
+	if (check_sdk_runtimedir() == 0)
+		PRINT_LOCATION();
+	else
+		info_msg("%s isn't available", get_common_runtimedir());
+
+
+	if (check_sdk_workdir() == 0) {
+		PRINT_LOCATION();
+	} else {
+		info_msg("%s isn't available", get_common_workdir());
+	}
+}
+
+
+void
+check_all_external_states()
+{
+	if (check_sdk_runtimedir() == 0)
+		PRINT_LOCATION();
+	else
+		info_msg("%s isn't available", get_common_runtimedir());
+
+
+	if (check_sdk_workdir() == 0) {
+		PRINT_LOCATION();
+	} else {
+		info_msg("%s isn't available", get_common_workdir());
+	}
+}
+
+
+void
+check_all_kernel_states()
+{
+	if (check_sdk_runtimedir() == 0)
+		PRINT_LOCATION();
+	else
+		info_msg("%s isn't available", get_common_runtimedir());
+
+
+	if (check_sdk_workdir() == 0) {
+		PRINT_LOCATION();
+	} else {
+		info_msg("%s isn't available", get_common_workdir());
 	}
 }

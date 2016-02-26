@@ -66,7 +66,6 @@ read_conf_download_tupel(config_t *cfg,
 	if (tmp_url == NULL)
 		goto error;
 
-
 	error = config_lookup_string(cfg, path, &str);
 	if (error == CONFIG_FALSE) {
                 error_msg(_("No '%s' setting in config file!"), path);
@@ -150,6 +149,52 @@ error:
 		free(conf_d);
 
 	return -1;
+}
+
+
+checksum_tupel_t *
+get_checksum_tupel(char *name)
+{
+	size_t len = strlen(name);
+
+	if (name == NULL)
+		return NULL;
+
+	if (is_checksum_array_valid()) {
+		for (int i = 0; i < MAX_LEN_CHECKSUM_ARRAY; i++)
+		{
+			if (checksum_array[i] != NULL) {
+				if (strncmp(checksum_array[i]->name,
+					    name, len) == 0)
+					return checksum_array[i];
+			}
+		}
+	}
+
+	return NULL;
+}
+
+
+bool
+is_checksum_array_valid()
+{
+	if (checksum_array == NULL)
+		return false;
+
+	if (checksum_array[0] == NULL)
+		return NULL;
+
+	if (checksum_array[0]->name == NULL)
+		return false;
+
+	if (checksum_array[0]->checksum_s == NULL)
+		return false;
+
+#ifndef DEBUG
+	PRINT_LOCATION();
+	print_checksum_tupel(checksum_array[0]);
+#endif
+	return true;
 }
 
 
@@ -285,7 +330,7 @@ get_toolchain_path()
 
 
 download_tupel_t *
-get_toolchain()
+get_toolchain_tupel()
 {
 	if (toolchain == NULL)
 		error_msg("toolchain == NULL");
@@ -321,7 +366,7 @@ get_host_path()
 
 
 download_tupel_t *
-get_host()
+get_host_tupel()
 {
 	if (host == NULL)
 		error_msg("host == NULL");
@@ -363,13 +408,16 @@ get_download_tupel_path(download_tupel_t *t)
 
 
 static int
-read_checksum_from_file(char *filename, checksum_tupel_t *checksum_array[])
+read_checksum_from_file(char *filename, checksum_tupel_t *checksum_a[])
 {
-	int n = 0, m = 0;
+	int n = 0;
 	int lines = 0;
 	checksum_tupel_t *c = NULL;
+	size_t m = 0;
+	const size_t n_words = 2;
 
-	char *elements[2];
+	// hash + name
+	char *elements[n_words];
 
 	int fd = open(filename, O_RDONLY);
 	if (fd < 0)
@@ -385,31 +433,28 @@ read_cmd:
 		if (c == NULL)
 			error_msg_return(_("c == NULL in %s"), __FUNCTION__);
 		memset(c, 0, n);
-		lines++;
 
-		printf("tmp_str %s with len %d and count %d\n", tmp_str, n, lines);
-
-		m = read_words(tmp_str, elements, 2);
-		if (m == 2) {
-			// do something
+		m = read_words(tmp_str, elements, n_words);
+		if (m == n_words) {
+			c->checksum_s = alloc_string(elements[0]);
+			c->name = alloc_string(elements[1]);
+			checksum_a[lines] = c;
 		} else {
-			error_msg(_("read_words() != 2"));
+			error_msg(_("read_words() != %d"), n_words);
 		}
 
-		printf("\n\t%d\n", m);
-		printf("\nGEDÖENS !!!%s!!! \n !!!%s!!!\n", elements[0], elements[1]);
-
-		/*
-		 * TODO: alloc_string and put it into checksum_config_t
-		 */
+#ifdef DEBUG
+		print_checksum_tupel(checksum_a[lines]);
+#endif
 
 		memset(tmp_str, 0, MAXLINE);
-		if (lines >= LEN_CHECKSUM_ARRAY)
-			debug_msg(_("lines >= LEN_CHECKSUM_ARRAY"));
+		lines++;
+
+		if (lines > MAX_LEN_CHECKSUM_ARRAY)
+			debug_msg(_("lines >= MAX_LEN_CHECKSUM_ARRAY"));
 		else
 			goto read_cmd;
 	}
-
 
 	close(fd);
 	return 0;
@@ -434,9 +479,9 @@ read_checksum_file()
 	strncat(tmp_str, "/", 1);
 	strncat(tmp_str, NAME_CHECKSUM_FILE, strlen(NAME_CHECKSUM_FILE));
 
-#ifndef DEBUG
-	info_msg(_("runtime_s: %s and len %d"), runtime_s, len);
-	info_msg(_("tmp_str: %s"), tmp_str);
+#ifdef DEBUG
+	debug_msg(_("runtime_s: %s and len %d"), runtime_s, len);
+	debug_msg(_("tmp_str: %s"), tmp_str);
 #endif
 
 	if (read_checksum_from_file(tmp_str, checksum_array) != 0)
@@ -654,6 +699,19 @@ show_config()
 		info_msg(_("Global: host->path %s           "), host->path);
 	} else {
 		info_msg(_("Global: host == NULL     "));
+	}
+
+	// checksums based on checksum file
+	for (int i = 0; i<MAX_LEN_CHECKSUM_ARRAY; i++) {
+		if (checksum_array[i] != NULL) {
+			if ((checksum_array[i]->name != NULL) &&
+			    (checksum_array[i]->checksum_s != NULL))
+				info_msg(_("Global: checksum for %s is %s"),
+					 checksum_array[i]->name,
+					 checksum_array[i]->checksum_s);
+		} else {
+			info_msg(_("Global: checksum_array[%d] is empty"), i);
+		}
 	}
 
 
