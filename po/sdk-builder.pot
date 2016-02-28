@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Thorsten Johannvorderbrueggen
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the sdk-builder package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-25 15:23+0100\n"
+"POT-Creation-Date: 2016-02-27 16:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,35 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gui/threads.c:38 src/gui/threads.c:66 src/gui/threads.c:104
+#: src/gui/threads.c:38 src/gui/threads.c:66 src/gui/threads.c:106
 msgid "ERROR: create_progress_bar_window != 0"
 msgstr ""
 
-#: src/gui/threads.c:88 src/gui/gui.c:407
+#: src/gui/threads.c:90 src/gui/gui.c:407
 msgid "checksum_array is valid"
 msgstr ""
 
-#: src/gui/threads.c:90 src/gui/gui.c:410
+#: src/gui/threads.c:92 src/gui/gui.c:410
 msgid "Can't init checksum structure"
 msgstr ""
 
-#: src/gui/threads.c:103 src/gui/threads.c:133
+#: src/gui/threads.c:105 src/gui/threads.c:142
 msgid "Download toolchain/host"
 msgstr ""
 
-#: src/gui/threads.c:147
+#: src/gui/threads.c:156
 msgid "--INFO_MSG--: in init_workdir"
 msgstr ""
 
-#: src/gui/threads.c:176
+#: src/gui/threads.c:185
 msgid "--INFO_MSG--: in config_sdk"
 msgstr ""
 
-#: src/gui/threads.c:193
+#: src/gui/threads.c:202
 msgid "--INFO_MSG--: in test_sdk"
 msgstr ""
 
-#: src/gui/threads.c:213
+#: src/gui/threads.c:222
 msgid "--INFO_MSG--: in help"
 msgstr ""
 
@@ -529,121 +529,121 @@ msgstr ""
 msgid "No valid config dir in /etc or /usr/local/etc"
 msgstr ""
 
-#: lib/config.c:195
+#: lib/config.c:209
 #, c-format
 msgid "can't change to dir %s"
 msgstr ""
 
-#: lib/config.c:410
+#: lib/config.c:424
 #, c-format
 msgid "Possible ERROR: couldn't open %s"
 msgstr ""
 
-#: lib/config.c:420
+#: lib/config.c:434
 #, c-format
 msgid "c == NULL in %s"
 msgstr ""
 
-#: lib/config.c:429
+#: lib/config.c:443
 #, c-format
 msgid "read_words() != %d"
 msgstr ""
 
-#: lib/config.c:440
+#: lib/config.c:454
 msgid "lines >= MAX_LEN_CHECKSUM_ARRAY"
 msgstr ""
 
-#: lib/config.c:469
+#: lib/config.c:483
 #, c-format
 msgid "runtime_s: %s and len %d"
 msgstr ""
 
-#: lib/config.c:470
+#: lib/config.c:484
 #, c-format
 msgid "tmp_str: %s"
 msgstr ""
 
-#: lib/config.c:504
+#: lib/config.c:518
 msgid "Not a valid configuration type!"
 msgstr ""
 
-#: lib/config.c:659
+#: lib/config.c:673
 msgid "Show content of internal configuration: "
 msgstr ""
 
-#: lib/config.c:661
+#: lib/config.c:675
 #, c-format
 msgid "Global: conf_location->conf_file: %s    "
 msgstr ""
 
-#: lib/config.c:662
+#: lib/config.c:676
 #, c-format
 msgid "Global: conf_location->conf_dir: %s     "
 msgstr ""
 
-#: lib/config.c:663
+#: lib/config.c:677
 #, c-format
 msgid "Global: sdk_config_name: %s             "
 msgstr ""
 
-#: lib/config.c:664
+#: lib/config.c:678
 #, c-format
 msgid "Global: gui_name: %s                    "
 msgstr ""
 
-#: lib/config.c:668
+#: lib/config.c:682
 #, c-format
 msgid "Global: sdk_repo->url %s        "
 msgstr ""
 
-#: lib/config.c:669
+#: lib/config.c:683
 #, c-format
 msgid "Global: sdk_repo->path %s       "
 msgstr ""
 
-#: lib/config.c:671
+#: lib/config.c:685
 msgid "Global: sdk_repo == NULL "
 msgstr ""
 
-#: lib/config.c:676
+#: lib/config.c:690
 #, c-format
 msgid "Global: toolchain->url %s       "
 msgstr ""
 
-#: lib/config.c:677
+#: lib/config.c:691
 #, c-format
 msgid "Global: toolchain->path %s      "
 msgstr ""
 
-#: lib/config.c:679
+#: lib/config.c:693
 msgid "Global: toolchain == NULL"
 msgstr ""
 
-#: lib/config.c:684
+#: lib/config.c:698
 #, c-format
 msgid "Global: host->url %s            "
 msgstr ""
 
-#: lib/config.c:685
+#: lib/config.c:699
 #, c-format
 msgid "Global: host->path %s           "
 msgstr ""
 
-#: lib/config.c:687
+#: lib/config.c:701
 msgid "Global: host == NULL     "
 msgstr ""
 
-#: lib/config.c:695
+#: lib/config.c:709
 #, c-format
 msgid "Global: checksum for %s is %s"
 msgstr ""
 
-#: lib/config.c:699
+#: lib/config.c:713
 #, c-format
 msgid "Global: checksum_array[%d] is empty"
 msgstr ""
 
-#: lib/config.c:704
+#: lib/config.c:718
 #, c-format
 msgid "--------------------------------------- \n"
 msgstr ""
