@@ -230,7 +230,7 @@ calc_checksum(download_tupel_t *t)
 	t->hash = hash;
 	t->checksum_s = checksum_s;
 
-#ifdef DEBUG
+#ifndef DEBUG
 	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
 		fprintf(stdout, "%02x", hash[i]);
 	putchar('\n');

@@ -440,4 +440,11 @@ int
 do_download(download_tupel_t *download);
 
 
+/*
+ * extract.c
+ * =========
+ */
+int
+extract_toolchain(char *filename);
+
 #endif

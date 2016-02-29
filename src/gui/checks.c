@@ -63,17 +63,10 @@ check_toolchain()
 	 * TODO: check checksum.sha256 and tgz are in sync
 	 */
 
-
 	if (state) {
-
-		printf("\n\n\t trueeeeee\n");
-
 		unlock_button(DOWNLOAD_B);
 		unlock_button(DOWNLOAD_M);
 	} else {
-
-		printf("\n\n\t falsssseee\n");
-
 		lock_button(DOWNLOAD_B);
 		lock_button(DOWNLOAD_M);
 	}
@@ -141,7 +134,6 @@ check_all_sdk_states()
 	else
 		info_msg("%s isn't available", get_common_runtimedir());
 
-
 	if (check_sdk_workdir() == 0) {
 		check_toolchain();
 		check_test_env();
@@ -159,7 +151,6 @@ check_all_images_states()
 	else
 		info_msg("%s isn't available", get_common_runtimedir());
 
-
 	if (check_sdk_workdir() == 0) {
 		PRINT_LOCATION();
 	} else {
@@ -176,7 +167,6 @@ check_all_external_states()
 	else
 		info_msg("%s isn't available", get_common_runtimedir());
 
-
 	if (check_sdk_workdir() == 0) {
 		PRINT_LOCATION();
 	} else {
@@ -192,7 +182,6 @@ check_all_kernel_states()
 		PRINT_LOCATION();
 	else
 		info_msg("%s isn't available", get_common_runtimedir());
-
 
 	if (check_sdk_workdir() == 0) {
 		PRINT_LOCATION();

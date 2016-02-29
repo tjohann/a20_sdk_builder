@@ -2,7 +2,12 @@
 # TODO with date and progress
 #
 
-
+#
+# -------------- 2016-02-28 ----------------------------------------------------
+#
+provide function to read complete config -> usage after clone_sdk()
+handle free of already allocated config infos
+checksum.sha256 could include empty lines!
 
 #
 # -------------- 2016-02-25 ----------------------------------------------------

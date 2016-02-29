@@ -190,6 +190,14 @@ main(int argc, char *argv[])
 	 */
 	show_all_infos();
 
+	// beginn trash
+
+	/*
+	 *
+	 */
+
+	// end trash
+
 	gtk_main();
 	gdk_threads_leave();
 

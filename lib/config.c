@@ -155,22 +155,27 @@ error:
 checksum_tupel_t *
 get_checksum_tupel(char *name)
 {
-	size_t len = strlen(name);
-
 	if (name == NULL)
 		return NULL;
 
-	if (is_checksum_array_valid()) {
-		for (int i = 0; i < MAX_LEN_CHECKSUM_ARRAY; i++)
-		{
-			if (checksum_array[i] != NULL) {
-				if (strncmp(checksum_array[i]->name,
-					    name, len) == 0)
-					return checksum_array[i];
-			}
+	size_t len = strlen(name);
+
+	if (!is_checksum_array_valid())
+		return NULL;
+
+	for (int i = 0; i < MAX_LEN_CHECKSUM_ARRAY; i++)
+	{
+		if (checksum_array[i] == NULL) {
+			info_msg(_("checksum_array[%d] == NULL"), i);
+		} else {
+			if (strncmp(checksum_array[i]->name, name, len) == 0)
+				return checksum_array[i];
+			else
+				info_msg(_("name %s not found "), name);
 		}
 	}
 
+	info_msg(_("Possible ERROR -> finally %s not found"), name);
 	return NULL;
 }
 
@@ -182,7 +187,7 @@ is_checksum_array_valid()
 		return false;
 
 	if (checksum_array[0] == NULL)
-		return NULL;
+		return false;
 
 	if (checksum_array[0]->name == NULL)
 		return false;
@@ -190,7 +195,7 @@ is_checksum_array_valid()
 	if (checksum_array[0]->checksum_s == NULL)
 		return false;
 
-#ifndef DEBUG
+#ifdef DEBUG
 	PRINT_LOCATION();
 	print_checksum_tupel(checksum_array[0]);
 #endif

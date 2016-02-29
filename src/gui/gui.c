@@ -402,12 +402,6 @@ clone_button(GtkWidget *widget, gpointer data)
 
 	if (!g_thread_create(&clone_sdk_repo, NULL, FALSE, NULL) != 0)
 		write_error_msg(_("Can't create the thread"));
-
-	if (is_checksum_array_valid())
-		write_info_msg(_("checksum_array is valid"));
-	else
-		if (read_checksum_file() != 0)
-			write_error_msg(_("Can't init checksum structure"));
 }
 
 
@@ -433,7 +427,7 @@ download_button(GtkWidget *widget, gpointer data)
 	(void) data;
 
 	if (!g_thread_create(&download_toolchain, NULL, FALSE, NULL) != 0)
-		write_error_msg(_("Can't create the thread"));
+			write_error_msg(_("Can't create the thread"));
 }
 
 

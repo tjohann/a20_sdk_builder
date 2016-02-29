@@ -42,6 +42,12 @@ clone_sdk_repo(void *args)
 	set_progressbar_value(100, "100%");
 	unlock_button(PROGRESSBAR_B);
 
+	if (is_checksum_array_valid())
+		write_info_msg(_("checksum_array is valid"));
+	else
+		if (read_checksum_file() != 0)
+			write_error_msg(_("Can't init checksum structure"));
+
 	leave_sdk_thread();
 
 	return NULL;
@@ -86,13 +92,6 @@ download_toolchain(void *args)
 
 	(void) args;
 
-	if (is_checksum_array_valid()) {
-		write_info_msg(_("checksum_array is valid"));
-	} else {
-		write_error_msg(_("Can't init checksum structure"));
-		return NULL;
-	}
-
 	enter_sdk_thread();
 
 	/*
@@ -106,6 +105,7 @@ download_toolchain(void *args)
 		write_error_msg(_("ERROR: create_progress_bar_window != 0"));
 
 	int i = 0;
+	char *name = NULL;
 	for (;;) {
 		if (download_array[i] == NULL)
 			break;
@@ -121,8 +121,15 @@ download_toolchain(void *args)
 		if (calc_checksum(download_array[i]) != 0)
 			write_error_msg("Possible ERROR -> calc_checksum != 0");
 
-		// TODO: fix!!!
-		c = get_checksum_tupel("toolchain_x86_64.tgz");
+		name = strrchr(download_array[i]->path, '/');
+		if (name == NULL)
+			name = download_array[i]->path;
+		else
+			name++;
+
+		info_msg("download_tupel->path extracted filename %s", name);
+
+		c = get_checksum_tupel(name);
 		if (c == NULL)
 			write_error_msg("Possible ERROR -> c == NULL");
 		else
