@@ -2,6 +2,14 @@
 # TODO with date and progress
 #
 
+
+#
+# -------------- 2016-03-01 ----------------------------------------------------
+#
+add thread id handling for download_toolchain -> after delete of progressbar
+window the download thread should also be destroyed
+
+
 #
 # -------------- 2016-02-28 ----------------------------------------------------
 #
