@@ -61,7 +61,7 @@ download_progress(void *p,
 
 
 int
-do_download(download_tupel_t *download)
+do_download_tupel(download_tupel_t *download)
 {
 	CURL *curl = NULL;
 	CURLcode res;
@@ -114,3 +114,4 @@ error:
 
 	return -1;
 }
+

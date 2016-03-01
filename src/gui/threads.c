@@ -113,10 +113,10 @@ download_toolchain(void *args)
 		set_progressbar_window_title(get_download_tupel_path(download_array[i]));
 		set_progressbar_value(0, "0%");
 
-		if (do_download(download_array[i]) == -1)
+		if (do_download_tupel(download_array[i]) == -1)
 			break;
 
-		set_progressbar_value(100, "!! calc checksum !!");
+		set_progressbar_value(100, _("!! calc checksum !!"));
 
 		if (calc_checksum(download_array[i]) != 0)
 			write_error_msg("Possible ERROR -> calc_checksum != 0");
@@ -127,17 +127,34 @@ download_toolchain(void *args)
 		else
 			name++;
 
-		info_msg("download_tupel->path extracted filename %s", name);
+#ifdef DEBUG
+		PRINT_LOCATION();
+		info_msg(_("download_tupel->path extracted filename %s"), name);
+#endif
 
 		c = get_checksum_tupel(name);
-		if (c == NULL)
+		if (c == NULL) {
 			write_error_msg("Possible ERROR -> c == NULL");
-		else
-			info_msg("name: %s ... checksum: %s", c->name, c->checksum_s);
+			break;
+		}
 
-		set_progressbar_value(100, "!! extracting !!");
+#ifdef DEBUG
+		PRINT_LOCATION();
+		info_msg(_("c->name: %s with c->checksum_s: %s"),
+			 c->name, c->checksum_s);
+#endif
 
-		write_info_msg("Extrating file: %s", download_array[i]->path);
+		if (strncmp(download_array[i]->checksum_s, c->checksum_s,
+			    strlen(download_array[i]->checksum_s)) == 0) {
+			info_msg(_("checksum is okay"));
+		} else {
+			write_error_msg(_("checksum is NOT okay"));
+			break;
+		}
+
+		set_progressbar_value(100, _("!! extracting !!"));
+
+		write_info_msg(_("Extrating file: %s"), download_array[i]->path);
 		if (extract_toolchain(download_array[i]->path) == -1)
 			break;
 		i++;
@@ -163,17 +180,17 @@ init_sdk_workdir(void *args)
 	write_info_msg(_("--INFO_MSG--: in init_workdir"));
 
 	if (check_sdk_workdir() == 0)
-		write_error_msg("%s is available", get_common_workdir());
+		write_error_msg(_("%s is available"), get_common_workdir());
 	else {
-		write_error_msg("%s isn't available, create it",
+		write_error_msg(_("%s isn't available, create it"),
 				get_common_workdir());
 		// TODO: create workdir
 	}
 
 	if (check_sdk_runtimedir() == 0)
-		write_error_msg("%s is available", get_common_runtimedir());
+		write_error_msg(_("%s is available"), get_common_runtimedir());
 	else {
-		write_error_msg("%s isn't available, create it",
+		write_error_msg(_("%s isn't available, create it"),
 				get_common_runtimedir());
 		// TODO: create runtimedir
 	}

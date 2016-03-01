@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-02-29 18:02+0100\n"
+"POT-Creation-Date: 2016-03-01 21:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gui/threads.c:38 src/gui/threads.c:78 src/gui/threads.c:111
+#: src/gui/threads.c:38 src/gui/threads.c:72 src/gui/threads.c:105
 msgid "ERROR: create_progress_bar_window != 0"
 msgstr ""
 
@@ -25,27 +25,68 @@ msgstr ""
 msgid "checksum_array is valid"
 msgstr ""
 
-#: src/gui/threads.c:51 src/gui/gui.c:433
+#: src/gui/threads.c:49
 msgid "Can't init checksum structure"
 msgstr ""
 
-#: src/gui/threads.c:110 src/gui/threads.c:155
+#: src/gui/threads.c:104 src/gui/threads.c:166
 msgid "Download toolchain/host"
 msgstr ""
 
-#: src/gui/threads.c:169
+#: src/gui/threads.c:119
+msgid "!! calc checksum !!"
+msgstr ""
+
+#: src/gui/threads.c:132
+#, c-format
+msgid "download_tupel->path extracted filename %s"
+msgstr ""
+
+#: src/gui/threads.c:143
+#, c-format
+msgid "c->name: %s with c->checksum_s: %s"
+msgstr ""
+
+#: src/gui/threads.c:149
+msgid "checksum is okay"
+msgstr ""
+
+#: src/gui/threads.c:151
+msgid "checksum is NOT okay"
+msgstr ""
+
+#: src/gui/threads.c:155
+msgid "!! extracting !!"
+msgstr ""
+
+#: src/gui/threads.c:157
+#, c-format
+msgid "Extrating file: %s"
+msgstr ""
+
+#: src/gui/threads.c:180
 msgid "--INFO_MSG--: in init_workdir"
 msgstr ""
 
-#: src/gui/threads.c:198
+#: src/gui/threads.c:183 src/gui/threads.c:191
+#, c-format
+msgid "%s is available"
+msgstr ""
+
+#: src/gui/threads.c:185 src/gui/threads.c:193
+#, c-format
+msgid "%s isn't available, create it"
+msgstr ""
+
+#: src/gui/threads.c:209
 msgid "--INFO_MSG--: in config_sdk"
 msgstr ""
 
-#: src/gui/threads.c:215
+#: src/gui/threads.c:226
 msgid "--INFO_MSG--: in test_sdk"
 msgstr ""
 
-#: src/gui/threads.c:235
+#: src/gui/threads.c:246
 msgid "--INFO_MSG--: in help"
 msgstr ""
 
@@ -78,216 +119,216 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/gui/gui.c:404 src/gui/gui.c:417 src/gui/gui.c:431 src/gui/gui.c:448
-#: src/gui/gui.c:464 src/gui/gui.c:480
+#: src/gui/gui.c:404 src/gui/gui.c:417 src/gui/gui.c:430 src/gui/gui.c:443
+#: src/gui/gui.c:459 src/gui/gui.c:475
 msgid "Can't create the thread"
 msgstr ""
 
-#: src/gui/gui.c:852
+#: src/gui/gui.c:847
 msgid "Unknown GUI element"
 msgstr ""
 
-#: src/gui/gui.c:928
+#: src/gui/gui.c:923
 msgid "Are you sure to quit (without saving)?"
 msgstr ""
 
-#: src/gui/gui.c:946
+#: src/gui/gui.c:941
 msgid "Open Default"
 msgstr ""
 
-#: src/gui/gui.c:950
+#: src/gui/gui.c:945
 msgid "Load default configuration for this tool (*sdk_build.conf)"
 msgstr ""
 
-#: src/gui/gui.c:954 src/gui/gui.c:1228
+#: src/gui/gui.c:949 src/gui/gui.c:1223
 msgid "Clone SDK"
 msgstr ""
 
-#: src/gui/gui.c:958 src/gui/gui.c:1231
+#: src/gui/gui.c:953 src/gui/gui.c:1226
 msgid "Clone SDK repository"
 msgstr ""
 
-#: src/gui/gui.c:962 src/gui/gui.c:1237
+#: src/gui/gui.c:957 src/gui/gui.c:1232
 msgid "Update Repo"
 msgstr ""
 
-#: src/gui/gui.c:966
+#: src/gui/gui.c:961
 msgid "Update SDK repository"
 msgstr ""
 
-#: src/gui/gui.c:970 src/gui/gui.c:1246
+#: src/gui/gui.c:965 src/gui/gui.c:1241
 msgid "Download toolchain"
 msgstr ""
 
-#: src/gui/gui.c:974 src/gui/gui.c:1249
+#: src/gui/gui.c:969 src/gui/gui.c:1244
 msgid "Download toolchain binarys"
 msgstr ""
 
-#: src/gui/gui.c:978
+#: src/gui/gui.c:973
 msgid "Test SDK"
 msgstr ""
 
-#: src/gui/gui.c:982
+#: src/gui/gui.c:977
 msgid "Run basic test/check on the sdk/toolchain"
 msgstr ""
 
-#: src/gui/gui.c:986
+#: src/gui/gui.c:981
 msgid "Help"
 msgstr ""
 
-#: src/gui/gui.c:990
+#: src/gui/gui.c:985
 msgid "Open help window"
 msgstr ""
 
-#: src/gui/gui.c:994
+#: src/gui/gui.c:989
 msgid "Quit"
 msgstr ""
 
-#: src/gui/gui.c:1002
+#: src/gui/gui.c:997
 msgid "Quit/Exit"
 msgstr ""
 
-#: src/gui/gui.c:1012
+#: src/gui/gui.c:1007
 msgid "Partition SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1015
+#: src/gui/gui.c:1010
 msgid "Partition a new SD-Card for target devices"
 msgstr ""
 
-#: src/gui/gui.c:1025
+#: src/gui/gui.c:1020
 msgid "Install Kernel-FS"
 msgstr ""
 
-#: src/gui/gui.c:1028
+#: src/gui/gui.c:1023
 msgid "Install kernel image to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1034
+#: src/gui/gui.c:1029
 msgid "Install Root-FS"
 msgstr ""
 
-#: src/gui/gui.c:1037
+#: src/gui/gui.c:1032
 msgid "Install rootfs image to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1043
+#: src/gui/gui.c:1038
 msgid "Install Home-FS"
 msgstr ""
 
-#: src/gui/gui.c:1046
+#: src/gui/gui.c:1041
 msgid "Install home image to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1056
+#: src/gui/gui.c:1051
 msgid "Install U-Boot"
 msgstr ""
 
-#: src/gui/gui.c:1059
+#: src/gui/gui.c:1054
 msgid "Install U-Boot to SD-Card"
 msgstr ""
 
-#: src/gui/gui.c:1069
+#: src/gui/gui.c:1064
 msgid "Do ALL"
 msgstr ""
 
-#: src/gui/gui.c:1072
+#: src/gui/gui.c:1067
 msgid "Do all in one step"
 msgstr ""
 
-#: src/gui/gui.c:1083
+#: src/gui/gui.c:1078
 msgid "Clone ALL"
 msgstr ""
 
-#: src/gui/gui.c:1086
+#: src/gui/gui.c:1081
 msgid "Clone all external repositorys"
 msgstr ""
 
-#: src/gui/gui.c:1100
+#: src/gui/gui.c:1095
 msgid "Clone externel 1 repository"
 msgstr ""
 
-#: src/gui/gui.c:1110
+#: src/gui/gui.c:1105
 msgid "Clone externel 2 repository"
 msgstr ""
 
-#: src/gui/gui.c:1120
+#: src/gui/gui.c:1115
 msgid "Clone externel 3 repository"
 msgstr ""
 
-#: src/gui/gui.c:1130
+#: src/gui/gui.c:1125
 msgid "Clone externel 4 repository"
 msgstr ""
 
-#: src/gui/gui.c:1140
+#: src/gui/gui.c:1135
 msgid "Clone externel 5 repository"
 msgstr ""
 
-#: src/gui/gui.c:1150
+#: src/gui/gui.c:1145
 msgid "Clone externel 6 repository"
 msgstr ""
 
-#: src/gui/gui.c:1160
+#: src/gui/gui.c:1155
 msgid "Clone externel 7 repository"
 msgstr ""
 
-#: src/gui/gui.c:1170
+#: src/gui/gui.c:1165
 msgid "Clone externel 8 repository"
 msgstr ""
 
-#: src/gui/gui.c:1180
+#: src/gui/gui.c:1175
 msgid "Clone externel 9 repository"
 msgstr ""
 
-#: src/gui/gui.c:1190
+#: src/gui/gui.c:1185
 msgid "Clone externel 1o repository"
 msgstr ""
 
-#: src/gui/gui.c:1200
+#: src/gui/gui.c:1195
 msgid "Clone selected"
 msgstr ""
 
-#: src/gui/gui.c:1203
+#: src/gui/gui.c:1198
 msgid "Clone selected external repositorys"
 msgstr ""
 
-#: src/gui/gui.c:1214
+#: src/gui/gui.c:1209
 msgid "Init /opt/*_sdk"
 msgstr ""
 
-#: src/gui/gui.c:1217
+#: src/gui/gui.c:1212
 msgid "Init workdir -> /opt/*_sdk"
 msgstr ""
 
-#: src/gui/gui.c:1240
+#: src/gui/gui.c:1235
 msgid "Update SDK repositor"
 msgstr ""
 
-#: src/gui/gui.c:1263
+#: src/gui/gui.c:1258
 msgid "Create default toolconfig"
 msgstr ""
 
-#: src/gui/gui.c:1272
+#: src/gui/gui.c:1267
 msgid "Open new toolconfig "
 msgstr ""
 
-#: src/gui/gui.c:1282
+#: src/gui/gui.c:1277
 msgid "Save toolconfig "
 msgstr ""
 
-#: src/gui/gui.c:1291
+#: src/gui/gui.c:1286
 msgid "Save toolconfig under a new name"
 msgstr ""
 
-#: src/gui/gui.c:1304
+#: src/gui/gui.c:1299
 msgid "Quit/Exit with autosave of toolconfig"
 msgstr ""
 
-#: src/gui/gui.c:1463
+#: src/gui/gui.c:1458
 msgid "ERROR: Message type not supported"
 msgstr ""
 
-#: src/gui/gui.c:1466
+#: src/gui/gui.c:1461
 msgid "ERROR: textfield_buffer == NULL!"
 msgstr ""
 

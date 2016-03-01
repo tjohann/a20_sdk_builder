@@ -437,7 +437,7 @@ do_update_repo(char *url, char *path);
  */
 
 int
-do_download(download_tupel_t *download);
+do_download_tupel(download_tupel_t *download);
 
 
 /*
