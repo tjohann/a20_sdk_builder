@@ -85,8 +85,6 @@ update_sdk_repo(void *args)
 void *
 download_toolchain(void *args)
 {
-	checksum_tupel_t *c = NULL;
-
 	download_tupel_t *download_array[MAX_COUNT_TOOLCHAIN + 1];
 	memset(download_array, 0, sizeof(download_array));
 
@@ -104,66 +102,13 @@ download_toolchain(void *args)
 	if (create_progressbar_window(_("Download toolchain/host")) != 0)
 		write_error_msg(_("ERROR: create_progress_bar_window != 0"));
 
-	int i = 0;
-	char *name = NULL;
-	for (;;) {
-		if (download_array[i] == NULL)
-			break;
-
-		set_progressbar_window_title(get_download_tupel_path(download_array[i]));
-		set_progressbar_value(0, "0%");
-
-		if (do_download_tupel(download_array[i]) == -1)
-			break;
-
-		set_progressbar_value(100, _("!! calc checksum !!"));
-
-		if (calc_checksum(download_array[i]) != 0)
-			write_error_msg("Possible ERROR -> calc_checksum != 0");
-
-		name = strrchr(download_array[i]->path, '/');
-		if (name == NULL)
-			name = download_array[i]->path;
-		else
-			name++;
-
-#ifdef DEBUG
-		PRINT_LOCATION();
-		info_msg(_("download_tupel->path extracted filename %s"), name);
-#endif
-
-		c = get_checksum_tupel(name);
-		if (c == NULL) {
-			write_error_msg("Possible ERROR -> c == NULL");
-			break;
-		}
-
-#ifdef DEBUG
-		PRINT_LOCATION();
-		info_msg(_("c->name: %s with c->checksum_s: %s"),
-			 c->name, c->checksum_s);
-#endif
-
-		if (strncmp(download_array[i]->checksum_s, c->checksum_s,
-			    strlen(download_array[i]->checksum_s)) == 0) {
-			info_msg(_("checksum is okay"));
-		} else {
-			write_error_msg(_("checksum is NOT okay"));
-			break;
-		}
-
-		set_progressbar_value(100, _("!! extracting !!"));
-
-		write_info_msg(_("Extrating file: %s"), download_array[i]->path);
-		if (extract_toolchain(download_array[i]->path) == -1)
-			break;
-		i++;
-	}
-
-	leave_sdk_thread();
+	if (do_download(download_array) == -1)
+		write_error_msg(_("ERROR: do_download"));
 
 	set_progressbar_value(100, "100%");
 	set_progressbar_window_title(_("Download toolchain/host"));
+
+	leave_sdk_thread();
 	unlock_button(PROGRESSBAR_B);
 
 	return NULL;
@@ -215,7 +160,6 @@ config_sdk(void *args)
 void *
 test_sdk(void *args)
 {
-
 	(void) args;
 
 	/*
@@ -244,6 +188,36 @@ help(void *args)
 	(void) args;
 
 	write_info_msg(_("--INFO_MSG--: in help"));
+
+	return NULL;
+}
+
+
+void *
+monitor_runtimedir(void *args)
+{
+	PRINT_LOCATION();
+
+	(void) args;
+
+	write_info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
+
+	for(;;)
+
+	return NULL;
+}
+
+
+void *
+monitor_workdir(void *args)
+{
+	PRINT_LOCATION();
+
+	(void) args;
+
+	write_info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
+
+	for(;;)
 
 	return NULL;
 }

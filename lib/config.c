@@ -168,10 +168,12 @@ get_checksum_tupel(char *name)
 		if (checksum_array[i] == NULL) {
 			info_msg(_("checksum_array[%d] == NULL"), i);
 		} else {
-			if (strncmp(checksum_array[i]->name, name, len) == 0)
+			if (strncmp(checksum_array[i]->name, name, len) == 0) {
+				info_msg(_("found %s on position %d"), name, i);
 				return checksum_array[i];
-			else
-				info_msg(_("name %s not found "), name);
+			} else {
+				info_msg(_("name %s not found (i:%d) "), name, i);
+			}
 		}
 	}
 

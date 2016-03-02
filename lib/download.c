@@ -60,7 +60,7 @@ download_progress(void *p,
 }
 
 
-int
+static int
 do_download_tupel(download_tupel_t *download)
 {
 	CURL *curl = NULL;
@@ -115,3 +115,69 @@ error:
 	return -1;
 }
 
+
+int
+do_download(download_tupel_t *download_array[])
+{
+	checksum_tupel_t *c = NULL;
+	char *name = NULL;
+	int i = 0;
+
+	for (;;) {
+		if (download_array[i] == NULL)
+			break;
+
+		set_progressbar_window_title(get_download_tupel_path(download_array[i]));
+		set_progressbar_value(0, "0%");
+
+		if (do_download_tupel(download_array[i]) == -1)
+			break;
+
+		set_progressbar_value(100, _("!! calc checksum !!"));
+
+		if (calc_checksum(download_array[i]) != 0)
+			write_error_msg("Possible ERROR -> calc_checksum != 0");
+
+		name = strrchr(download_array[i]->path, '/');
+		if (name == NULL)
+			name = download_array[i]->path;
+		else
+			name++;
+
+#ifdef DEBUG
+		PRINT_LOCATION();
+		info_msg(_("download_tupel->path extracted filename %s"), name);
+#endif
+
+		c = get_checksum_tupel(name);
+		if (c == NULL) {
+			write_error_msg("Possible ERROR -> c == NULL");
+			break;
+		}
+
+#ifdef DEBUG
+		PRINT_LOCATION();
+		info_msg(_("c->name: %s with c->checksum_s: %s"),
+			 c->name, c->checksum_s);
+#endif
+
+		if (strncmp(download_array[i]->checksum_s, c->checksum_s,
+			    strlen(download_array[i]->checksum_s)) == 0) {
+			info_msg(_("checksum is okay"));
+		} else {
+			write_error_msg(_("checksum is NOT okay"));
+			break;
+		}
+
+		set_progressbar_value(100, _("!! extracting !!"));
+
+		write_info_msg(_("Extrating file: %s"), download_array[i]->path);
+		if (extract_toolchain(download_array[i]->path) == -1)
+			break;
+		i++;
+	}
+
+
+
+	return 0;
+}

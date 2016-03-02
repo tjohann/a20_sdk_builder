@@ -204,6 +204,9 @@ typedef struct checksum_tupel {
 extern void
 set_progressbar_value(int statusbar_percent, char *statusbar_percent_string);
 
+extern void
+set_progressbar_window_title(char *title);
+
 // print info message
 extern void
 write_info_msg(const char *fmt, ...);
@@ -435,9 +438,8 @@ do_update_repo(char *url, char *path);
  * download.c
  * ==========
  */
-
 int
-do_download_tupel(download_tupel_t *download);
+do_download(download_tupel_t *download_array[]);
 
 
 /*

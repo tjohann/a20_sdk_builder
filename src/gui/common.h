@@ -253,5 +253,12 @@ help(void *args);
 void *
 init_sdk_workdir(void *args);
 
+// monitor runtimedir changes -> checksum.sha256
+void *
+monitor_runtimedir(void *args);
+
+// monitor workdir changes -> images/* kernel/* ...
+void *
+monitor_workdir(void *args);
 
 #endif
