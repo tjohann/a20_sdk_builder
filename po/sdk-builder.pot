@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-03-02 13:14+0100\n"
+"POT-Creation-Date: 2016-03-03 13:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,12 +55,16 @@ msgstr ""
 msgid "--INFO_MSG--: in config_sdk"
 msgstr ""
 
-#: src/gui/threads.c:171
+#: src/gui/threads.c:170
 msgid "--INFO_MSG--: in test_sdk"
 msgstr ""
 
-#: src/gui/threads.c:191
+#: src/gui/threads.c:190
 msgid "--INFO_MSG--: in help"
+msgstr ""
+
+#: src/gui/threads.c:203 src/gui/threads.c:218
+msgid "--INFO_MSG--: in monitor_runtimedir"
 msgstr ""
 
 #: src/gui/message_handler.c:68
@@ -416,16 +420,16 @@ msgstr ""
 msgid "Possible init problem: read_complete_config != 0"
 msgstr ""
 
-#: src/gui/main.c:161
+#: src/gui/main.c:165
 msgid "Read checksum file done"
 msgstr ""
 
-#: src/gui/main.c:163
+#: src/gui/main.c:167
 #, c-format
 msgid "%s not available or not valid"
 msgstr ""
 
-#: src/gui/main.c:166
+#: src/gui/main.c:170
 msgid "Init network code: done\n"
 msgstr ""
 
@@ -713,17 +717,17 @@ msgstr ""
 msgid "--------------------------------------- \n"
 msgstr ""
 
-#: lib/libservice.h:179
+#: lib/libservice.h:177
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
 
-#: lib/libservice.h:188
+#: lib/libservice.h:186
 #, c-format
 msgid "GIT: %d: %s"
 msgstr ""
 
-#: lib/libservice.h:191
+#: lib/libservice.h:189
 #, c-format
 msgid "GIT: %d: no detailed info"
 msgstr ""

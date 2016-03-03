@@ -107,9 +107,7 @@
 #define TMP_FILE "/tmp/sdk_builder.trash"
 
 #define NAME_CHECKSUM_FILE "checksum.sha256"
-
 #define DUMMY_STRING "dummy"
-
 #define FILE_EMPTY -2
 
 
@@ -195,7 +193,7 @@ typedef struct checksum_tupel {
 	} while (0)
 
 
-// TODO: remove EXTERN it -> use callbacks or sockets ...
+// TODO: remove EXTERN -> use callbacks and/or sockets ...
 
 /*
  * EXTERN functions
@@ -273,18 +271,23 @@ init_network(void);
  */
 
 /*
- * +------------------+------------+------------+--------------------------+
- * |     function     | use errno? | terminate? | log_level (man 3 syslog) |
- * +------------------+------------+------------+--------------------------+
- * | error_exit       |     yes    |   exit()   |         LOG_ERR          |
- * | dump_exit        |     yes    |  abort()   |         LOG_ERR          |
- * | error_msg        |     yes    |    no      |         LOG_ERR          |
- * | error_msg_return |     yes    |   return   |         LOG_ERR          |
- * | info_msg         |     no     |    no      |         LOG_INFO         |
- * | info_msg_return  |     no     |   return   |         LOG_INFO         |
- * | debug_msg        |     no     |    no      |         LOG_DEBUG        |
- * | debug_msg_return |     no     |    no      |         LOG_DEBUG        |
- * +------------------+------------+------------+--------------------------+
+ * +---------------------+------------+------------+--------------------------+
+ * |     function        | use errno? | terminate? | log_level (man 3 syslog) |
+ * +---------------------+------------+------------+--------------------------+
+ * | error_exit          |     yes    |   exit()   |         LOG_ERR          |
+ * | dump_exit           |     yes    |  abort()   |         LOG_ERR          |
+ * | error_msg           |     yes    |    no      |         LOG_ERR          |
+ * | error_msg_return    |     yes    |   return   |         LOG_ERR          |
+ * | info_msg            |     no     |    no      |         LOG_INFO         |
+ * | info_msg_return     |     no     |   return   |         LOG_INFO         |
+ * | debug_msg           |     no     |    no      |         LOG_DEBUG        |
+ * | debug_msg_return    |     no     |    no      |         LOG_DEBUG        |
+ * +---------------------+------------+------------+--------------------------+
+ * | th_error_msg        | errno_val  |    no      |         LOG_ERR          |
+ * | th_error_msg_return | errno_val  |   return   |         LOG_ERR          |
+ * | th_error_exit       | errno_val  |   exit()   |         LOG_ERR          |
+ * | th_dump_exit        | errno_val  |  abourt()  |         LOG_ERR          |
+ * +---------------------+------------+------------+--------------------------+
  */
 
 // print error message and exit
@@ -318,6 +321,23 @@ debug_msg(const char *fmt, ...);
 // print debug message and return
 void
 debug_msg_return(const char *fmt, ...);
+
+// print error message with errno = errno_val
+void
+th_error_msg(int errno_val, const char *fmt, ...);
+
+// print error message with errno = errno_val and return
+void
+th_error_msg_return(int errno_val, const char *fmt, ...);
+
+// print error message with errno = errno_val and dump/exit
+void
+__attribute__((noreturn)) th_dump_exit(int errno_val, const char *fmt, ...);
+
+// print error message with errno = errno_val and exit
+void
+__attribute__((noreturn)) th_error_exit(int errno_val, const char *fmt, ...);
+
 
 
 /*

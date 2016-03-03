@@ -84,14 +84,11 @@ read_complete_config(char *conf_file, char *conf_dir)
 	if (init_common_config(conf_file, conf_dir) != 0)
 		error_msg(_("ERROR common sdk_config done"));
 
-
 	if (init_repo_config(conf_file, conf_dir) != 0)
 		error_msg(_("ERROR repo sdk_config"));
 
-
 	if (init_toolchain_config(conf_file, conf_dir) != 0)
 		error_msg(_("ERROR toolchain sdk_config"));
-
 
 	if (init_device_config(conf_file, conf_dir) != 0)
 		error_msg(_("ERROR device sdk_config"));
@@ -99,7 +96,6 @@ read_complete_config(char *conf_file, char *conf_dir)
 
 	if (init_external_config(conf_file, conf_dir) != 0)
 		error_msg(_("ERROR external sdk_config"));
-
 
 	if (init_kernel_config(conf_file, conf_dir) != 0)
 		error_msg(_("ERROR kernel sdk_config"));
@@ -157,13 +153,18 @@ main(int argc, char *argv[])
 		usage(EXIT_FAILURE);
 	}
 
+	if ((is_this_a_dir(get_common_workdir()) == false) ||
+	    (is_this_a_dir(get_common_workdir()) == false))
+		usage(EXIT_FAILURE);
+
 	if ((read_checksum_file()) == 0)
 		info_msg(_("Read checksum file done"));
 	else
-		info_msg(_("%s not available or not valid"), NAME_CHECKSUM_FILE);
+		info_msg(_("%s not available or not valid"),
+			 NAME_CHECKSUM_FILE);
 
 	if (init_network() != -1)
-		info_msg(_("Init network code: done\n"));
+		info_msg(_("Init network code: done"));
 
 	/*
 	 * init gtk stuff
