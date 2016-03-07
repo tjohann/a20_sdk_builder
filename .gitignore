@@ -40,7 +40,7 @@ configure
 /libtool
 /Makefile
 /lib/Makefile
-/Documentaion/Makefile
+/Documentation/Makefile
 /pixmaps/Makefile
 /desktop/Makefile
 /etc/Makefile

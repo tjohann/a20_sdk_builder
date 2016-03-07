@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Thorsten Johannvorderbrueggen
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the sdk-builder package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-03-03 13:48+0100\n"
+"POT-Creation-Date: 2016-03-03 19:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -387,50 +387,50 @@ msgstr ""
 msgid "ERROR common sdk_config done"
 msgstr ""
 
-#: src/gui/main.c:89
+#: src/gui/main.c:88
 msgid "ERROR repo sdk_config"
 msgstr ""
 
-#: src/gui/main.c:93
+#: src/gui/main.c:91
 msgid "ERROR toolchain sdk_config"
 msgstr ""
 
-#: src/gui/main.c:97
+#: src/gui/main.c:94
 msgid "ERROR device sdk_config"
 msgstr ""
 
-#: src/gui/main.c:101
+#: src/gui/main.c:98
 msgid "ERROR external sdk_config"
 msgstr ""
 
-#: src/gui/main.c:105
+#: src/gui/main.c:101
 msgid "ERROR kernel sdk_config"
 msgstr ""
 
-#: src/gui/main.c:136
+#: src/gui/main.c:132
 #, c-format
 msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/gui/main.c:154
+#: src/gui/main.c:150
 msgid "Init main sdk_config done"
 msgstr ""
 
-#: src/gui/main.c:156
+#: src/gui/main.c:152
 msgid "Possible init problem: read_complete_config != 0"
 msgstr ""
 
-#: src/gui/main.c:165
+#: src/gui/main.c:161
 msgid "Read checksum file done"
 msgstr ""
 
-#: src/gui/main.c:167
+#: src/gui/main.c:163
 #, c-format
 msgid "%s not available or not valid"
 msgstr ""
 
-#: src/gui/main.c:170
-msgid "Init network code: done\n"
+#: src/gui/main.c:167
+msgid "Init network code: done"
 msgstr ""
 
 #: lib/download.c:54
