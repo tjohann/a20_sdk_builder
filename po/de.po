@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-03-03 19:36+0100\n"
+"POT-Creation-Date: 2016-03-08 20:48+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -63,10 +63,6 @@ msgstr ""
 
 #: src/gui/threads.c:190
 msgid "--INFO_MSG--: in help"
-msgstr ""
-
-#: src/gui/threads.c:203 src/gui/threads.c:218
-msgid "--INFO_MSG--: in monitor_runtimedir"
 msgstr ""
 
 #: src/gui/message_handler.c:68
@@ -311,38 +307,38 @@ msgstr ""
 msgid "ERROR: textfield_buffer == NULL!"
 msgstr ""
 
-#: src/gui/main.c:30
+#: src/gui/main.c:30 src/conf_d/main.c:30
 #, c-format
 msgid "Usage: %s [options]              \n"
 msgstr ""
 
-#: src/gui/main.c:31
+#: src/gui/main.c:31 src/conf_d/main.c:31
 #, c-format
 msgid "Options:                                       \n"
 msgstr ""
 
-#: src/gui/main.c:33
+#: src/gui/main.c:33 src/conf_d/main.c:33
 #, c-format
 msgid ""
 "        -f filename.conf   give a name for a configuration file "
 "[mandatory]      \n"
 msgstr ""
 
-#: src/gui/main.c:35
+#: src/gui/main.c:35 src/conf_d/main.c:35
 #, c-format
 msgid ""
 "        -d directory       give a directory name to search for configuration "
 "file\n"
 msgstr ""
 
-#: src/gui/main.c:37
+#: src/gui/main.c:37 src/conf_d/main.c:37
 #, c-format
 msgid ""
 "        -h                 show "
 "help                                             \n"
 msgstr ""
 
-#: src/gui/main.c:40
+#: src/gui/main.c:40 src/conf_d/main.c:44
 #, c-format
 msgid "Examples:                                      \n"
 msgstr ""
@@ -359,12 +355,12 @@ msgid ""
 "conf                   \n"
 msgstr ""
 
-#: src/gui/main.c:45
+#: src/gui/main.c:45 src/conf_d/main.c:47
 #, c-format
 msgid "-> check path /etc/sdk_builder                 \n"
 msgstr ""
 
-#: src/gui/main.c:46
+#: src/gui/main.c:46 src/conf_d/main.c:48
 #, c-format
 msgid "-> check path /usr/local/etc/sdk_builder       \n"
 msgstr ""
@@ -376,73 +372,117 @@ msgid ""
 "conf -d $HOME/etc/sdk-builder/ \n"
 msgstr ""
 
-#: src/gui/main.c:58
+#: src/gui/main.c:58 src/conf_d/main.c:60
 #, c-format
 msgid "Finalize cleanup -> cheers %s\n"
 msgstr ""
 
-#: src/gui/main.c:80
+#: src/gui/main.c:80 src/conf_d/main.c:81
 #, fuzzy
 msgid "ERROR main sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:85
+#: src/gui/main.c:85 src/conf_d/main.c:86
 #, fuzzy
 msgid "ERROR common sdk_config done"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:88
+#: src/gui/main.c:88 src/conf_d/main.c:89
 #, fuzzy
 msgid "ERROR repo sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:91
+#: src/gui/main.c:91 src/conf_d/main.c:92
 #, fuzzy
 msgid "ERROR toolchain sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:94
+#: src/gui/main.c:94 src/conf_d/main.c:95
 #, fuzzy
 msgid "ERROR device sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:98
+#: src/gui/main.c:98 src/conf_d/main.c:99
 #, fuzzy
 msgid "ERROR external sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:101
+#: src/gui/main.c:101 src/conf_d/main.c:102
 #, fuzzy
 msgid "ERROR kernel sdk_config"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:132
+#: src/gui/main.c:132 src/conf_d/main.c:139
 #, c-format
 msgid "ERROR: no valid argument\n"
 msgstr ""
 
-#: src/gui/main.c:150
+#: src/gui/main.c:150 src/conf_d/main.c:151
 #, fuzzy
 msgid "Init main sdk_config done"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
 
-#: src/gui/main.c:152
+#: src/gui/main.c:152 src/conf_d/main.c:153
 msgid "Possible init problem: read_complete_config != 0"
 msgstr ""
 
-#: src/gui/main.c:161
+#: src/gui/main.c:161 src/conf_d/main.c:162
 msgid "Read checksum file done"
 msgstr ""
 
-#: src/gui/main.c:163
+#: src/gui/main.c:163 src/conf_d/main.c:164
 #, c-format
 msgid "%s not available or not valid"
 msgstr ""
 
-#: src/gui/main.c:167
+#: src/gui/main.c:167 src/conf_d/main.c:168
 #, fuzzy
 msgid "Init network code: done"
 msgstr "Inititalisierung vom Netzwerkcode: fertig\n"
+
+#: src/conf_d/main.c:39
+#, c-format
+msgid ""
+"        -a                 run as application in "
+"foreground                      \n"
+msgstr ""
+
+#: src/conf_d/main.c:41
+#, c-format
+msgid ""
+"        -s                 run as service/daemon in background (syslog "
+"enabled)  \n"
+msgstr ""
+
+#: src/conf_d/main.c:45
+#, c-format
+msgid ""
+"Give configuration as argument:                     %s -d -f a20_sdk_builder."
+"conf                         \n"
+msgstr ""
+
+#: src/conf_d/main.c:49
+#, c-format
+msgid ""
+"Give both as argument:                              %s -f a20_sdk_builder."
+"conf -d $HOME/etc/sdk-builder/  \n"
+msgstr ""
+
+#: src/conf_d/main.c:181
+msgid "become_daemon() != 0"
+msgstr ""
+
+#: src/conf_d/main.c:183
+msgid "now i'm a daemon"
+msgstr ""
+
+#: src/conf_d/main.c:187
+msgid "run in foreground as application"
+msgstr ""
+
+#: src/conf_d/threads.c:32 src/conf_d/threads.c:47
+msgid "--INFO_MSG--: in monitor_runtimedir"
+msgstr ""
 
 #: lib/download.c:54
 #, c-format
@@ -574,6 +614,16 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Program name is %s\n"
 msgstr "Packet name ist %s\n"
+
+#: lib/helper.c:387
+#, c-format
+msgid "ERROR: pid file already in-use: %s\n"
+msgstr ""
+
+#: lib/helper.c:390
+#, c-format
+msgid "ERROR: couldn't lock region on pid file: %s\n"
+msgstr ""
 
 #: lib/config.c:32 lib/config.c:61 lib/config.c:71
 #, c-format
@@ -728,17 +778,17 @@ msgstr ""
 msgid "--------------------------------------- \n"
 msgstr ""
 
-#: lib/libservice.h:177
+#: lib/libservice.h:183
 #, fuzzy, c-format
 msgid "Your're in %s of %s"
 msgstr "Du bist in %s von %s\n"
 
-#: lib/libservice.h:186
+#: lib/libservice.h:192
 #, c-format
 msgid "GIT: %d: %s"
 msgstr ""
 
-#: lib/libservice.h:189
+#: lib/libservice.h:195
 #, c-format
 msgid "GIT: %d: no detailed info"
 msgstr ""

@@ -6,6 +6,9 @@ src/gui/checks.c
 src/gui/gui.c
 src/gui/main.c
 src/gui/common.h
+src/conf_d/common.h
+src/conf_d/main.c
+src/conf_d/threads.c
 lib/global.h
 lib/download.c
 lib/extract.c

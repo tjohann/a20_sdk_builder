@@ -45,6 +45,7 @@ PKG_CHECK_MODULES([LIBCURL], [libcurl])
 PKG_CHECK_MODULES([LIBARCHIVE], [libarchive])
 PKG_CHECK_MODULES([LIBSSL], [libssl])
 PKG_CHECK_MODULES([LIBCRYPTO], [libcrypto])
+PKG_CHECK_MODULES([LIBBSD], [libbsd])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h])
