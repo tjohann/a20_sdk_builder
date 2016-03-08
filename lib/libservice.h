@@ -110,11 +110,17 @@
 #define DUMMY_STRING "dummy"
 #define FILE_EMPTY -2
 
+// running modes -> normale application in foreground or as daemon in background
+#define RUN_AS_APPLICATION 0
+#define RUN_AS_DAEMON      1
+
 
 /*
  * common types
  * -------------
  */
+// shortcut for old signal api (signal_old())
+typedef	void sigfunc(int);
 
 // dowload/clone url to path
 typedef struct download_tupel {
@@ -255,6 +261,27 @@ calc_checksum(download_tupel_t *t);
 void
 print_checksum_tupel(checksum_tupel_t *c);
 
+// i like the old signal api
+sigfunc *
+signal_old(int signo, sigfunc *func);
+
+// become a daemon
+int
+become_daemon(void);
+
+// create pid file for a dameon
+char *
+create_daemon_pidfile();
+
+// set close-on-exec for fd
+int
+set_cloexec(int fd);
+
+// lock a region in fd
+int
+lock_region(int fd);
+
+
 
 /*
  * network.c
@@ -337,6 +364,10 @@ __attribute__((noreturn)) th_dump_exit(int errno_val, const char *fmt, ...);
 // print error message with errno = errno_val and exit
 void
 __attribute__((noreturn)) th_error_exit(int errno_val, const char *fmt, ...);
+
+// enable logging via syslog
+void
+enable_syslog(bool use_it);
 
 
 

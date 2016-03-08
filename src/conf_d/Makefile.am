@@ -5,6 +5,7 @@ bin_PROGRAMS = sdk_confd
 sdk_confd_SOURCES =             \
 	main.c    	        \
 	common.h        	\
+	threads.c		\
 	gettext.h
 
 

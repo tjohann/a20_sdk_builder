@@ -18,23 +18,35 @@
 
 */
 
-#ifndef _BUILDER_CONFD_H_
-#define _BUILDER_CONFD_H_
-
-#include "libservice.h"
+#include "common.h"
 
 
-/*
- * threads.c
- * =========
- */
-// monitor runtimedir changes -> checksum.sha256
+
 void *
-monitor_runtimedir(void *args);
+monitor_runtimedir(void *args)
+{
+	PRINT_LOCATION();
 
-// monitor workdir changes -> images/* kernel/* ...
+	(void) args;
+
+	info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
+
+	for(;;)
+
+	return NULL;
+}
+
+
 void *
-monitor_workdir(void *args);
+monitor_workdir(void *args)
+{
+	PRINT_LOCATION();
 
+	(void) args;
 
-#endif
+	info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
+
+	for(;;)
+
+	return NULL;
+}

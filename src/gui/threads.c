@@ -191,33 +191,3 @@ help(void *args)
 
 	return NULL;
 }
-
-
-void *
-monitor_runtimedir(void *args)
-{
-	PRINT_LOCATION();
-
-	(void) args;
-
-	write_info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
-
-	for(;;)
-
-	return NULL;
-}
-
-
-void *
-monitor_workdir(void *args)
-{
-	PRINT_LOCATION();
-
-	(void) args;
-
-	write_info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
-
-	for(;;)
-
-	return NULL;
-}

@@ -258,3 +258,180 @@ print_checksum_tupel(checksum_tupel_t *c)
 			debug_msg("c->checksum_s = %s", c->checksum_s);
 	}
 }
+
+
+sigfunc *
+signal_old(int signo, sigfunc *func)
+{
+	struct sigaction actual, old_actual;
+
+	memset(&actual, 0, sizeof(struct sigaction));
+	memset(&old_actual, 0, sizeof(struct sigaction));
+
+	actual.sa_handler = func;
+	sigemptyset(&actual.sa_mask);
+	actual.sa_flags = 0;
+
+	if (signo == SIGALRM)
+		; // do nothing -> we need it for timeout handling
+	else
+		actual.sa_flags |= SA_RESTART;
+
+	if (sigaction(signo, &actual, &old_actual) < 0) {
+		error_msg("signal_old -> sigaction()");
+		return SIG_ERR;
+	}
+
+	return old_actual.sa_handler;
+}
+
+
+int
+set_cloexec(int fd)
+{
+	int ret_val = fcntl(fd, F_GETFD, 0);
+	if (ret_val == -1)
+		error_msg_return("set_cloexec -> fcntl()");
+
+	int new_val = ret_val | FD_CLOEXEC;
+
+	ret_val = fcntl(fd, F_SETFD, new_val);
+	if (ret_val == -1)
+		error_msg_return("set_cloexec -> fcntl()");
+
+	return 0;
+}
+
+
+int
+become_daemon(void)
+{
+	umask(0);
+
+	pid_t pid = fork();
+	if (pid == -1)
+		error_msg_return("become_daemon -> fork()");
+	if (pid)
+		_exit(EXIT_SUCCESS);
+
+	if (setsid() == -1)
+		error_msg_return("become_daemon -> setsid()");
+
+	signal_old(SIGHUP, SIG_IGN);
+
+	pid = fork();
+	if (pid == -1)
+		error_msg_return("become_daemon -> fork()");
+	if (pid)
+		_exit(EXIT_SUCCESS);
+
+	if (chdir("/") == -1)
+			error_msg_return("become_daemon -> chdir()");
+
+	int max_fd = sysconf(_SC_OPEN_MAX);
+        if (max_fd == -1)
+		max_fd = 64;  // should be enough
+
+        for (int i = 0; i < max_fd; i++)
+		close(i);
+
+	int fd0 = open("/dev/null", O_RDONLY);
+	int fd1 = open("/dev/null", O_RDWR);
+	int fd2 = open("/dev/null", O_RDWR);
+
+	if (fd0 != 0 || fd1 != 1 || fd2 != 2)
+		error_msg_return("become_daemon -> open()");
+
+	return 0;
+}
+
+
+int
+lock_region(int fd)
+{
+	struct flock fl;
+
+	fl.l_type = F_WRLCK;
+	fl.l_whence = SEEK_SET;
+	fl.l_start = 0;
+	fl.l_len = 0;
+
+	return fcntl(fd, F_SETLK, &fl);
+}
+
+
+static int
+create_pidfile(const char *filename, int *fd)
+{
+	mode_t access_mode = O_RDWR | O_CREAT | O_TRUNC | O_EXCL;
+	mode_t user_mode = S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH;
+
+	char pid_buff[MAXLINE];
+	memset(pid_buff, 0, MAXLINE);
+
+	*fd = open(filename, access_mode, user_mode);
+	if (*fd == -1)
+		error_msg_return("create_pidfile -> open()");
+
+	int flags = fcntl(*fd, F_GETFD);
+	if (*fd == -1)
+		error_msg_return("create_pidfile -> fcntl()");
+
+	flags |= FD_CLOEXEC;
+
+	if (fcntl(*fd, F_SETFD, flags) == -1)
+		error_msg_return("create_pidfile -> fcntl()");
+
+	if (lock_region(*fd) == -1) {
+		if (errno == EAGAIN || errno == EACCES)
+			error_msg(_("ERROR: pid file already in-use: %s\n"),
+				  filename);
+		else
+			error_msg(_("ERROR: couldn't lock region on pid file: %s\n"),
+				  filename);
+		return -1;
+	}
+
+	if (ftruncate(*fd, 0) == -1)
+		error_msg_return("create_pidfile -> ftruncate()");
+
+	int pid_len = snprintf(pid_buff, MAXLINE, "%ld\n", (long) getpid());
+
+	if (write(*fd, pid_buff, pid_len) != pid_len)
+		error_msg_return("create_pidfile -> write()");
+
+	return 0;
+}
+
+
+char *
+create_daemon_pidfile()
+{
+	int lock_fd = -1;
+	const char *whoami  = getprogname();
+	const char *tmpdir  = "/tmp";
+
+	int n = strlen(whoami) + strlen(tmpdir) + 7;
+	char *lock_filename = malloc(n);
+	if (lock_filename == NULL) {
+		error_msg("create_daemon_pidfile -> malloc()");
+		return NULL;
+	}
+
+	memset(lock_filename, 0, n);
+	snprintf(lock_filename, n,"%s/%s.lock", tmpdir, whoami);
+
+	if (create_pidfile(lock_filename, &lock_fd) == -1)
+		goto error;
+
+	close(lock_fd);
+
+	return lock_filename;
+error:
+	close(lock_fd);
+
+	if (lock_filename != NULL)
+		free(lock_filename);
+
+	return NULL;
+}

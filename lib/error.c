@@ -21,7 +21,7 @@
 #include "libservice.h"
 
 
-int use_syslog;
+bool use_syslog;
 
 
 /*
@@ -258,4 +258,16 @@ __attribute__((noreturn)) th_error_exit(int errno_val, const char *fmt, ...)
 	va_end(va);
 
 	exit(EXIT_FAILURE);
+}
+
+
+void
+enable_syslog(bool use_it)
+{
+	if (use_it) {
+		openlog(getprogname(), LOG_PID | LOG_CONS, LOG_DAEMON);
+		use_syslog = true;
+	} else {
+		use_syslog = false;
+	}
 }
