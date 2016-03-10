@@ -4,7 +4,7 @@
 sudo make distclean
 
 autoreconf --install || exit 1
-./configure --prefix=$HOME --sysconfdir=/etc
+./configure CC=clang LDFLAGS="-Wl,--as-needed" --prefix=$HOME --sysconfdir=/etc
 
 cd po
 make update-po
