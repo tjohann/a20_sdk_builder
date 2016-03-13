@@ -4,6 +4,12 @@
 
 
 #
+# -------------- 2016-03-13 ----------------------------------------------------
+#
+if download window gets killed, the thread should also die
+
+
+#
 # -------------- 2016-03-01 ----------------------------------------------------
 #
 add thread id handling for download_toolchain -> after delete of progressbar
