@@ -4,7 +4,9 @@
 sudo make distclean
 
 autoreconf --install || exit 1
-./configure CC=clang --prefix=$HOME --sysconfdir=/etc
+./configure --enable-debug CC=clang --prefix=$HOME --sysconfdir=/etc
+#./configure --enable-debug --prefix=$HOME --sysconfdir=/etc
+#./configure --prefix=$HOME --sysconfdir=/etc
 
 cd po
 make update-po

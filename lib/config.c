@@ -197,7 +197,7 @@ is_checksum_array_valid()
 	if (checksum_array[0]->checksum_s == NULL)
 		return false;
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 	PRINT_LOCATION();
 	print_checksum_tupel(checksum_array[0]);
 #endif
@@ -450,7 +450,7 @@ read_cmd:
 			error_msg(_("read_words() != %d"), n_words);
 		}
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 		print_checksum_tupel(checksum_a[lines]);
 #endif
 
@@ -486,7 +486,7 @@ read_checksum_file()
 	strncat(tmp_str, "/", 1);
 	strncat(tmp_str, NAME_CHECKSUM_FILE, strlen(NAME_CHECKSUM_FILE));
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 	debug_msg(_("runtime_s: %s and len %d"), runtime_s, len);
 	debug_msg(_("tmp_str: %s"), tmp_str);
 #endif

@@ -21,7 +21,7 @@ AM_GNU_GETTEXT_VERSION([0.19.4])
 AM_GNU_GETTEXT([external])
 
 AC_PROG_CC
-CFLAGS="${CFLAGS} -g -std=gnu11 -O2 -Wall -Wextra -pedantic -Wstrict-overflow -fno-strict-aliasing"
+CFLAGS="${CFLAGS} -std=gnu11 -O2 -Wall -Wextra -pedantic -Wstrict-overflow -fno-strict-aliasing"
 
 AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2])
 
@@ -31,6 +31,11 @@ AC_PROG_RANLIB
 
 # -> ./configure --enable-silent-rules to get quite build behaviour
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
+
+# enable debugging
+AC_ARG_ENABLE([debug],
+	[--enable-debug build with additional debugging code],
+	[CFLAGS="${CFLAGS} -g"; AC_DEFINE([__DEBUG__], 1, [Enable debug infos])])
 
 # ------
 

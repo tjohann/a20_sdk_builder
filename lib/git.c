@@ -56,7 +56,7 @@ fetch_progress(const git_transfer_progress *stats, void *payload)
 
 	(void) payload; // not used
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 	int receive_kbyte = stats->received_bytes / 1024;
 	if (stats->received_objects == stats->total_objects) {
 		info_msg("Resolving deltas %d/%d",
@@ -88,7 +88,7 @@ checkout_progress(const char *path, size_t cur, size_t tot, void *payload)
 
 	(void) payload; // not used
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 	info_msg(_("Checkout: %3d%% (%d/%d) %s"),
 		checkout_percent,
 		(int) cur, (int) tot,

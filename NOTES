@@ -78,6 +78,9 @@ libressl (sha256)
 http://stackoverflow.com/questions/7853156/calculate-sha256-of-a-file-using-openssl-libcrypto-in-c
 http://stackoverflow.com/questions/2262386/generate-sha256-with-openssl-and-c?rq=1
 
+capabilitys
+-----------
+http://static.googleusercontent.com/media/research.google.com/de//pubs/archive/33528.pdf
 
 others
 ------

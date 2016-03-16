@@ -50,7 +50,7 @@ download_progress(void *p,
 	memset(statusbar_percent_string, 0, sizeof(statusbar_percent_string));
 	snprintf(statusbar_percent_string, 5, "%3d%%", statusbar_percent);
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 	info_msg(_("Download: %3d%% (%llu/%llu)"), statusbar_percent,
 		cur, tot);
 #endif
@@ -144,7 +144,7 @@ do_download(download_tupel_t *download_array[])
 		else
 			name++;
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 		PRINT_LOCATION();
 		info_msg(_("download_tupel->path extracted filename %s"), name);
 #endif
@@ -155,7 +155,7 @@ do_download(download_tupel_t *download_array[])
 			break;
 		}
 
-#ifdef DEBUG
+#ifdef __DEBUG__
 		PRINT_LOCATION();
 		info_msg(_("c->name: %s with c->checksum_s: %s"),
 			 c->name, c->checksum_s);
