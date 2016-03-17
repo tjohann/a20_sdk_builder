@@ -41,8 +41,9 @@ sdk_builder_LDADD =               \
 # NOTE: will removed
 #
 
-install-data-hook: handle_opt handle_var
-uninstall-hook: remove_opt remove_var
+# remove for the moment -> should be done by tool itself or script
+#install-data-hook: handle_opt handle_var
+#uninstall-hook: remove_opt remove_var
 
 handle_opt:
 	@-if test -d /opt/a20_sdk; then \
