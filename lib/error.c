@@ -264,10 +264,17 @@ __attribute__((noreturn)) th_error_exit(int errno_val, const char *fmt, ...)
 void
 enable_syslog(bool use_it)
 {
+	const char *name = getprogname();
+
+	if (name == NULL)
+		name = DUMMY_STRING;
+
 	if (use_it) {
-		openlog(getprogname(), LOG_PID | LOG_CONS, LOG_DAEMON);
 		use_syslog = true;
+		openlog(name, LOG_PID | LOG_CONS, LOG_DAEMON);
+		info_msg(_("syslog enabled for %s"), name);
 	} else {
 		use_syslog = false;
+		info_msg(_("syslog disabled for %"), name);
 	}
 }

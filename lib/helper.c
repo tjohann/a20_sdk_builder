@@ -409,6 +409,7 @@ create_daemon_pidfile()
 {
 	int lock_fd = -1;
 	const char *whoami  = getprogname();
+	// TODO: via configuration file *_sdk_builder.conf
 	const char *tmpdir  = "/tmp";
 
 	int n = strlen(whoami) + strlen(tmpdir) + 7;

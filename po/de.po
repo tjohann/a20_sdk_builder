@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: a20-sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-03-17 17:20+0100\n"
+"POT-Creation-Date: 2016-03-18 16:49+0100\n"
 "PO-Revision-Date: 2016-01-18 16:46+0100\n"
 "Last-Translator: Thorsten Johannvorderbrueggen <thorsten."
 "johannvorderbrueggen@t-online.de>\n"
@@ -776,6 +776,15 @@ msgstr ""
 #: lib/config.c:725
 #, c-format
 msgid "--------------------------------------- \n"
+msgstr ""
+
+#: lib/error.c:275
+#, c-format
+msgid "syslog enabled for %s"
+msgstr ""
+
+#: lib/error.c:278
+msgid "syslog disabled for %"
 msgstr ""
 
 #: lib/libservice.h:183
