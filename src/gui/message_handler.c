@@ -20,7 +20,7 @@
 
 #include "common.h"
 
-extern int use_syslog;
+//extern int use_syslog;
 
 static void
 message_common(int errno_flag, message_types_t type, const char *fmt, va_list va)
@@ -68,8 +68,9 @@ message_common(int errno_flag, message_types_t type, const char *fmt, va_list va
 				_("ERROR: Message type not supported\n"));
 		}
 
-	if (use_syslog)
-		syslog(log_level, buf);
+	// TODO: remove -> makes no sense
+	/* if (use_syslog)
+	   syslog(log_level, buf); */
 }
 
 
@@ -100,21 +101,6 @@ write_error_msg(const char *fmt, ...)
 	va_start(va, fmt);
 	message_common(1, ERROR_MSG, fmt, va);
 	va_end(va);
-}
-
-/*
- * print error message and return
- */
-void
-write_error_msg_return(const char *fmt, ...)
-{
-	va_list	va;
-
-	va_start(va, fmt);
-	message_common(1, ERROR_MSG, fmt, va);
-	va_end(va);
-
-	return;
 }
 
 

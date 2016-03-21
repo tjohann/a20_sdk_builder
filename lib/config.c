@@ -185,9 +185,6 @@ get_checksum_tupel(char *name)
 bool
 is_checksum_array_valid()
 {
-	if (checksum_array == NULL)
-		return false;
-
 	if (checksum_array[0] == NULL)
 		return false;
 
@@ -427,9 +424,10 @@ read_checksum_from_file(char *filename, checksum_tupel_t *checksum_a[])
 	char *elements[n_words];
 
 	int fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		error_msg_return(_("Possible ERROR: couldn't open %s"),
-				 filename);
+	if (fd < 0) {
+		error_msg(_("can't open %s"), filename);
+		return -1;
+	}
 	char tmp_str[MAXLINE];
 	memset(tmp_str, 0, MAXLINE);
 
@@ -437,8 +435,10 @@ read_cmd:
 	n = read_line(fd, tmp_str, MAXLINE);
 	if (n > 1) {
 		c = malloc(n);
-		if (c == NULL)
-			error_msg_return(_("c == NULL in %s"), __FUNCTION__);
+		if (c == NULL) {
+			error_msg(_("c == NULL in %s"), __FUNCTION__);
+			return -1;
+		}
 		memset(c, 0, n);
 
 		m = read_words(tmp_str, elements, n_words);
@@ -474,8 +474,10 @@ read_checksum_file()
 	size_t len = strlen(NAME_CHECKSUM_FILE);
 
 	const char *runtime_s = get_common_runtimedir();
-	if (runtime_s == NULL)
-		error_msg_return("runtime dir == NULL");
+	if (runtime_s == NULL) {
+		error_msg("runtime dir == NULL");
+		return -1;
+	}
 
 	// as always, but with backslash between both
 	len += (strlen(runtime_s) + 2);
@@ -491,8 +493,10 @@ read_checksum_file()
 	debug_msg(_("tmp_str: %s"), tmp_str);
 #endif
 
-	if (read_checksum_from_file(tmp_str, checksum_array) != 0)
-		error_msg_return("read_checksum_from_file != 0");
+	if (read_checksum_from_file(tmp_str, checksum_array) != 0) {
+		error_msg("read_checksum_from_file != 0");
+		return -1;
+	}
 
 	return 0;
 }

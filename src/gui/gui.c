@@ -256,8 +256,10 @@ create_progressbar_window(char *name)
 	*/
 
 
-	if (progressbar != NULL)
-		write_error_msg_return(_("Progressbar != NULL"));
+	if (progressbar != NULL) {
+		write_error_msg(_("Progressbar != NULL"));
+		return -1;
+	}
 
 	progressbar_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	g_signal_connect(progressbar_window,

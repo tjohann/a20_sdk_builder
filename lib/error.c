@@ -20,8 +20,8 @@
 
 #include "libservice.h"
 
-
-bool use_syslog;
+// global for all
+static bool use_syslog;
 
 
 /*
@@ -35,14 +35,10 @@ bool use_syslog;
  * | error_exit          |     yes    |   exit()   |         LOG_ERR          |
  * | dump_exit           |     yes    |  abort()   |         LOG_ERR          |
  * | error_msg           |     yes    |    no      |         LOG_ERR          |
- * | error_msg_return    |     yes    |   return   |         LOG_ERR          |
  * | info_msg            |     no     |    no      |         LOG_INFO         |
- * | info_msg_return     |     no     |   return   |         LOG_INFO         |
  * | debug_msg           |     no     |    no      |         LOG_DEBUG        |
- * | debug_msg_return    |     no     |    no      |         LOG_DEBUG        |
  * +---------------------+------------+------------+--------------------------+
  * | th_error_msg        | errno_val  |    no      |         LOG_ERR          |
- * | th_error_msg_return | errno_val  |   return   |         LOG_ERR          |
  * | th_error_exit       | errno_val  |   exit()   |         LOG_ERR          |
  * | th_dump_exit        | errno_val  |  abourt()  |         LOG_ERR          |
  * +---------------------+------------+------------+--------------------------+
@@ -125,22 +121,6 @@ error_msg(const char *fmt, ...)
 
 
 /*
- * print error message and return
- */
-void
-error_msg_return(const char *fmt, ...)
-{
-	va_list	va;
-
-	va_start(va, fmt);
-	error_common(1, 0, LOG_ERR, fmt, va);
-	va_end(va);
-
-	return;
-}
-
-
-/*
  * print info message
  */
 void
@@ -151,22 +131,6 @@ info_msg(const char *fmt, ...)
 	va_start(va, fmt);
 	error_common(0, 0, LOG_INFO, fmt, va);
 	va_end(va);
-}
-
-
-/*
- * print info message and return
- */
-void
-info_msg_return(const char *fmt, ...)
-{
-	va_list	va;
-
-	va_start(va, fmt);
-	error_common(0, 0, LOG_INFO, fmt, va);
-	va_end(va);
-
-	return;
 }
 
 
@@ -183,21 +147,6 @@ debug_msg(const char *fmt, ...)
 	va_end(va);
 }
 
-/*
- * print debug message and return
- */
-void
-debug_msg_return(const char *fmt, ...)
-{
-	va_list	va;
-
-	va_start(va, fmt);
-	error_common(0, 0, LOG_DEBUG, fmt, va);
-	va_end(va);
-
-	return;
-}
-
 
 /*
  * print error message with errno = errno_val
@@ -210,21 +159,6 @@ th_error_msg(int errno_val, const char *fmt, ...)
 	va_start(va, fmt);
 	error_common(0, errno_val, LOG_ERR, fmt, va);
 	va_end(va);
-}
-
-/*
- * print error message with errno = errno_val and return
- */
-void
-th_error_msg_return(int errno_val, const char *fmt, ...)
-{
-	va_list	va;
-
-	va_start(va, fmt);
-	error_common(0, errno_val, LOG_ERR, fmt, va);
-	va_end(va);
-
-	return;
 }
 
 

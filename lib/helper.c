@@ -24,12 +24,25 @@
 void
 show_version_info()
 {
-	putchar('\n');
+	struct utsname u;
+
 	fprintf(stdout, _("Show content of version realted info: \n"));
 	fprintf(stdout, _("------------------------------------- \n"));
-	fprintf(stdout, _("Package version: %s\n"), PACKAGE_VERSION);
+	fprintf(stdout, _("Package version: %s                   \n"),
+		PACKAGE_VERSION);
+
+	if (uname(&u) == 0) {
 	fprintf(stdout, _("------------------------------------- \n"));
-	putchar('\n');
+		fprintf(stdout, _("System name: %s                       \n"),
+			u.sysname);
+		fprintf(stdout, _("Kernel release: %s                    \n"),
+			u.release);
+		fprintf(stdout, _("Version: %s                           \n"),
+			u.version);
+		fprintf(stdout, _("------------------------------------- \n"));
+		fprintf(stdout, _("Architecture: %s                      \n"),
+			u.machine);
+	}
 }
 
 
@@ -137,7 +150,8 @@ read_cmd:
 		if (errno == EINTR)
 			goto read_cmd;
 		else {
-			error_msg_return("read_line() -> read");
+			error_msg("read_line() -> read");
+			return -1;
 		}
 	} else {
 		if (n == 0 && count == 0)
@@ -199,20 +213,26 @@ calc_checksum(download_tupel_t *t)
 	size_t len;
 
 	hash = malloc(SHA256_DIGEST_LENGTH);
-	if (hash == NULL)
-		error_msg_return("Possible ERROR: hash == NULL");
+	if (hash == NULL) {
+		error_msg("Possible ERROR: hash == NULL");
+		return -1;
+	}
 
 	// hash * 2 -> hash as string -> + 1 for \0
 	checksum_s = malloc((SHA256_DIGEST_LENGTH * 2) + 1);
-	if (checksum_s == NULL)
-		error_msg_return("Possible ERROR: checksum_s == NULL");
+	if (checksum_s == NULL) {
+		error_msg("Possible ERROR: checksum_s == NULL");
+		return -1;
+	}
 
 	memset(checksum_s, 0, SHA256_DIGEST_LENGTH + 1);
 	memset(hash, 0, SHA256_DIGEST_LENGTH);
 
 	f = fopen(t->path, "r");
-	if (f == NULL)
-		error_msg_return("Possible ERROR: couldn't open %s\n", t->path);
+	if (f == NULL) {
+		error_msg("Possible ERROR: couldn't open %s\n", t->path);
+		return -1;
+	}
 
 	SHA256_Init(&ctx);
 
@@ -289,17 +309,22 @@ signal_old(int signo, sigfunc *func)
 int
 set_cloexec(int fd)
 {
-	int ret_val = fcntl(fd, F_GETFD, 0);
-	if (ret_val == -1)
-		error_msg_return("set_cloexec -> fcntl()");
+	int err = fcntl(fd, F_GETFD, 0);
+	if (err == -1)
+		goto err;
 
-	int new_val = ret_val | FD_CLOEXEC;
+	int new = err | FD_CLOEXEC;
 
-	ret_val = fcntl(fd, F_SETFD, new_val);
-	if (ret_val == -1)
-		error_msg_return("set_cloexec -> fcntl()");
+	err = fcntl(fd, F_SETFD, new);
+	if (err == -1)
+		goto err;
 
 	return 0;
+
+err:
+	error_msg("set_cloexec -> fcntl()");
+
+	return -1;
 }
 
 
@@ -309,24 +334,30 @@ become_daemon(void)
 	umask(0);
 
 	pid_t pid = fork();
-	if (pid == -1)
-		error_msg_return("become_daemon -> fork()");
+	if (pid == -1) {
+		error_msg(_("fork() at line %d"), __LINE__);
+		return -1;
+	}
 	if (pid)
 		_exit(EXIT_SUCCESS);
 
 	if (setsid() == -1)
-		error_msg_return("become_daemon -> setsid()");
+		error_msg(_("setsid() at line %d"), __LINE__);
 
 	signal_old(SIGHUP, SIG_IGN);
 
 	pid = fork();
-	if (pid == -1)
-		error_msg_return("become_daemon -> fork()");
+	if (pid == -1) {
+		error_msg(_("fork() at line %d"), __LINE__);
+		return -1;
+	}
 	if (pid)
 		_exit(EXIT_SUCCESS);
 
-	if (chdir("/") == -1)
-			error_msg_return("become_daemon -> chdir()");
+	if (chdir("/") == -1) {
+		error_msg(_("chdir() at line %d"), __LINE__);
+		return -1;
+	}
 
 	int max_fd = sysconf(_SC_OPEN_MAX);
         if (max_fd == -1)
@@ -340,7 +371,7 @@ become_daemon(void)
 	int fd2 = open("/dev/null", O_RDWR);
 
 	if (fd0 != 0 || fd1 != 1 || fd2 != 2)
-		error_msg_return("become_daemon -> open()");
+		error_msg(_("open() at line %d"), __LINE__);
 
 	return 0;
 }
@@ -361,44 +392,52 @@ lock_region(int fd)
 
 
 static int
-create_pidfile(const char *filename, int *fd)
+create_pidfile(const char *name)
 {
 	mode_t access_mode = O_RDWR | O_CREAT | O_TRUNC | O_EXCL;
-	mode_t user_mode = S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH;
+	mode_t user_mode = S_IWUSR | S_IRUSR;
 
-	char pid_buff[MAXLINE];
-	memset(pid_buff, 0, MAXLINE);
+	char str[MAXLINE];
+	memset(str, 0, MAXLINE);
 
-	*fd = open(filename, access_mode, user_mode);
-	if (*fd == -1)
-		error_msg_return("create_pidfile -> open()");
-
-	int flags = fcntl(*fd, F_GETFD);
-	if (*fd == -1)
-		error_msg_return("create_pidfile -> fcntl()");
-
-	flags |= FD_CLOEXEC;
-
-	if (fcntl(*fd, F_SETFD, flags) == -1)
-		error_msg_return("create_pidfile -> fcntl()");
-
-	if (lock_region(*fd) == -1) {
-		if (errno == EAGAIN || errno == EACCES)
-			error_msg(_("ERROR: pid file already in-use: %s\n"),
-				  filename);
-		else
-			error_msg(_("ERROR: couldn't lock region on pid file: %s\n"),
-				  filename);
+	int fd = open(name, access_mode, user_mode);
+	if (fd == -1) {
+		error_msg(_("can't open %s"), name);
 		return -1;
 	}
 
-	if (ftruncate(*fd, 0) == -1)
-		error_msg_return("create_pidfile -> ftruncate()");
+	int flags = fcntl(fd, F_GETFD);
+	if (fd == -1)
+		error_msg(_("fcntl() at line %d"), __LINE__);
 
-	int pid_len = snprintf(pid_buff, MAXLINE, "%ld\n", (long) getpid());
+	flags |= FD_CLOEXEC;
 
-	if (write(*fd, pid_buff, pid_len) != pid_len)
-		error_msg_return("create_pidfile -> write()");
+	if (fcntl(fd, F_SETFD, flags) == -1)
+		error_msg(_("fcntl() at line %d"), __LINE__);
+
+	if (lock_region(fd) == -1) {
+		if (errno == EAGAIN || errno == EACCES) {
+			error_msg(_("pid file %s already in-use"), name);
+		return -1;
+		} else {
+			error_msg(_("can't lock region in pid file: %s"), name);
+			return -1;
+		}
+	}
+
+	if (ftruncate(fd, 0) == -1) {
+		error_msg("ftruncate() at line %d", __LINE__);
+		return -1;
+	}
+
+	int len = snprintf(str, MAXLINE, "%ld\n", (long) getpid());
+
+	if (write(fd, str, len) != len) {
+		error_msg("can't write pid %s", str);
+		return -1;
+	}
+
+	close(fd);
 
 	return 0;
 }
@@ -407,32 +446,34 @@ create_pidfile(const char *filename, int *fd)
 char *
 create_daemon_pidfile()
 {
-	int lock_fd = -1;
-	const char *whoami  = getprogname();
-	// TODO: via configuration file *_sdk_builder.conf
-	const char *tmpdir  = "/tmp";
-
-	int n = strlen(whoami) + strlen(tmpdir) + 7;
-	char *lock_filename = malloc(n);
-	if (lock_filename == NULL) {
-		error_msg("create_daemon_pidfile -> malloc()");
+	const char *name = getprogname();
+	
+	if (name == NULL)
 		return NULL;
+
+	char str[MAXLINE];
+	memset(str, 0, MAXLINE);
+
+	int n = snprintf(str, MAXLINE,"%s/%s.lock", VAR_RUN_DIR, name);
+
+	if (create_pidfile(str) == -1) {
+		memset(str, 0, MAXLINE);
+		n = snprintf(str, MAXLINE,"%s/%s.lock", TMP_DIR, name);
+
+		error_msg(_("can't create %s"), str);
+
+		if (create_pidfile(str) == -1)
+			return NULL;
 	}
 
-	memset(lock_filename, 0, n);
-	snprintf(lock_filename, n,"%s/%s.lock", tmpdir, whoami);
-
-	if (create_pidfile(lock_filename, &lock_fd) == -1)
-		goto error;
-
-	close(lock_fd);
-
-	return lock_filename;
-error:
-	close(lock_fd);
-
-	if (lock_filename != NULL)
-		free(lock_filename);
-
+	char *lockfile = malloc(n + 1);
+	if (lockfile == NULL) {
+		error_msg("can't alloc memory in %s", __FUNCTION__);
 	return NULL;
+	}
+
+	memset(lockfile, 0, n);
+	strncpy(lockfile, str, n);
+
+	return lockfile;
 }

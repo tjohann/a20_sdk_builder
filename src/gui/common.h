@@ -154,10 +154,6 @@ __attribute__((noreturn)) write_error_msg_exit(const char *fmt, ...);
 void
 write_error_msg(const char *fmt, ...);
 
-// print error message and return
-void
-write_error_msg_return(const char *fmt, ...);
-
 // print info message
 void
 write_info_msg(const char *fmt, ...);

@@ -21,6 +21,11 @@
 #ifndef _LIBSERVICE_H_
 #define _LIBSERVICE_H_
 
+#ifndef __USE_GNU
+#define __USE_GNU
+#endif
+#define _GNU_SOURCE
+
 // more or less common inc
 #include <stdio.h>
 #include <sys/types.h>
@@ -45,8 +50,8 @@
 #include <ctype.h>
 #include <pthread.h>
 #include <bsd/stdlib.h>
-
-// time related inc
+#include <sys/utsname.h>
+#include <sched.h>
 #include <time.h>
 #include <sys/times.h>
 
@@ -103,12 +108,13 @@
 #define MAX_SUPPORTED_EXTERNAL_REPOS 10
 #define MAX_LEN_CHECKSUM_ARRAY (MAX_SUPPORTED_DEVICES * MAX_COUNT_DEVICES + MAX_COUNT_TOOLCHAIN + 1)
 
-#define TMP_DIR "/tmp/"
-#define TMP_FILE "/tmp/sdk_builder.trash"
-
 #define NAME_CHECKSUM_FILE "checksum.sha256"
 #define DUMMY_STRING "dummy"
 #define FILE_EMPTY -2
+
+#define VAR_RUN_DIR "/var/run"
+#define TMP_DIR "/tmp"
+#define TMP_FILE "/tmp/sdk_builder.trash"
 
 // running modes -> normale application in foreground or as daemon in background
 #define RUN_AS_APPLICATION 0
@@ -304,14 +310,10 @@ init_network(void);
  * | error_exit          |     yes    |   exit()   |         LOG_ERR          |
  * | dump_exit           |     yes    |  abort()   |         LOG_ERR          |
  * | error_msg           |     yes    |    no      |         LOG_ERR          |
- * | error_msg_return    |     yes    |   return   |         LOG_ERR          |
  * | info_msg            |     no     |    no      |         LOG_INFO         |
- * | info_msg_return     |     no     |   return   |         LOG_INFO         |
  * | debug_msg           |     no     |    no      |         LOG_DEBUG        |
- * | debug_msg_return    |     no     |    no      |         LOG_DEBUG        |
  * +---------------------+------------+------------+--------------------------+
  * | th_error_msg        | errno_val  |    no      |         LOG_ERR          |
- * | th_error_msg_return | errno_val  |   return   |         LOG_ERR          |
  * | th_error_exit       | errno_val  |   exit()   |         LOG_ERR          |
  * | th_dump_exit        | errno_val  |  abourt()  |         LOG_ERR          |
  * +---------------------+------------+------------+--------------------------+
@@ -329,33 +331,17 @@ __attribute__((noreturn)) dump_exit(const char *fmt, ...);
 void
 error_msg(const char *fmt, ...);
 
-// print error message and return
-void
-error_msg_return(const char *fmt, ...);
-
 // print info message
 void
 info_msg(const char *fmt, ...);
-
-// print info message and return
-void
-info_msg_return(const char *fmt, ...);
 
 // print debug message
 void
 debug_msg(const char *fmt, ...);
 
-// print debug message and return
-void
-debug_msg_return(const char *fmt, ...);
-
 // print error message with errno = errno_val
 void
 th_error_msg(int errno_val, const char *fmt, ...);
-
-// print error message with errno = errno_val and return
-void
-th_error_msg_return(int errno_val, const char *fmt, ...);
 
 // print error message with errno = errno_val and dump/exit
 void
