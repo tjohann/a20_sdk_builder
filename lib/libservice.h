@@ -129,7 +129,7 @@
 typedef	void sigfunc(int);
 
 // dowload/clone url to path
-typedef struct download_tupel {
+typedef struct {
 	char *url;
 	char *path;
 	char *checksum_s;     // sha256sum as string
@@ -138,7 +138,7 @@ typedef struct download_tupel {
 
 
 // represent a device like Bananapi or Olimex
-typedef struct device_tupel {
+typedef struct {
 	char *name;
 	download_tupel_t *kernel;
 	download_tupel_t *root;
@@ -147,14 +147,14 @@ typedef struct device_tupel {
 
 
 // represent a externel repo like u-boot or linux
-typedef struct repo_tupel {
+typedef struct {
 	char *name;
 	download_tupel_t *repo;
 } repo_tupel_t;
 
 
 // represent the kernel parts
-typedef struct kernel_tupel {
+typedef struct {
 	download_tupel_t *non_rt_kernel;
 	download_tupel_t *rt_kernel;
 	download_tupel_t *rt_patch;
@@ -166,14 +166,14 @@ typedef struct kernel_tupel {
  * -> conf_dir = /etc/sdk_builder
  * -> conf_file = a20_sdk_builder.conf
  */
-typedef struct conf_path {
+typedef struct {
 	char *conf_file;
 	char *conf_dir;
 } conf_path_t;
 
 
 // represent content of one line of checksum.sha256
-typedef struct checksum_tupel {
+typedef struct {
 	char *name;
 	char *checksum_s;     // sha256sum as string
 } checksum_tupel_t;
