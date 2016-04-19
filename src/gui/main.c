@@ -163,9 +163,6 @@ main(int argc, char *argv[])
 		info_msg(_("%s not available or not valid"),
 			 NAME_CHECKSUM_FILE);
 
-	if (init_network() != -1)
-		info_msg(_("Init network code: done"));
-
 	/*
 	 * init gtk stuff
 	 */

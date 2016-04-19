@@ -54,6 +54,9 @@
 #include <sched.h>
 #include <time.h>
 #include <sys/times.h>
+#include <sys/sysinfo.h>
+#include <semaphore.h>
+#include <sys/syscall.h>
 
 // inotify inc
 #include <sys/inotify.h>
@@ -93,6 +96,8 @@
 // libressl
 #include <openssl/sha.h>
 
+// libcap-ng
+#include <cap-ng.h>
 
 
 /*
@@ -112,9 +117,16 @@
 #define DUMMY_STRING "dummy"
 #define FILE_EMPTY -2
 
+#ifndef __DEBUG__
 #define VAR_RUN_DIR "/var/run"
+#else
+#define VAR_RUN_DIR "/tmp"
+#endif
+
 #define TMP_DIR "/tmp"
-#define TMP_FILE "/tmp/sdk_builder.trash"
+#define UDS_NAME_ADD "socket"
+// max num of bytes per uds msg
+#define MAX_LEN_MSG 100
 
 // running modes -> normale application in foreground or as daemon in background
 #define RUN_AS_APPLICATION 0
@@ -294,8 +306,29 @@ lock_region(int fd);
  * =========
  */
 
+// setup datagram unix domain socket server (UDP)
 int
-init_network(void);
+uds_dgram_server(const char *name, const char *dir, char **socket_f);
+
+// setup listen datagram unix domain socket server (TCP)
+int
+uds_stream_server(const char *name, const char *dir, char **socket_f);
+
+// setup datagram unix domain socket client (UDP)
+int
+uds_dgram_client(const char *name, const char *dir, char **socket_f);
+
+// setup datagram unix domain socket server (TCP)
+int
+uds_stream_client(const char *name, const char *dir, char **socket_f);
+
+// unlink file system entry via uds
+int
+unlink_uds(int sfd);
+
+// build up string $dir/%file.$UDS_NAME_ADD
+char *
+get_uds_name_s(const char *file, const char *dir);
 
 
 /*
@@ -308,10 +341,11 @@ init_network(void);
  * |     function        | use errno? | terminate? | log_level (man 3 syslog) |
  * +---------------------+------------+------------+--------------------------+
  * | error_exit          |     yes    |   exit()   |         LOG_ERR          |
+ * | info_exit           |     no     |   exit()   |         LOG_ERR          |
  * | dump_exit           |     yes    |  abort()   |         LOG_ERR          |
  * | error_msg           |     yes    |    no      |         LOG_ERR          |
  * | info_msg            |     no     |    no      |         LOG_INFO         |
- * | debug_msg           |     no     |    no      |         LOG_DEBUG        |
+ * | debug_msg           |     yes    |    no      |         LOG_DEBUG        |
  * +---------------------+------------+------------+--------------------------+
  * | th_error_msg        | errno_val  |    no      |         LOG_ERR          |
  * | th_error_exit       | errno_val  |   exit()   |         LOG_ERR          |
@@ -322,6 +356,9 @@ init_network(void);
 // print error message and exit
 void
 __attribute__((noreturn)) error_exit(const char *fmt, ...);
+
+void
+__attribute__((noreturn)) info_exit(const char *fmt, ...);
 
 // print error message and dump/exit
 void
@@ -351,9 +388,9 @@ __attribute__((noreturn)) th_dump_exit(int errno_val, const char *fmt, ...);
 void
 __attribute__((noreturn)) th_error_exit(int errno_val, const char *fmt, ...);
 
-// enable logging via syslog
+// enable/disable logging via syslog
 void
-enable_syslog(bool use_it);
+enable_syslog(bool use_it, const char *name);
 
 
 

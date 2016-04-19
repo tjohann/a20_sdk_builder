@@ -34,7 +34,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
 
 # enable debugging
 AC_ARG_ENABLE([debug],
-	[--enable-debug build with additional debugging code],
+	[  --enable-debug          build with additional debugging code],
 	[CFLAGS="${CFLAGS} -g"; AC_DEFINE([__DEBUG__], 1, [Enable debug infos])])
 
 # ------

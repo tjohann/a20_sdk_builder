@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-03-21 17:03+0100\n"
+"POT-Creation-Date: 2016-04-19 19:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -425,10 +425,6 @@ msgstr ""
 msgid "%s not available or not valid"
 msgstr ""
 
-#: src/gui/main.c:167 src/conf_d/main.c:168
-msgid "Init network code: done"
-msgstr ""
-
 #: src/conf_d/main.c:39
 #, c-format
 msgid ""
@@ -457,15 +453,15 @@ msgid ""
 "conf -d $HOME/etc/sdk-builder/  \n"
 msgstr ""
 
-#: src/conf_d/main.c:181
+#: src/conf_d/main.c:178
 msgid "become_daemon() != 0"
 msgstr ""
 
-#: src/conf_d/main.c:183
+#: src/conf_d/main.c:180
 msgid "now i'm a daemon"
 msgstr ""
 
-#: src/conf_d/main.c:187
+#: src/conf_d/main.c:183
 msgid "run in foreground as application"
 msgstr ""
 
@@ -563,9 +559,72 @@ msgstr ""
 msgid "Fetched: (%d/%d) %d kB"
 msgstr ""
 
-#: lib/network.c:27
+#: lib/network.c:50
 #, c-format
-msgid "In function %s@%d \n"
+msgid "couln't unlink %s"
+msgstr ""
+
+#: lib/network.c:55
+#, c-format
+msgid "strlen(str) > sizeof(add.sun_path) in %s"
+msgstr ""
+
+#: lib/network.c:61
+#, c-format
+msgid "use %s as socket"
+msgstr ""
+
+#: lib/network.c:65
+#, c-format
+msgid "could not open socket in %s"
+msgstr ""
+
+#: lib/network.c:72
+msgid "could not bind socket"
+msgstr ""
+
+#: lib/network.c:77
+msgid "could not connect socket"
+msgstr ""
+
+#: lib/network.c:81
+#, c-format
+msgid "sfd_f == NULL %s"
+msgstr ""
+
+#: lib/network.c:102
+#, c-format
+msgid "listen in %s"
+msgstr ""
+
+#: lib/network.c:126
+#, c-format
+msgid "could not get sun_path in %s"
+msgstr ""
+
+#: lib/network.c:130
+#, c-format
+msgid "no such file %s"
+msgstr ""
+
+#: lib/network.c:132
+#, c-format
+msgid "could not unlink %s in %s"
+msgstr ""
+
+#: lib/network.c:153
+#, c-format
+msgid "strlen(tmp_s) > sizeof(add.sun_path) in %s"
+msgstr ""
+
+#: lib/network.c:160
+#, c-format
+msgid "str == NULL %s"
+msgstr ""
+
+#: lib/network.c:166
+#, c-format
+msgid "assembled name %s"
 msgstr ""
 
 #: lib/helper.c:29
@@ -817,26 +876,26 @@ msgstr ""
 msgid "--------------------------------------- \n"
 msgstr ""
 
-#: lib/error.c:209
+#: lib/error.c:177
 #, c-format
 msgid "syslog enabled for %s"
 msgstr ""
 
-#: lib/error.c:212
+#: lib/error.c:182
 msgid "syslog disabled for %"
 msgstr ""
 
-#: lib/libservice.h:189
+#: lib/libservice.h:201
 #, c-format
 msgid "Your're in %s of %s"
 msgstr ""
 
-#: lib/libservice.h:198
+#: lib/libservice.h:210
 #, c-format
 msgid "GIT: %d: %s"
 msgstr ""
 
-#: lib/libservice.h:201
+#: lib/libservice.h:213
 #, c-format
 msgid "GIT: %d: no detailed info"
 msgstr ""
