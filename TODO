@@ -2,85 +2,97 @@
 # TODO with date and progress
 #
 
+
+#
+# -------------- 2016-04-19 ----------------------------------------------------
+#
+- split gui and logic to daemon(s)
+- implement a working configuration daemon
+- implement a pack/unpack function
+- handls srdir in $HOME/src
+
+
 #
 # -------------- 2016-03-18 ----------------------------------------------------
 #
 - tmpdir via configuration *_sdk_builder.conf (pid file for daemon)
 
+
 #
 # -------------- 2016-03-13 ----------------------------------------------------
 #
-if download window gets killed, the thread should also die
+- if download window gets killed, the thread should also die
 
 
 #
 # -------------- 2016-03-01 ----------------------------------------------------
 #
-add thread id handling for download_toolchain -> after delete of progressbar
+- add thread id handling for download_toolchain -> after delete of progressbar
 window the download thread should also be destroyed
 
 
 #
 # -------------- 2016-02-28 ----------------------------------------------------
 #
-provide function to read complete config -> usage after clone_sdk()
-handle free of already allocated config infos
-checksum.sha256 could include empty lines!
+- provide function to read complete config -> usage after clone_sdk()
+- handle free of already allocated config infos
+- checksum.sha256 could include empty lines!
+
 
 #
 # -------------- 2016-02-25 ----------------------------------------------------
 #
-create src dir in $HOME/src/a20_sdk ... or on another place
+- create src dir in $HOME/src/a20_sdk ... or on another place
 
 
 #
 # -------------- 2016-02-14 ----------------------------------------------------
 #
-download of toolchain only should be possible -> check handling if host == NULL
-extract workdir of toolchain->path (extract.c uses $workdir for that, wich is
-inconsistent!)
-move git_error_handling macro to "other location" -> its git specific and
-not common                                                    [done, 2016-02-25]
+- download of toolchain only should be possible -> check
+  handling if host == NULL
+- extract workdir of toolchain->path (extract.c uses $workdir for that, wich is
+  inconsistent!)
+- move git_error_handling macro to "other location" -> its git specific and
+  not common                                                  [done, 2016-02-25]
 
 
 #
 # -------------- 2016-02-07 ----------------------------------------------------
 #
-check correct usage of a20_sdk_builder.desktop
+- check correct usage of a20_sdk_builder.desktop
 
 
 #
 # -------------- 2016-02-02 ----------------------------------------------------
 #
-Add weight function to fetch_progress (used by clone_sdk_repo and
+- add weight function to fetch_progress (used by clone_sdk_repo and
 update_sdk_repo)
 
 
 #
 # -------------- 2016-01-27 ----------------------------------------------------
 #
-Add doxygen support -> i want a functioncall chart
-
-Add DEBUG tag -> PRINT_LOCATION should only be used if(DEBUG)
-
-Read value of textfield_entry which should represent some
-command to control the sdk and more -> (2016-02-10): use guile as script engine
+- add doxygen support -> i want a functioncall chart
+- add DEBUG tag -> PRINT_LOCATION should only be used if(DEBUG)
+- read value of textfield_entry which should represent some
+  command to control the sdk and
+  more -> (2016-02-10): use guile as script engine
 
 
 #
 # -------------- 2016-01-21 ----------------------------------------------------
 #
-All -> implement config handling:
+- all -> implement config handling:
     2016-01-21:
     const char *url = "https://github.com/tjohann/a20_sdk.git";[done, 2016-01-26]
     const char *path = "/tmp/a20_sdk";                         [done, 2016-01-26]
 
-a20_sdk_builder.c/clone_sdk_repo
+- a20_sdk_builder.c/clone_sdk_repo
         -> make aync thread of it (gui must be responsive)     [done, 2016-01-24]
 
 
 #
 # -------------- 2016-01-19 ----------------------------------------------------
 #
-gui.c/on_delete_event -> implement 'are you sure you
-                                    want to quit?' dialog       [done, 2016-01-20]
+- gui.c/on_delete_event -> implement 'are you sure you
+                           want to quit?' dialog                [done, 2016-01-20]
