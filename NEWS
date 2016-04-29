@@ -2,4 +2,6 @@
 # some news ... see also TODO for hints
 #
 
-2016-04-19 -> start split of gui and daemon based on A20_SDK_V0.1.0
+2016-04-29 -> add libbaalue
+	      some cleanups
+

@@ -50,6 +50,7 @@ PKG_CHECK_MODULES([LIBCURL], [libcurl])
 PKG_CHECK_MODULES([LIBARCHIVE], [libarchive])
 PKG_CHECK_MODULES([LIBSSL], [libssl])
 PKG_CHECK_MODULES([LIBCRYPTO], [libcrypto])
+PKG_CHECK_MODULES([LIBBAALUE], [libbaalue])
 PKG_CHECK_MODULES([LIBBSD], [libbsd])
 
 AC_CHECK_LIB([pthread], [pthread_create], [], [AC_MSG_ERROR([** Could not find libpthread **])])

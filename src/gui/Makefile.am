@@ -20,6 +20,7 @@ sdk_builder_CFLAGS =              \
 	$(LIBSSL_CFLAGS)          \
 	$(LIBCRYPTO_CFLAGS)       \
 	$(LIBBSD_CFLAGS)      	  \
+	$(LIBBAALUE_CFLAGS)    	  \
 	-DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../../lib
 
 sdk_builder_LDADD =               \
@@ -31,6 +32,7 @@ sdk_builder_LDADD =               \
 	$(LIBSSL_LIBS)         	  \
 	$(LIBCRYPTO_LIBS)      	  \
 	$(LIBBSD_LIBS)      	  \
+	$(LIBBAALUE_LIBS)      	  \
 	$(LIBINTL) ../../lib/libservice.a
 
 

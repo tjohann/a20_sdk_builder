@@ -14,6 +14,7 @@ sdk_confd_CFLAGS =             	\
 	$(LIBSSL_CFLAGS)        \
 	$(LIBBSD_CFLAGS)        \
 	$(LIBCRYPTO_CFLAGS)     \
+	$(LIBBAALUE_CFLAGS)     \
 	-DLOCALEDIR=\"$(localedir)\" -I$(srcdir)/../../lib
 
 
@@ -22,4 +23,5 @@ sdk_confd_LDADD =               \
 	$(LIBSSL_LIBS)         	\
 	$(LIBCRYPTO_LIBS)      	\
 	$(LIBBSD_LIBS)      	\
+	$(LIBBAALUE_LIBS)      	\
 	$(LIBINTL) ../../lib/libservice.a

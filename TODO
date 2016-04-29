@@ -9,7 +9,7 @@
 - split gui and logic to daemon(s)
 - implement a working configuration daemon
 - implement a pack/unpack function
-- handls srdir in $HOME/src
+- handle srdir in $HOME/src
 
 
 #
