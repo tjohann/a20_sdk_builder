@@ -447,7 +447,7 @@ char *
 create_daemon_pidfile()
 {
 	const char *name = getprogname();
-	
+
 	if (name == NULL)
 		return NULL;
 
