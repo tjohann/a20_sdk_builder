@@ -31,7 +31,9 @@ monitor_runtimedir(void *args)
 
 	info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
 
-	for(;;)
+	/*
+	 * add code
+	 */
 
 	return NULL;
 }
@@ -46,7 +48,9 @@ monitor_workdir(void *args)
 
 	info_msg(_("--INFO_MSG--: in monitor_runtimedir"));
 
-	for(;;)
+	/*
+	 * add code
+	 */
 
 	return NULL;
 }

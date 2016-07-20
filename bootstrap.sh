@@ -9,4 +9,4 @@ if [ -f .git/hooks/pre-commit.sample -a ! -f .git/hooks/pre-commit ] ; then
 fi
 
 echo "Setting up autotools"
-autoreconf --install || exit 1
+autoreconf --install --force || exit 1

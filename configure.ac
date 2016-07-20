@@ -1,4 +1,4 @@
-lf# configure.ac
+# configure.ac
 
 AC_INIT([SDK builder], [trunk], [thorsten.johannvorderbrueggen@t-online.de])
 AC_COPYRIGHT([Copyright 2016, Thorsten Johannvorderbrueggen])
@@ -17,11 +17,11 @@ AC_CONFIG_FILES([		\
 	po/Makefile.in 	  	\
 	pixmaps/Makefile])
 
-AM_GNU_GETTEXT_VERSION([0.19.4])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 AM_GNU_GETTEXT([external])
 
 AC_PROG_CC
-CFLAGS="${CFLAGS} -std=gnu11 -O2 -Wall -Wextra -pedantic -Wstrict-overflow -fno-strict-aliasing"
+CFLAGS="-std=gnu11 -O2 -Wall -Wextra -pedantic -Wstrict-overflow -fno-strict-aliasing ${CFLAGS}"
 
 AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2])
 
@@ -39,7 +39,7 @@ AC_ARG_ENABLE([debug],
 
 # ------
 
-# Checks for programs.
+# checks for programs.
 PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
@@ -63,3 +63,16 @@ AC_CHECK_HEADERS([stdlib.h])
 # Checks for library functions.
 
 AC_OUTPUT
+
+AC_MSG_RESULT([
+        $PACKAGE $VERSION
+        ========
+
+        prefix:                 ${prefix}
+        sysconfdir:             ${sysconfdir}
+        libdir:                 ${libdir}
+        includedir:             ${includedir}
+
+        compiler:               ${CC}
+        cflags:                 ${CFLAGS}
+])
