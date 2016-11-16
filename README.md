@@ -1,6 +1,8 @@
 SDK - Builder
 ===============
 
+Note: due to missing time, i stopped further development for some time
+
 A simple tool to handle all toolchain, image and device related topics for an embedded development environment (see https://github.com/tjohann/a20_sdk.git as an example).
 
 
