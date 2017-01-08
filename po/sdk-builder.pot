@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sdk-builder trunk\n"
 "Report-Msgid-Bugs-To: thorsten.johannvorderbrueggen@t-online.de\n"
-"POT-Creation-Date: 2016-04-19 19:40+0200\n"
+"POT-Creation-Date: 2017-01-08 17:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -465,7 +465,7 @@ msgstr ""
 msgid "run in foreground as application"
 msgstr ""
 
-#: src/conf_d/threads.c:32 src/conf_d/threads.c:47
+#: src/conf_d/threads.c:32 src/conf_d/threads.c:49
 msgid "--INFO_MSG--: in monitor_runtimedir"
 msgstr ""
 
